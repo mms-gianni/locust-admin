@@ -1,4 +1,5 @@
 const path = require('path');
+var cors = require('cors')
 const debug = require('debug')('superlocust:configure');
 const socket = require('./socket');
 const locust = require('./locust');
@@ -17,6 +18,7 @@ const routes = require('./routes')
 
 module.exports = {
     before: (app) => {
+        app.use(cors())
         app.use(bodyParser.json());
         app.use('/api', routes);
         locust.init();

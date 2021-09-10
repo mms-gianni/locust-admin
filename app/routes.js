@@ -70,18 +70,22 @@ router.post('/cluster/:namespace/:instance/:locustfile', async function (req, re
     const testHost = req.body.testHost || "https://www.google.com"
     const numUsers = req.body.numUsers || "1";
     const spawnRate = req.body.spawnRate || "1";
-    const result = await kubectl.start(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
 
-    res.send(result);
+    locust.addLocust(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
+    res.send(locust.locust);
+    //const result = await kubectl.start(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
+    //res.send(result);
 });
 
 // delete a locust instance in a namespace
 router.delete('/cluster/:namespace/:instance', async function (req, res, next) {
     const namespace = req.params.namespace;
     const instance = req.params.instance;
-    const result = await kubectl.stop(namespace, instance);
-
-    res.send(result);
+    locust.removeLocust(namespace, instance);
+    res.send(locust.locust);
+    
+    //const result = await kubectl.stop(namespace, instance);
+    //res.send(result);
 });
 
 module.exports = router;

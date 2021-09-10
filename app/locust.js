@@ -1,5 +1,6 @@
 const debug = require('debug')('superlocust:locust');
 const kubectl = require('./kubectl');
+const socket = require('./socket');
 
 let locust = {
     instances: {},
@@ -13,7 +14,8 @@ async function init() {
     result.services.response.body.items.forEach(element => {
         locust.instances[element.metadata.name] = {
             name: element.metadata.name,
-            namespace: element.metadata.namespace
+            namespace: element.metadata.namespace,
+            creationTimestamp: element.metadata.creationTimestamp,
         };
     });
 
@@ -36,4 +38,35 @@ async function init() {
     debug('loaded');
 }
 
-module.exports = {locust, init};
+async function addLocust(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate) {
+    result = await kubectl.start(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
+    if (result.service.response.statusCode == 201) {
+        locust.instances[instance] = {
+            name: instance,
+            namespace: namespace,
+            creationTimestamp: result.service.response.body.metadata.creationTimestamp,
+            locustfile: locustfile,
+            testHost: testHost,
+            numUsers: numUsers,
+            spawnRate: spawnRate,
+            worker: workers,
+            ingressHost: hostname
+        };
+        socket.updatedStatus(locust)
+        console.log(locust);
+    }
+    debug('added');
+}
+
+async function removeLocust(namespace, instance) {
+    result = await kubectl.stop(namespace, instance);
+    if (result.deploymentMaster.response.statusCode == 200) {
+        delete locust.instances[instance];
+        socket.updatedStatus(locust)
+        console.log(locust);
+    }
+    debug('removed');
+}
+
+
+module.exports = {locust, init, addLocust, removeLocust};

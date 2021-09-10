@@ -63,6 +63,24 @@
 import axios from "axios";
 import Form from "./cluster_form.vue";
 export default {
+    sockets: {
+        updatedStatus(locust) {
+            /*
+            //this.instances = locust.instances;
+            this.instances = this.instances.map(instance => {
+                if (instance.name === locust.name) {
+                    instance.status = locust.status;
+                }
+                return instance;
+            });
+            */
+            let instances = [];
+            for (let instance in locust.instances) {
+                instances.push(locust.instances[instance]);
+            }
+            this.instances = instances;
+        },
+    },
     mounted() {
         this.loadData();
     },
@@ -104,6 +122,7 @@ export default {
                 console.log(error);
             });
         },
+        /*
         runLoadtest(item) {
             axios.get("/api/loadtest", {
                 name: item.name,
@@ -114,6 +133,7 @@ export default {
                 console.log(error);
             });
         },
+        */
         // get Config List from server
         loadData() {
             this.instances = [];
@@ -125,7 +145,7 @@ export default {
                             name: instance.name,
                             namespace: instance.namespace,
                             ingressHost: "http://"+instance.ingressHost,
-                            creationTimestamp: 'XXX',
+                            creationTimestamp: instance.creationTimestamp,
                             numUsers: instance.numUsers,
                             spawnRate: instance.spawnRate,
                             worker: instance.worker,

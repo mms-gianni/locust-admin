@@ -1,6 +1,7 @@
 const debug = require('debug')('action-dashboard:socket');
 
 let _client = null;
+let _io = null
 
 module.exports.init = function init(server) {
     debug('initializing');
@@ -9,6 +10,7 @@ module.exports.init = function init(server) {
     io.on('connection', client => {
         console.log('socket.io connected')
         _client = client;
+        _io = io;
     });
 }
 
@@ -16,6 +18,6 @@ module.exports.init = function init(server) {
 module.exports.updatedStatus = function updatedStatus(status) {
     if (_client) {
         debug(`emitting updatedStatus: `, status);
-        _client.emit('updatedStatus', status);
+        _io.emit('updatedStatus', status);
     }
 };

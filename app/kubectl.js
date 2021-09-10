@@ -1,7 +1,13 @@
 const k8s = require('@kubernetes/client-node');
 const debug = require('debug')('superlocust:kubectl');
 
-const { KUBECTL = '../kubeconfig' } = process.env;
+//const { KUBECTL = '../kubeconfig' } = process.env;
+const path = require('path');
+if (path.basename(process.cwd()) === 'client') {
+    KUBECTL = '../kubeconfig'
+} else {
+    KUBECTL = './kubeconfig'
+}
 
 const kc = new k8s.KubeConfig();
 kc.loadFromFile(KUBECTL);
@@ -129,8 +135,8 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
 async function stop(ns_name, name) {
     returnvalues = {};
     try {
-        returnvalues.deployment = await AppsV1Api.deleteNamespacedDeployment(name+"-worker", ns_name);
-        returnvalues.deployment = await AppsV1Api.deleteNamespacedDeployment(name+"-master", ns_name);
+        returnvalues.deploymentWorker = await AppsV1Api.deleteNamespacedDeployment(name+"-worker", ns_name);
+        returnvalues.deploymentMaster = await AppsV1Api.deleteNamespacedDeployment(name+"-master", ns_name);
         returnvalues.service = await CoreV1Api.deleteNamespacedService(name, ns_name);
         returnvalues.ingress = await NetworkingV1Api.deleteNamespacedIngress(name+"-ingress", ns_name);
     } catch (e) {
