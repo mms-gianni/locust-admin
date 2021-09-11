@@ -3,8 +3,10 @@ services:
   locustswarm:
     build: .
     command: 
-      - tail 
-      - -f 
-      - /dev/null
+      - node 
+      - app/index.js
+      #- tail 
+      #- -f 
+      #- /dev/null
     ports:
       - "8087:8080"
