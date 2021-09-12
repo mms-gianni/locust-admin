@@ -1,16 +1,16 @@
 const k8s = require('@kubernetes/client-node');
 const debug = require('debug')('superlocust:kubectl');
-
-//const { KUBECTL = '../kubeconfig' } = process.env;
 const path = require('path');
-if (path.basename(process.cwd()) === 'client') {
-    KUBECTL = '../kubeconfig'
-} else {
-    KUBECTL = './kubeconfig'
-}
 
 const kc = new k8s.KubeConfig();
-kc.loadFromFile(KUBECTL);
+
+if (process.env.KUBECONFIG_BASE64) {
+    let buff = new Buffer.from(process.env.KUBECONFIG_BASE64, 'base64');
+    const kubeconfig = buff.toString('ascii');
+    kc.loadFromString(kubeconfig);
+} else if(process.env.KUBECONFIG_PATH) { 
+    kc.loadFromFile(process.env.KUBECONFIG_PATH);
+}
 
 const CoreV1Api = kc.makeApiClient(k8s.CoreV1Api);
 const AppsV1Api = kc.makeApiClient(k8s.AppsV1Api);
