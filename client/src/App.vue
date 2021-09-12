@@ -1,7 +1,7 @@
 <template>
     <v-app>
         <v-app-bar app color="#125338" dark>
-            <v-app-bar-title>{{ owner }} Locust Swarm</v-app-bar-title>
+            <v-app-bar-title>{{ status }} Locust Swarm</v-app-bar-title>
         </v-app-bar>
 
         <v-navigation-drawer
@@ -18,12 +18,14 @@
                     </v-list-item-icon>
                     <v-list-item-title>Clusters</v-list-item-title>
                 </v-list-item>
+                <!--
                 <v-list-item link to="/test">
                     <v-list-item-icon>
                     <v-icon>mdi-arm-flex-outline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title>Loadtest Results</v-list-item-title>
                 </v-list-item>
+                -->
                 <v-list-item link to="/configlist">
                     <v-list-item-icon>
                     <v-icon>mdi-cog-outline</v-icon>
@@ -49,15 +51,15 @@ export default {
         axios
             .get("/api/status")
             .then((result) => {
-                console.log("Setting owner to " + result.data);
-                this.owner = result.data;
+                console.log("Setting status to " + result.data);
+                this.status = result.data;
             })
             .catch((err) => {
                 console.error(err);
             });
     },
     data: () => ({
-        owner: "PlaceholderTitleForOwner",
+        status: "ERROR: ",
     }),
 };
 </script>
