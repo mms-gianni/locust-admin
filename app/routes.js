@@ -14,18 +14,27 @@ router.post('/config/:namespace/:locustfile', async function (req, res, next) {
     const namespace = req.params.namespace;
     const locustfile = req.params.locustfile;
     const content = req.body.content;
-    const result = await kubectl.createLocustfile(namespace, locustfile, content);
 
+    locust.addLocustfile(namespace, locustfile, content);
+    res.send(locust.locust.locustfiles);
+
+    /*
+    const result = await kubectl.createLocustfile(namespace, locustfile, content);
     res.send(result);
+    */
 });
 
 // create a new locustfile in a namespace
 router.delete('/config/:namespace/:locustfile', async function (req, res, next) {
     const namespace = req.params.namespace;
     const locustfile = req.params.locustfile;
-    const result = await kubectl.deleteLocustfile(namespace, locustfile);
+    locust.removeLocustfile(namespace, locustfile);
+    res.send(locust.locust.locustfiles);
 
+    /*
+    const result = await kubectl.deleteLocustfile(namespace, locustfile);
     res.send(result);
+    */
 });
 
 // get the configs in a namespace
@@ -72,7 +81,7 @@ router.post('/cluster/:namespace/:instance/:locustfile', async function (req, re
     const spawnRate = req.body.spawnRate || "1";
 
     locust.addLocust(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
-    res.send(locust.locust);
+    res.send(locust.locust.instances);
     //const result = await kubectl.start(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
     //res.send(result);
 });
@@ -82,7 +91,7 @@ router.delete('/cluster/:namespace/:instance', async function (req, res, next) {
     const namespace = req.params.namespace;
     const instance = req.params.instance;
     locust.removeLocust(namespace, instance);
-    res.send(locust.locust);
+    res.send(locust.locust.instances);
     
     //const result = await kubectl.stop(namespace, instance);
     //res.send(result);

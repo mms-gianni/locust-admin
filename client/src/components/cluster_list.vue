@@ -64,7 +64,7 @@ import axios from "axios";
 import Form from "./cluster_form.vue";
 export default {
     sockets: {
-        updatedStatus(locust) {
+        updatedStatus(instances) {
             /*
             //this.instances = locust.instances;
             this.instances = this.instances.map(instance => {
@@ -74,11 +74,11 @@ export default {
                 return instance;
             });
             */
-            let instances = [];
-            for (let instance in locust.instances) {
-                instances.push(locust.instances[instance]);
+            let instancesList = [];
+            for (let instance in instances) {
+                instancesList.push(instances[instance]);
             }
-            this.instances = instances;
+            this.instances = instancesList;
         },
     },
     mounted() {

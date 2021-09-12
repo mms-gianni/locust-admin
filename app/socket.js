@@ -21,3 +21,11 @@ module.exports.updatedStatus = function updatedStatus(status) {
         _io.emit('updatedStatus', status);
     }
 };
+
+module.exports.updatedLocustfiles = function updatedStatus(locustfiles) {
+    if (_client) {
+        debug(`emitting updatedLocustfiles: `, locustfiles);
+        _io.emit('updatedLocustfiles', locustfiles);
+    }
+};
+

@@ -55,6 +55,13 @@ async function list(ns_name) {
         returnvalues.deployments = await AppsV1Api.listNamespacedDeployment(namespace=ns_name)
         returnvalues.services = await CoreV1Api.listNamespacedService(namespace=ns_name);
         returnvalues.ingresses = await NetworkingV1Api.listNamespacedIngress(namespace=ns_name);
+
+        returnvalues.locustfiles = await CoreV1Api.listNamespacedConfigMap(namespace=ns_name, 
+            pretty=undefined,
+            allowWatchBookmarks=undefined,
+            _continue=undefined,
+            fieldselector=undefined,
+            labelSelector="config=locustfile");
     } catch (e) {
         console.log(e);
         debug(e);
@@ -174,6 +181,8 @@ async function createLocustfile(ns_name, locustfile, content) {
         console.log(e);
         debug(e);
     }
+    console.log('......');
+    console.log(returnvalues);
     return returnvalues;
 }
 

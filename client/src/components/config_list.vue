@@ -52,6 +52,15 @@
 import axios from "axios";
 import Form from "./config_form.vue";
 export default {
+    sockets: {
+        updatedLocustfiles(locustfiles) {
+            let locustfilesList = [];
+            for (let locustfile in locustfiles) {
+                locustfilesList.push(locustfiles[locustfile]);
+            }
+            this.locustfiles = locustfilesList;
+        },
+    },
     mounted() {
         this.getConfigList();
     },
