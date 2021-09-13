@@ -23,6 +23,8 @@ pnpm-debug.log*
 *.sln
 *.sw?
 
-kubeconfig
+kubeconfig*
 
 notes.txt
+
+thunder-tests

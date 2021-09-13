@@ -1,12 +1,19 @@
 version: "3.9"
 services:
   locustswarm:
+    container_name: locustswarm
+    image: locustswarm:latest
     build: .
     command: 
+    #  - tail 
+    #  - -f 
+    #  - /dev/null
       - node 
       - app/index.js
-      #- tail 
-      #- -f 
-      #- /dev/null
+    environment:
+      - NODE_ENV=${NODE_ENV}
+      - KUBECONFIG_BASE64=${KUBECONFIG_BASE64}
+      #- KUBECONFIG_PATH=${KUBECONFIG_PATH}
+      - PORT=${PORT}
     ports:
-      - "8087:8080"
+      - "8087:${PORT}"

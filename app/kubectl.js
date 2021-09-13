@@ -5,11 +5,22 @@ const path = require('path');
 const kc = new k8s.KubeConfig();
 
 if (process.env.KUBECONFIG_BASE64) {
+    console.log("read kubeconfig from KUBECONFIG_BASE64");
     let buff = new Buffer.from(process.env.KUBECONFIG_BASE64, 'base64');
     const kubeconfig = buff.toString('ascii');
     kc.loadFromString(kubeconfig);
 } else if(process.env.KUBECONFIG_PATH) { 
     kc.loadFromFile(process.env.KUBECONFIG_PATH);
+} else if (process.env.KUBERNETES_SERVICE_TOKEN){
+    kc.loadFromOptions({
+        token: process.env.KUBERNETES_SERVICE_TOKEN,
+        username: process.env.KUBERNETES_USER,
+        password: process.env.KUBERNETES_PASSWORD,
+        caFile: process.env.KUBERNETES_CA_CERT,
+        server: process.env.KUBERNETES_SERVICE_HOST + ':' + process.env.KUBERNETES_SERVICE_PORT
+    });
+} else{
+    kc.loadFromCluster();
 }
 
 const CoreV1Api = kc.makeApiClient(k8s.CoreV1Api);

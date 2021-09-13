@@ -4,8 +4,16 @@ const debug = require('debug')('superlocust:routes');
 const kubectl = require('./kubectl');
 const locust = require('./locust');
 
-// check if API is available
+// the namespace where the locust instance should be deployed
 router.get('/status', async function (req, res, next) {
+    const swarm = {
+        namespace: process.env.NAMESPACE,
+    }
+    res.send(swarm);
+});
+
+// check if API is available
+router.get('/ping', async function (req, res, next) {
     res.send("OK");
 });
 
@@ -17,11 +25,6 @@ router.post('/config/:namespace/:locustfile', async function (req, res, next) {
 
     locust.addLocustfile(namespace, locustfile, content);
     res.send(locust.locust.locustfiles);
-
-    /*
-    const result = await kubectl.createLocustfile(namespace, locustfile, content);
-    res.send(result);
-    */
 });
 
 // create a new locustfile in a namespace
@@ -30,11 +33,6 @@ router.delete('/config/:namespace/:locustfile', async function (req, res, next) 
     const locustfile = req.params.locustfile;
     locust.removeLocustfile(namespace, locustfile);
     res.send(locust.locust.locustfiles);
-
-    /*
-    const result = await kubectl.deleteLocustfile(namespace, locustfile);
-    res.send(result);
-    */
 });
 
 // get the configs in a namespace
@@ -82,8 +80,6 @@ router.post('/cluster/:namespace/:instance/:locustfile', async function (req, re
 
     locust.addLocust(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
     res.send(locust.locust.instances);
-    //const result = await kubectl.start(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
-    //res.send(result);
 });
 
 // delete a locust instance in a namespace
@@ -92,9 +88,6 @@ router.delete('/cluster/:namespace/:instance', async function (req, res, next) {
     const instance = req.params.instance;
     locust.removeLocust(namespace, instance);
     res.send(locust.locust.instances);
-    
-    //const result = await kubectl.stop(namespace, instance);
-    //res.send(result);
 });
 
 module.exports = router;

@@ -1,0 +1,198 @@
+openapi: '3.0.3'
+info:
+  title: Locust swarm API
+  version: '1.0'
+servers:
+  - url: http://localhost:8081/api
+paths:
+  /status:
+    get:
+      summary: Get the basic configuration of the swarm
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /ping:
+    get:
+      summary: "Very basic check if Server is running"
+      responses:
+        '200':
+          description: OK
+          content:
+            'text/plain':
+              schema:
+                type: string
+  /config/{namespace}/{locustfile}:
+    post: 
+      tags:
+        - Config
+      summary: "Create a new locustfile"
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Config
+      summary: "Delete a locustfile"
+      responses:
+        '200':
+          description: OK
+    get:
+      tags:
+        - Config
+      summary: "Get a list of locustfiles in a namespace"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "path"
+        description: "The namespace where the config is located"
+        required: true
+        schema:
+          type: string
+      - name: "locustfile"
+        in: "path"
+        description: "The Name of the configile"
+        required: true
+        schema:
+          type: string
+  /config/{namespace}:
+    get:
+      tags:
+        - Config
+      summary: "Get a list of all configured locustfiles"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "path"
+        description: "The namespace where the config is located"
+        required: true
+        schema:
+          type: string
+  /cluster/init/{namespace}:
+    get:
+      tags:
+        - Cluster
+      summary: "Create and prepare a namespace"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "path"
+        description: "The namespace to prepare"
+        required: true
+        schema:
+          type: string
+  /cluster:
+    get:
+      tags:
+        - Cluster
+      summary: "Get a list of all managed instances"
+      responses:
+        '200':
+          description: OK
+  /cluster/{namespace}:
+    get:
+      tags:
+        - Cluster
+      summary: "Get list of locust instances in a namespace"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "path"
+        description: "The namespace to query"
+        required: true
+        schema:
+          type: string
+  /cluster/{namespace}/{instance}/{locustfile}:
+    post:
+      tags:
+        - Cluster
+      summary: "Create a new Locust instance"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "path"
+        description: "The namespace where to create the instance"
+        required: true
+        schema:
+          type: string
+      - name: "instance"
+        in: "path"
+        description: "Name of the instance to create"
+        required: true
+        schema:
+          type: string
+      - name: "locustfile"
+        in: "path"
+        description: "The locustfile to use in the instance"
+        required: true
+        schema:
+          type: string
+      - name: "hostname"
+        in: "query"
+        description: "The hostname where the instance will be available"
+        required: false
+        schema:
+          type: string
+      - name: "workers"
+        in: "query"
+        description: "The number of workers to provision"
+        required: false
+        schema:
+          type: string
+      - name: "testHost"
+        in: "query"
+        description: "The Host where test should be applied"
+        required: false
+        schema:
+          type: string
+      - name: "numUsers"
+        in: "query"
+        description: "The number of users to create"
+        required: false
+        schema:
+          type: string
+      - name: "spawnRate"
+        in: "query"
+        description: "The number threads to spawn"
+        required: false
+        schema:
+          type: string
+  /cluster/{namespace}/{instance}:
+    delete:
+      tags:
+        - Cluster
+      summary: "Delete a Locust instance"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "path"
+        description: "The namespace to create the instance"
+        required: true
+        schema:
+          type: string
+      - name: "instance"
+        in: "path"
+        description: "Name of the instance to create"
+        required: true
+        schema:
+          type: string
