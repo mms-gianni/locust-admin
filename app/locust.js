@@ -22,12 +22,12 @@ async function init() {
                     'master': {
                         'replicas': 0,
                         'unavailableReplicas': 0,
-                        'availableReplicas': 0,
+                        'readyReplicas': 0,
                     },
                     'worker': {
                         'replicas': 0,
                         'unavailableReplicas': 0,
-                        'availableReplicas': 0,
+                        'readyReplicas': 0,
                     },
                 }
             };
@@ -41,8 +41,8 @@ async function init() {
                 let workerName = element.metadata.name.replace("-worker", "")
                 locust.instances[workerName]['worker'] = element.spec.replicas;
                 locust.instances[workerName].status.worker.replicas = element.status.replicas;
-                locust.instances[workerName].status.worker.unavailableReplicas = element.status.unavailableReplicas;
-                locust.instances[workerName].status.worker.availableReplicas = element.status.replicas - element.status.unavailableReplicas;
+                locust.instances[workerName].status.worker.unavailableReplicas = element.status.unavailableReplicas || 0;
+                locust.instances[workerName].status.worker.readyReplicas = element.status.readyReplicas || 0;
             }
             if (element.metadata.name.endsWith("-master")) {
                 let masterinstance = element.metadata.name.replace("-master", "")
@@ -51,8 +51,8 @@ async function init() {
                 locust.instances[masterinstance]['spawnRate'] = element.spec.template.spec.containers[0].env[2].value;
                 locust.instances[masterinstance]['locustfile'] = element.spec.template.spec.volumes[0].configMap.name;
                 locust.instances[masterinstance].status.master.replicas = element.status.replicas;
-                locust.instances[masterinstance].status.master.unavailableReplicas = element.status.unavailableReplicas;
-                locust.instances[masterinstance].status.master.availableReplicas = element.status.replicas - element.status.unavailableReplicas;
+                locust.instances[masterinstance].status.master.unavailableReplicas = element.status.unavailableReplicas || 0;
+                locust.instances[masterinstance].status.master.readyReplicas = element.status.readyReplicas || 0;
             }
         });
 
