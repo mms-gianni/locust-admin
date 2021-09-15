@@ -11,12 +11,15 @@
                 >
                 <template v-slot:item="row">
                     <tr>
-                        <td><a :href=row.item.ingressHost>{{row.item.name}}</a></td>
+                        <td><a target=”_blank” :href=row.item.ingressHost>{{row.item.name}}</a></td>
                         <td>{{row.item.namespace}}</td>
                         <td>{{row.item.creationTimestamp}}</td>
                         <td>{{row.item.numUsers}}</td>
                         <td>{{row.item.spawnRate}}</td>
                         <td>{{row.item.worker}}</td>
+                        <td>{{row.item.state}}</td>
+                        <td>{{row.item.totalRps}}</td>
+                        <td>{{row.item.userCount}}</td>
                         <td>
                             <v-btn
                                 color="red darken-4"
@@ -51,9 +54,17 @@
                     </tr>
                 </template>
                 </v-data-table>
-
-                <Form></Form>
-
+                <v-row>
+                    <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                        <Form></Form>
+                    </v-col>
+                    <v-col cols="6" sm="6" md="6" lg="6" xl="6">
+                        <v-checkbox
+                            v-model="reload"
+                            :label="`Auto reload`"
+                        ></v-checkbox>
+                    </v-col>
+                </v-row>
             </v-flex>
         </v-layout>
     </v-container>
@@ -65,15 +76,6 @@ import Form from "./cluster_form.vue";
 export default {
     sockets: {
         updatedStatus(instances) {
-            /*
-            //this.instances = locust.instances;
-            this.instances = this.instances.map(instance => {
-                if (instance.name === locust.name) {
-                    instance.status = locust.status;
-                }
-                return instance;
-            });
-            */
             let instancesList = [];
             for (let instance in instances) {
                 instancesList.push(instances[instance]);
@@ -83,9 +85,10 @@ export default {
     },
     mounted() {
         this.loadData();
+        setInterval(this.loadDataInterval, 3000);
     },
     data: () => ({
-      sheet: false,
+      reload: false,
       headers: [
         {
             text: 'Instance Name',
@@ -97,10 +100,13 @@ export default {
         { text: 'Creation Timestamp', value: 'creationTimestamp' },
         { text: 'Parallel Users', value: 'numUsers' },
         { text: 'Spawn Rate', value: 'spawnRate' },
-        { text: 'Worker', value: 'worker' },
+        { text: 'Workerddd', value: 'worker' },
+        { text: 'State', value: 'state' },
+        { text: 'total Rps', value: 'totalRps' },
+        { text: 'user Count', value: 'userCount' },
         {   
             text: '', 
-            value: 'toolbox',
+            value: 'stats',
             align: 'end',
             sortable: false,
         },
@@ -134,14 +140,20 @@ export default {
             });
         },
         */
+        loadDataInterval() {
+            if (this.reload) {
+                this.loadData();
+            }
+        },
         // get Config List from server
         loadData() {
             this.instances = [];
             axios.get('/api/status')
                 .then(response => {
+                    let instances = [];
                     for (const instancename in response.data.instances) {
                         let instance = response.data.instances[instancename];
-                        this.instances.push({
+                        instances.push({
                             name: instance.name,
                             namespace: instance.namespace,
                             ingressHost: "http://"+instance.ingressHost,
@@ -149,9 +161,13 @@ export default {
                             numUsers: instance.numUsers,
                             spawnRate: instance.spawnRate,
                             worker: instance.worker,
+                            state: instance.stats.state || "dead",
+                            totalRps: instance.stats.total_rps || 0,
+                            userCount: instance.stats.user_count || 0,
                         });
                     }
-                   console.log(this.instances);
+                    this.instances = instances;
+                    //console.log(this.instances);
                 }
             )
             .catch((err) => {

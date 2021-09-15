@@ -2,7 +2,7 @@
     <v-app>
         <v-app-bar app color="#125338" dark>
             <img src="img/locust_white.png" alt="Locust Swarm Logo" height="30" style="margin-right:10px">
-            <v-app-bar-title> Locust Swarm on {{ status.namespace }}</v-app-bar-title>
+            <v-app-bar-title> Locust Swarm </v-app-bar-title>
         </v-app-bar>
 
         <v-navigation-drawer

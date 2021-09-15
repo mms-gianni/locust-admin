@@ -5,7 +5,6 @@ const socket = require('./socket');
 let locust = require('./locust');
 
 const watcher = require('./watcher');
-setInterval(watcher, 3000, locust.locust);
 
 
 // Handle when server is started from vue-cli vs root
@@ -14,6 +13,10 @@ if (path.basename(process.cwd()) === 'client') {
 }
 else {
     require('dotenv').config()
+}
+
+if (process.env.DOCKER_BUILD != 'true') {
+    setInterval(watcher, 3000, locust.locust);
 }
 
 const bodyParser = require('body-parser')

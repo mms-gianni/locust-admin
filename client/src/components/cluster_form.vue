@@ -13,7 +13,7 @@
           v-on="on"
           class="mx-4"
         >
-          Start new Cluster Instance
+          Start new Instance
         </v-btn>
       </template>
       <v-card>
