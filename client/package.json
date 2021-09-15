@@ -5,6 +5,7 @@
   "scripts": {
     "serve": "vue-cli-service serve",
     "build": "DOCKER_BUILD=true vue-cli-service build",
+    "watch": "DOCKER_BUILD=true vue-cli-service build --watch",
     "lint": "DOCKER_BUILD=true vue-cli-service lint"
   },
   "dependencies": {
