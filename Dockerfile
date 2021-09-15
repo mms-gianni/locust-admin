@@ -5,7 +5,7 @@ WORKDIR /locustswarm
 
 RUN mkdir -p /locustswarm/client /locustswarm/app
 
-COPY ["package.json", "package-lock.json", "kubeconfig", "./"]
+COPY ["package.json", "package-lock.json", "./"]
 COPY "app" "./app"
 COPY "client" "./client"
 
