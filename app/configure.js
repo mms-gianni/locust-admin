@@ -1,8 +1,11 @@
 const path = require('path');
-var cors = require('cors')
+let cors = require('cors')
 const debug = require('debug')('superlocust:configure');
 const socket = require('./socket');
-const locust = require('./locust');
+let locust = require('./locust');
+
+const watcher = require('./watcher');
+setInterval(watcher, 3000, locust.locust);
 
 
 // Handle when server is started from vue-cli vs root

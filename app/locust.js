@@ -18,6 +18,18 @@ async function init() {
                 name: element.metadata.name,
                 namespace: element.metadata.namespace,
                 creationTimestamp: element.metadata.creationTimestamp,
+                status: {
+                    'master': {
+                        'replicas': 0,
+                        'unavailableReplicas': 0,
+                        'availableReplicas': 0,
+                    },
+                    'worker': {
+                        'replicas': 0,
+                        'unavailableReplicas': 0,
+                        'availableReplicas': 0,
+                    },
+                }
             };
         });
 
@@ -26,7 +38,11 @@ async function init() {
         });
         result.deployments.response.body.items.forEach(element => {
             if (element.metadata.name.endsWith("-worker")) {
-                locust.instances[element.metadata.name.replace("-worker", "")]['worker'] = element.spec.replicas;
+                let workerName = element.metadata.name.replace("-worker", "")
+                locust.instances[workerName]['worker'] = element.spec.replicas;
+                locust.instances[workerName].status.worker.replicas = element.status.replicas;
+                locust.instances[workerName].status.worker.unavailableReplicas = element.status.unavailableReplicas;
+                locust.instances[workerName].status.worker.availableReplicas = element.status.replicas - element.status.unavailableReplicas;
             }
             if (element.metadata.name.endsWith("-master")) {
                 let masterinstance = element.metadata.name.replace("-master", "")
@@ -34,6 +50,9 @@ async function init() {
                 locust.instances[masterinstance]['numUsers'] = element.spec.template.spec.containers[0].env[1].value;
                 locust.instances[masterinstance]['spawnRate'] = element.spec.template.spec.containers[0].env[2].value;
                 locust.instances[masterinstance]['locustfile'] = element.spec.template.spec.volumes[0].configMap.name;
+                locust.instances[masterinstance].status.master.replicas = element.status.replicas;
+                locust.instances[masterinstance].status.master.unavailableReplicas = element.status.unavailableReplicas;
+                locust.instances[masterinstance].status.master.availableReplicas = element.status.replicas - element.status.unavailableReplicas;
             }
         });
 
@@ -86,6 +105,18 @@ async function addLocust(namespace, instance, locustfile, hostname, workers, tes
             name: instance,
             namespace: namespace,
             creationTimestamp: result.service.response.body.metadata.creationTimestamp,
+            status: {
+                'master': {
+                    'replicas': 0,
+                    'unavailableReplicas': 0,
+                    'availableReplicas': 0,
+                },
+                'worker': {
+                    'replicas': 0,
+                    'unavailableReplicas': 0,
+                    'availableReplicas': 0,
+                },
+            },
             locustfile: locustfile,
             testHost: testHost,
             numUsers: numUsers,
