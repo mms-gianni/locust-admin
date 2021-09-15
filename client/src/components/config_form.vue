@@ -81,7 +81,7 @@ export default {
       saveForm () {
         console.log(this.name);
         console.log(this.locustfile);
-        axios.post(`/api/config/${this.name}`, {
+        axios.post(`/api/locustfile/${this.name}`, {
           name: this.name,
           content: this.locustfile,
         }).then(response => {

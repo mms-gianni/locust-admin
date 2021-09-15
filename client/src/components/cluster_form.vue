@@ -134,7 +134,7 @@ export default {
         saveForm () {
           console.log(this.name);
           console.log(this.locustfile);
-          axios.post(`/api/instances/${this.name}/${this.locustfile}/`, {
+          axios.post(`/api/instance/${this.name}/${this.locustfile}/`, {
             locustfile: this.locustfile,
             hostname: this.hostname,
             workers: this.workers,
@@ -161,7 +161,7 @@ export default {
         getConfigList() {
           new Promise(resolve => setTimeout(resolve, 1000)) // await 1 second to parent component to finish request
             .then(() => {
-            axios.get('/api/config')
+            axios.get('/api/locustfile')
                 .then(response => {
                     let configslist = response.data.locustfiles.response.body.items;
                     configslist.forEach(element => {

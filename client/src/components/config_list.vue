@@ -87,7 +87,7 @@ export default {
     },
     methods: {
         removeConfig(item) {
-            axios.delete(`/api/config/${item.name}`)
+            axios.delete(`/api/locustfile/${item.name}`)
             .then(response => {
                 console.log(response);
                 const index = this.locustfiles.indexOf(item);
@@ -100,7 +100,7 @@ export default {
         // get Config List from server
         getConfigList() {
             this.locustfiles = [];
-            axios.get('/api/config')
+            axios.get('/api/locustfile')
                 .then(response => {
                     let configslist = response.data.locustfiles.response.body.items;
                     configslist.forEach(element => {

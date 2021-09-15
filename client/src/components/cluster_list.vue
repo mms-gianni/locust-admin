@@ -113,7 +113,7 @@ export default {
     },
     methods: {
         removeInstance(item) {
-            axios.delete(`/api/instances/${item.name}`)
+            axios.delete(`/api/instance/${item.name}`)
             .then(response => {
                 console.log(response);
                 const index = this.instances.indexOf(item);
@@ -137,7 +137,7 @@ export default {
         // get Config List from server
         loadData() {
             this.instances = [];
-            axios.get('/api/instances/list')
+            axios.get('/api/status')
                 .then(response => {
                     for (const instancename in response.data.instances) {
                         let instance = response.data.instances[instancename];

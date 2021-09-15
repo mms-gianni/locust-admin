@@ -1,11 +1,11 @@
-openapi: '3.0.3'
+openapi: '3.0.1'
 info:
   title: Locust swarm API
   version: '1.0'
 servers:
   - url: http://localhost:8081/api
 paths:
-  /status:
+  /config:
     get:
       summary: Get the basic configuration of the swarm
       responses:
@@ -25,10 +25,16 @@ paths:
             'text/plain':
               schema:
                 type: string
-  /config/{locustfile}:
+  /status:
+    get:
+      summary: "Get a list of all managed instances"
+      responses:
+        '200':
+          description: OK
+  /locustfile/{locustfile}:
     post: 
       tags:
-        - Config
+        - Locustfile
       summary: "Create a new locustfile"
       requestBody:
         content:
@@ -40,14 +46,14 @@ paths:
           description: OK
     delete:
       tags:
-        - Config
+        - Locustfile
       summary: "Delete a locustfile"
       responses:
         '200':
           description: OK
     get:
       tags:
-        - Config
+        - Locustfile
       summary: "Get a list of locustfiles in a namespace"
       responses:
         '200':
@@ -65,10 +71,10 @@ paths:
         required: true
         schema:
           type: string
-  /config:
+  /locustfile:
     get:
       tags:
-        - Config
+        - Locustfile
       summary: "Get a list of all configured locustfiles"
       responses:
         '200':
@@ -80,7 +86,7 @@ paths:
         required: false
         schema:
           type: string
-  /nammespace/{namespace}/init:
+  /namespace/{namespace}/init:
     post:
       tags:
         - Namespace
@@ -95,18 +101,10 @@ paths:
         required: true
         schema:
           type: string
-  /instances/list:
+  /instance:
     get:
       tags:
-        - Instances
-      summary: "Get a list of all managed instances"
-      responses:
-        '200':
-          description: OK
-  /instances:
-    get:
-      tags:
-        - Instances
+        - Instance
       summary: "Get list of locust instances in a namespace"
       responses:
         '200':
@@ -118,10 +116,10 @@ paths:
         required: false
         schema:
           type: string
-  /instances/{instance}/{locustfile}:
+  /instance/{instance}/{locustfile}:
     post:
       tags:
-        - Instances
+        - Instance
       summary: "Create a new Locust instance"
       responses:
         '200':
@@ -175,10 +173,10 @@ paths:
         required: false
         schema:
           type: string
-  /instances/{instance}:
+  /instance/{instance}:
     delete:
       tags:
-        - Instances
+        - Instance
       summary: "Delete a Locust instance"
       responses:
         '200':
