@@ -25,7 +25,7 @@ paths:
             'text/plain':
               schema:
                 type: string
-  /config/{namespace}/{locustfile}:
+  /config/{locustfile}:
     post: 
       tags:
         - Config
@@ -54,9 +54,9 @@ paths:
           description: OK
     parameters:
       - name: "namespace"
-        in: "path"
+        in: "query"
         description: "The namespace where the config is located"
-        required: true
+        required: false
         schema:
           type: string
       - name: "locustfile"
@@ -65,7 +65,7 @@ paths:
         required: true
         schema:
           type: string
-  /config/{namespace}:
+  /config:
     get:
       tags:
         - Config
@@ -75,12 +75,12 @@ paths:
           description: OK
     parameters:
       - name: "namespace"
-        in: "path"
+        in: "query"
         description: "The namespace where the config is located"
-        required: true
+        required: false
         schema:
           type: string
-  /cluster/init/{namespace}:
+  /cluster/init/:
     get:
       tags:
         - Cluster
@@ -90,12 +90,12 @@ paths:
           description: OK
     parameters:
       - name: "namespace"
-        in: "path"
+        in: "query"
         description: "The namespace to prepare"
-        required: true
+        required: false
         schema:
           type: string
-  /cluster:
+  /cluster/list:
     get:
       tags:
         - Cluster
@@ -103,7 +103,7 @@ paths:
       responses:
         '200':
           description: OK
-  /cluster/{namespace}:
+  /cluster:
     get:
       tags:
         - Cluster
@@ -113,12 +113,12 @@ paths:
           description: OK
     parameters:
       - name: "namespace"
-        in: "path"
+        in: "query"
         description: "The namespace to query"
-        required: true
+        required: false
         schema:
           type: string
-  /cluster/{namespace}/{instance}/{locustfile}:
+  /cluster/{instance}/{locustfile}:
     post:
       tags:
         - Cluster
@@ -128,9 +128,9 @@ paths:
           description: OK
     parameters:
       - name: "namespace"
-        in: "path"
+        in: "query"
         description: "The namespace where to create the instance"
-        required: true
+        required: false
         schema:
           type: string
       - name: "instance"
@@ -175,7 +175,7 @@ paths:
         required: false
         schema:
           type: string
-  /cluster/{namespace}/{instance}:
+  /cluster/{instance}:
     delete:
       tags:
         - Cluster
@@ -185,9 +185,9 @@ paths:
           description: OK
     parameters:
       - name: "namespace"
-        in: "path"
+        in: "query"
         description: "The namespace to create the instance"
-        required: true
+        required: false
         schema:
           type: string
       - name: "instance"

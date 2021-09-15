@@ -81,7 +81,7 @@ export default {
       saveForm () {
         console.log(this.name);
         console.log(this.locustfile);
-        axios.post(`/api/config/ppp/${this.name}`, {
+        axios.post(`/api/config/${this.name}`, {
           name: this.name,
           content: this.locustfile,
         }).then(response => {

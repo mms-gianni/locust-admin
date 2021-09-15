@@ -11,7 +11,8 @@ let locust = {
 async function init() {
     try {
         debug('loading');
-        const result = await kubectl.list('ppp');
+        const namespace = process.env.NAMESPACE || 'default';
+        const result = await kubectl.list(namespace);
         result.services.response.body.items.forEach(element => {
             locust.instances[element.metadata.name] = {
                 name: element.metadata.name,

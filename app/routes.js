@@ -18,8 +18,8 @@ router.get('/ping', async function (req, res, next) {
 });
 
 // create a new locustfile in a namespace
-router.post('/config/:namespace/:locustfile', async function (req, res, next) {
-    const namespace = req.params.namespace;
+router.post('/config/:locustfile', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
     const locustfile = req.params.locustfile;
     const content = req.body.content;
 
@@ -28,17 +28,17 @@ router.post('/config/:namespace/:locustfile', async function (req, res, next) {
 });
 
 // create a new locustfile in a namespace
-router.delete('/config/:namespace/:locustfile', async function (req, res, next) {
-    const namespace = req.params.namespace;
+router.delete('/config/:locustfile', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
     const locustfile = req.params.locustfile;
     locust.removeLocustfile(namespace, locustfile);
     res.send(locust.locust.locustfiles);
 });
 
 // get the configs in a namespace
-router.get('/config/:namespace', async function (req, res, next) {
+router.get('/config', async function (req, res, next) {
 
-    const namespace = req.params.namespace;
+    const namespace = req.query.namespace || process.env.NAMESPACE;
     console.log("get configs : "+namespace);
     const result = await kubectl.locustfileList(namespace);
 
@@ -46,8 +46,8 @@ router.get('/config/:namespace', async function (req, res, next) {
 });
 
 // initial configuration of a namespace
-router.get('/cluster/init/:namespace', async function (req, res, next) {
-    const namespace = req.params.namespace;
+router.get('/cluster/init', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
     const result = await kubectl.init(namespace);
 
     res.send(result);
@@ -60,16 +60,16 @@ router.get('/cluster', async function (req, res, next) {
 
 // get list of locust instances in a namespace
 // DEPRECATED
-router.get('/cluster/:namespace', async function (req, res, next) {
-    const namespace = req.params.namespace;
+router.get('/cluster', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
     const result = await kubectl.list(namespace);
 
     res.send(result);
 });
 
 // Start a new instance of a locust in a namespace
-router.post('/cluster/:namespace/:instance/:locustfile', async function (req, res, next) {
-    const namespace = req.params.namespace;
+router.post('/cluster/:instance/:locustfile', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
     const instance = req.params.instance;
     const locustfile = req.params.locustfile;
     const hostname = req.body.hostname;
@@ -83,8 +83,8 @@ router.post('/cluster/:namespace/:instance/:locustfile', async function (req, re
 });
 
 // delete a locust instance in a namespace
-router.delete('/cluster/:namespace/:instance', async function (req, res, next) {
-    const namespace = req.params.namespace;
+router.delete('/cluster/:instance', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
     const instance = req.params.instance;
     locust.removeLocust(namespace, instance);
     res.send(locust.locust.instances);
