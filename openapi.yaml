@@ -80,33 +80,33 @@ paths:
         required: false
         schema:
           type: string
-  /cluster/init/:
-    get:
+  /nammespace/{namespace}/init:
+    post:
       tags:
-        - Cluster
+        - Namespace
       summary: "Create and prepare a namespace"
       responses:
         '200':
           description: OK
     parameters:
       - name: "namespace"
-        in: "query"
+        in: "path"
         description: "The namespace to prepare"
-        required: false
+        required: true
         schema:
           type: string
-  /cluster/list:
+  /instances/list:
     get:
       tags:
-        - Cluster
+        - Instances
       summary: "Get a list of all managed instances"
       responses:
         '200':
           description: OK
-  /cluster:
+  /instances:
     get:
       tags:
-        - Cluster
+        - Instances
       summary: "Get list of locust instances in a namespace"
       responses:
         '200':
@@ -118,10 +118,10 @@ paths:
         required: false
         schema:
           type: string
-  /cluster/{instance}/{locustfile}:
+  /instances/{instance}/{locustfile}:
     post:
       tags:
-        - Cluster
+        - Instances
       summary: "Create a new Locust instance"
       responses:
         '200':
@@ -175,10 +175,10 @@ paths:
         required: false
         schema:
           type: string
-  /cluster/{instance}:
+  /instances/{instance}:
     delete:
       tags:
-        - Cluster
+        - Instances
       summary: "Delete a Locust instance"
       responses:
         '200':

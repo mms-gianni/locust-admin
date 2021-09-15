@@ -134,7 +134,7 @@ export default {
         saveForm () {
           console.log(this.name);
           console.log(this.locustfile);
-          axios.post(`/api/cluster/${this.name}/${this.locustfile}/`, {
+          axios.post(`/api/instances/${this.name}/${this.locustfile}/`, {
             locustfile: this.locustfile,
             hostname: this.hostname,
             workers: this.workers,

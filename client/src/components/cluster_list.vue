@@ -113,7 +113,7 @@ export default {
     },
     methods: {
         removeInstance(item) {
-            axios.delete(`/api/cluster/${item.namespace}/${item.name}`)
+            axios.delete(`/api/instances/${item.name}`)
             .then(response => {
                 console.log(response);
                 const index = this.instances.indexOf(item);
@@ -137,7 +137,7 @@ export default {
         // get Config List from server
         loadData() {
             this.instances = [];
-            axios.get('/api/cluster')
+            axios.get('/api/instances/list')
                 .then(response => {
                     for (const instancename in response.data.instances) {
                         let instance = response.data.instances[instancename];
