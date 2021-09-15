@@ -6,6 +6,9 @@ This project solves this problem by adding a additional admin interface and API 
 
 All configurations are stored on your kubernetes cluster. 
 
+## installation
+
+
 ## Environment variables
 For a full list of available environment variables, please visit [.env.example](.env.example)
 
@@ -34,4 +37,9 @@ cd client && npm run build && cd .. && npm run serve
 ```
 docker-compose build
 ``` 
+
+## Possible future features
+- Store loadtest results in a database (MongoDB? or Prometheus? https://github.com/siimon/prom-client)
+- Add provision support for other clouds (AWS, Google, Azure, Digital Ocean ... )
+
 
