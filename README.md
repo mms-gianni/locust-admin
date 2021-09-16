@@ -7,7 +7,11 @@ This project solves this problem by adding a additional admin interface and API 
 All configurations are stored on your kubernetes cluster. 
 
 ## installation
+The Helm installation is based on Deliveryhero's helm charts. 
 
+```
+helm install -f values.yaml test . -n locustswarm --create-namespace
+```
 
 ## Environment variables
 For a full list of available environment variables, please visit [.env.example](.env.example)

@@ -1,29 +1,29 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: {{ template "swarm.fullname" . }}-master
+  name: {{ template "locust.fullname" . }}-swarm
   labels:
     component: swarm
-{{ include "swarm.labels" . | indent 4 }}
+{{ include "locust.labels" . | indent 4 }}
 spec:
   selector:
     matchLabels:
       component: swarm
-      {{- include "swarm.selectorLabels" . | nindent 6 }}
+      {{- include "locust.selectorLabels" . | nindent 6 }}
   replicas: 1
-{{- with .Values.master.strategy }}
+{{- with .Values.swarm.strategy }}
   strategy:
 {{ toYaml . | trim | indent 4 }}
 {{- end }}
   template:
     metadata:
       annotations:
-      {{- with .Values.master.annotations }}
+      {{- with .Values.swarm.annotations }}
         {{- toYaml . | nindent 8 }}
       {{- end }}
       labels:
         component: swarm
-        {{- include "swarm.selectorLabels" . | nindent 8 }}
+        {{- include "locust.selectorLabels" . | nindent 8 }}
     spec:
       {{- with .Values.imagePullSecrets }}
       imagePullSecrets:
@@ -31,7 +31,7 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      serviceAccountName: {{ template "swarm.fullname" . }}-swarm
+      serviceAccountName: {{ template "locust.fullname" . }}-swarm
       containers:
       - name: {{ .Chart.Name }}
         securityContext:
