@@ -153,6 +153,12 @@ export default {
                     let instances = [];
                     for (const instancename in response.data.instances) {
                         let instance = response.data.instances[instancename];
+                        let stats = instance.stats || {
+                            state : "dead",
+                            total_rps : 0,
+                            user_count : 0,
+                        };
+
                         instances.push({
                             name: instance.name,
                             namespace: instance.namespace,
@@ -161,9 +167,9 @@ export default {
                             numUsers: instance.numUsers,
                             spawnRate: instance.spawnRate,
                             worker: instance.worker,
-                            state: instance.stats.state || "dead",
-                            totalRps: instance.stats.total_rps || 0,
-                            userCount: instance.stats.user_count || 0,
+                            state: stats.state || "dead",
+                            totalRps: stats.total_rps || 0,
+                            userCount: stats.user_count || 0,
                         });
                     }
                     this.instances = instances;
