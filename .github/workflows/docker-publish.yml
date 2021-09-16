@@ -63,7 +63,7 @@ jobs:
           password: ${{ secrets.DOCKERHUB_TOKEN }}
       - name: Push image hub.docker.com
         run: |
-          IMAGE_ID=mms-gianni/${IMAGE_NAME}
+          IMAGE_ID=gicara/${IMAGE_NAME}
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
