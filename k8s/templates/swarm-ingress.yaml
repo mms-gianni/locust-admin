@@ -33,6 +33,6 @@ spec:
           - path: {{ .path | quote }}
             backend:
               serviceName: {{ $fullName }}
-              servicePort: 8089
+              servicePort: 8080
     {{- end }}
   {{- end }}

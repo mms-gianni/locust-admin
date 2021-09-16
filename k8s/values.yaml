@@ -35,7 +35,8 @@ loadtest:
 swarm:
   strategy:
     type: RollingUpdate
-  image: ghcr.io/mms-gianni/locustswarm/dockerswarm
+  #image: ghcr.io/mms-gianni/locustswarm/dockerswarm
+  image: gicara/swarmadmin
   tag: latest
   resources: {}
     # limits:
