@@ -44,12 +44,10 @@ spec:
         resources:
 {{ toYaml .Values.swarm.resources | indent 10 }}
         env:
-          - name: LOCUST_HOST
-            value: "{{ .Values.loadtest.locust_host }}"
-          - name: LOCUST_LOGLEVEL
-            value: "{{ .Values.master.logLevel }}"
-          - name: LOCUST_LOCUSTFILE
-            value: "/mnt/locust/{{ .Values.loadtest.locust_locustfile }}"
+          - name: KUBECONFIG_BASE64
+            value: "{{ .Values.swarm.kubeconfig }}"
+          - name: NAMESPACE
+            value: "{{ .Values.swarm.namespace }}"
         ports:
           - containerPort: 8080
             name: loc-master-web

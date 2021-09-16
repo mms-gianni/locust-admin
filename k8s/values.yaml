@@ -38,6 +38,7 @@ swarm:
   #image: ghcr.io/mms-gianni/locustswarm/dockerswarm
   image: gicara/swarmadmin
   tag: latest
+  namespace: "default"
   resources: {}
     # limits:
     #   cpu: 2000m
@@ -47,6 +48,8 @@ swarm:
     #   memory: 1024Mi
   annotations: {}
     # Something: here
+  # swarm.kubeconfig -- kubeconfig file for the kubernetes cluster
+  kubeconfig: "" 
 
 master:  
   serviceAccountAnnotations: {}
