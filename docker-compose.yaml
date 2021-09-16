@@ -15,5 +15,6 @@ services:
       - KUBECONFIG_BASE64=${KUBECONFIG_BASE64}
       #- KUBECONFIG_PATH=${KUBECONFIG_PATH}
       - PORT=${PORT}
+      - NAMESPACE=${NAMESPACE}
     ports:
       - "8087:${PORT}"

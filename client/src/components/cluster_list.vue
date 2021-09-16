@@ -100,7 +100,7 @@ export default {
         { text: 'Creation Timestamp', value: 'creationTimestamp' },
         { text: 'Parallel Users', value: 'numUsers' },
         { text: 'Spawn Rate', value: 'spawnRate' },
-        { text: 'Workerddd', value: 'worker' },
+        { text: 'Worker', value: 'worker' },
         { text: 'State', value: 'state' },
         { text: 'total Rps', value: 'totalRps' },
         { text: 'user Count', value: 'userCount' },

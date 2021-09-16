@@ -1,0 +1,77 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "swarm.fullname" . }}-master
+  labels:
+    component: swarm
+{{ include "swarm.labels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+      component: swarm
+      {{- include "swarm.selectorLabels" . | nindent 6 }}
+  replicas: 1
+{{- with .Values.master.strategy }}
+  strategy:
+{{ toYaml . | trim | indent 4 }}
+{{- end }}
+  template:
+    metadata:
+      annotations:
+      {{- with .Values.master.annotations }}
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      labels:
+        component: swarm
+        {{- include "swarm.selectorLabels" . | nindent 8 }}
+    spec:
+      {{- with .Values.imagePullSecrets }}
+      imagePullSecrets:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      securityContext:
+        {{- toYaml .Values.podSecurityContext | nindent 8 }}
+      serviceAccountName: {{ template "swarm.fullname" . }}-swarm
+      containers:
+      - name: {{ .Chart.Name }}
+        securityContext:
+          {{- toYaml .Values.securityContext | nindent 12 }}
+        image: "{{ .Values.swarm.image }}:{{ .Values.swarm.tag }}"
+        command:
+          - "node"
+          - "app/index.js"
+        imagePullPolicy: {{ .Values.image.pullPolicy }}
+        resources:
+{{ toYaml .Values.swarm.resources | indent 10 }}
+        env:
+          - name: LOCUST_HOST
+            value: "{{ .Values.loadtest.locust_host }}"
+          - name: LOCUST_LOGLEVEL
+            value: "{{ .Values.master.logLevel }}"
+          - name: LOCUST_LOCUSTFILE
+            value: "/mnt/locust/{{ .Values.loadtest.locust_locustfile }}"
+        ports:
+          - containerPort: 8080
+            name: loc-master-web
+            protocol: TCP
+        readinessProbe:
+          initialDelaySeconds: 5
+          periodSeconds: 30
+          timeoutSeconds: 30
+          failureThreshold: 2
+          httpGet:
+            path: /api/ping 
+            port: 8080
+      restartPolicy: Always
+      {{- with .Values.nodeSelector }}
+      nodeSelector:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.affinity }}
+      affinity:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
+      {{- with .Values.tolerations }}
+      tolerations:
+        {{- toYaml . | nindent 8 }}
+      {{- end }}
