@@ -2,6 +2,12 @@ service = {
         "apiVersion": "v1",
         "kind": "Service",
         "metadata": {
+            "labels": {
+                "app.kubernetes.io/name": "locustswarm",
+                "app.kubernetes.io/part-of": "swarm",
+                "app.kubernetes.io/managed-by": "swarmadmin",
+                "instance": "example"
+            },
             "name": "my-locust",
         },
         "spec": {
@@ -27,9 +33,11 @@ service = {
                 }
             ],
             "selector": {
-                "app.kubernetes.io/instance": "my-locust",
-                "app.kubernetes.io/name": "locust",
-                "component": "master"
+                "app.kubernetes.io/name": "locustswarm",
+                "app.kubernetes.io/part-of": "swarm",
+                "app.kubernetes.io/managed-by": "swarmadmin",
+                "component": "master",
+                "instance": "example"
             },
             "sessionAffinity": "None",
             "type": "ClusterIP"

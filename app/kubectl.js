@@ -87,6 +87,8 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
     // create a new master deployment
     try {
         chart_deploymentMaster.metadata.name = name + "-master";
+        chart_deploymentMaster.metadata.labels.instance = name;
+
         chart_deploymentMaster.spec.template.spec.containers[0].env[0].value = testHost || "https://www.google.com"; // LOCUST_HOST
         chart_deploymentMaster.spec.template.spec.containers[0].env[1].value = numUsers || "1"; // LOCUST_NUM_USERS
         chart_deploymentMaster.spec.template.spec.containers[0].env[2].value = spawnRate || "1"; // LOCUST_SPAWN_RATE
@@ -102,6 +104,7 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
     // create a new worker deployment
     try {
         chart_deploymentWorker.metadata.name = name + "-worker";
+        chart_deploymentWorker.metadata.labels.instance = name;
         chart_deploymentWorker.spec.template.spec.containers[0].env[0].value = testHost || "https://www.google.com"; // LOCUST_HOST
         chart_deploymentWorker.spec.template.spec.containers[0].env[1].value = numUsers || "1"; // LOCUST_NUM_USERS
         chart_deploymentWorker.spec.template.spec.containers[0].env[2].value = spawnRate || "1"; // LOCUST_SPAWN_RATE
@@ -119,6 +122,7 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
     // create a new service
     try {
         chart_service.metadata.name = name;
+        chart_service.metadata.labels.instance = name;
         const service = await CoreV1Api.createNamespacedService(namespace=ns_name, body=chart_service);
         debug(service);
         returnvalues.service = service;
@@ -131,6 +135,7 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
         // create a new ingress
         try {
             chart_ingressMaster.metadata.name = name + "-ingress";
+            chart_ingressMaster.metadata.labels.instance = name;
             chart_ingressMaster.spec.rules[0].host = hostname;
             chart_ingressMaster.spec.rules[0].http.paths[0].backend.service.name = name;
             //chart_ingressMaster.spec.rules[0].http.paths[0].path = "/";

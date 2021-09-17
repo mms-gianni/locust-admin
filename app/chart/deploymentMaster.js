@@ -3,11 +3,11 @@ deploymentMaster = {
     "kind": "Deployment",
     "metadata": {
         "labels": {
-            "app.kubernetes.io/instance": "my-locust",
-            "app.kubernetes.io/name": "locust",
-            "app.kubernetes.io/version": "2.1.0",
+            "app.kubernetes.io/name": "locustswarm",
+            "app.kubernetes.io/part-of": "swarm",
+            "app.kubernetes.io/managed-by": "swarmadmin",
             "component": "master",
-            "load_test": "example"
+            "instance": "example"
         },
         "name": "my-locust-master",
     },
@@ -15,8 +15,9 @@ deploymentMaster = {
         "replicas": 1,
         "selector": {
             "matchLabels": {
-                "app.kubernetes.io/instance": "my-locust",
-                "app.kubernetes.io/name": "locust",
+                "app.kubernetes.io/name": "locustswarm",
+                "app.kubernetes.io/part-of": "swarm",
+                "app.kubernetes.io/managed-by": "swarmadmin",
                 "component": "master"
             }
         },
@@ -30,8 +31,9 @@ deploymentMaster = {
         "template": {
             "metadata": {
                 "labels": {
-                    "app.kubernetes.io/instance": "my-locust",
-                    "app.kubernetes.io/name": "locust",
+                    "app.kubernetes.io/name": "locustswarm",
+                    "app.kubernetes.io/part-of": "swarm",
+                    "app.kubernetes.io/managed-by": "swarmadmin",
                     "component": "master"
                 }
             },

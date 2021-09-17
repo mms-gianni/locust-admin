@@ -3,10 +3,11 @@ deploymentWorker = {
     "kind": "Deployment",
     "metadata": {
         "labels": {
-            "app.kubernetes.io/instance": "my-locust",
-            "app.kubernetes.io/name": "locust",
+            "app.kubernetes.io/name": "locustswarm",
+            "app.kubernetes.io/part-of": "swarm",
+            "app.kubernetes.io/managed-by": "swarmadmin",
             "component": "worker",
-            "load_test": "example"
+            "instance": "example"
         },
         "name": "my-locust-worker",
     },
@@ -16,10 +17,11 @@ deploymentWorker = {
         "revisionHistoryLimit": 10,
         "selector": {
             "matchLabels": {
-                "app.kubernetes.io/instance": "my-locust",
-                "app.kubernetes.io/name": "locust",
+                "app.kubernetes.io/name": "locustswarm",
+                "app.kubernetes.io/part-of": "swarm",
+                "app.kubernetes.io/managed-by": "swarmadmin",
                 "component": "worker",
-                "load_test": "example"
+                "instance": "example"
             }
         },
         "strategy": {
@@ -32,10 +34,11 @@ deploymentWorker = {
         "template": {
             "metadata": {
                 "labels": {
-                    "app.kubernetes.io/instance": "my-locust",
-                    "app.kubernetes.io/name": "locust",
+                    "app.kubernetes.io/name": "locustswarm",
+                    "app.kubernetes.io/part-of": "swarm",
+                    "app.kubernetes.io/managed-by": "swarmadmin",
                     "component": "worker",
-                    "load_test": "example"
+                    "instance": "example"
                 }
             },
             "spec": {
