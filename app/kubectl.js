@@ -64,7 +64,12 @@ async function list(ns_name) {
     returnvalues = {};
     try {
         returnvalues.deployments = await AppsV1Api.listNamespacedDeployment(namespace=ns_name)
-        returnvalues.services = await CoreV1Api.listNamespacedService(namespace=ns_name);
+        returnvalues.services = await CoreV1Api.listNamespacedService(namespace=ns_name,
+            pretty=undefined,
+            allowWatchBookmarks=undefined,
+            _continue=undefined,
+            fieldselector=undefined,
+            labelSelector="component=master");
         returnvalues.ingresses = await NetworkingV1Api.listNamespacedIngress(namespace=ns_name);
 
         returnvalues.locustfiles = await CoreV1Api.listNamespacedConfigMap(namespace=ns_name, 

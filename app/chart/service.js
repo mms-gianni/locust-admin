@@ -6,6 +6,7 @@ service = {
                 "app.kubernetes.io/name": "locustswarm",
                 "app.kubernetes.io/part-of": "swarm",
                 "app.kubernetes.io/managed-by": "swarmadmin",
+                "component": "master",
                 "instance": "example"
             },
             "name": "my-locust",
