@@ -134,14 +134,14 @@ deploymentMaster = {
                     {
                         "configMap": {
                             "defaultMode": 420,
-                            "name": "my-locust-lib"
+                            "name": "default-lib"
                         },
                         "name": "lib"
                     },
                     {
                         "configMap": {
                             "defaultMode": 420,
-                            "name": "my-locust-config"
+                            "name": "default-config"
                         },
                         "name": "config"
                     }
