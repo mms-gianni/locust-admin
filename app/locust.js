@@ -109,12 +109,12 @@ async function addLocust(namespace, instance, locustfile, hostname, workers, tes
                 'master': {
                     'replicas': 0,
                     'unavailableReplicas': 0,
-                    'availableReplicas': 0,
+                    'readyReplicas': 0,
                 },
                 'worker': {
                     'replicas': 0,
                     'unavailableReplicas': 0,
-                    'availableReplicas': 0,
+                    'readyReplicas': 0,
                 },
             },
             locustfile: locustfile,
