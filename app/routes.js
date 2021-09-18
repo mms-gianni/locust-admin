@@ -89,4 +89,18 @@ router.delete('/instance/:instance', async function (req, res, next) {
     res.send(locust.locust.instances);
 });
 
+//start a load test
+router.get('/instance/:instance/start', async function (req, res, next) {
+    const instance = req.params.instance;
+    locust.startLoadtest(instance);
+    res.send("OK");
+});
+
+//stop a load test
+router.get('/instance/:instance/stop', async function (req, res, next) {
+    const instance = req.params.instance;
+    locust.stopLoadtest(instance);
+    res.send("OK");
+});
+
 module.exports = router;

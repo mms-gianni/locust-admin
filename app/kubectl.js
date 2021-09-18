@@ -70,7 +70,12 @@ async function list(ns_name) {
             _continue=undefined,
             fieldselector=undefined,
             labelSelector="component=master");
-        returnvalues.ingresses = await NetworkingV1Api.listNamespacedIngress(namespace=ns_name);
+        returnvalues.ingresses = await NetworkingV1Api.listNamespacedIngress(namespace=ns_name,
+            pretty=undefined,
+            allowWatchBookmarks=undefined,
+            _continue=undefined,
+            fieldselector=undefined,
+            labelSelector="component=master");
 
         returnvalues.locustfiles = await CoreV1Api.listNamespacedConfigMap(namespace=ns_name, 
             pretty=undefined,
@@ -93,6 +98,8 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
     try {
         chart_deploymentMaster.metadata.name = name + "-master";
         chart_deploymentMaster.metadata.labels.instance = name;
+        chart_deploymentMaster.spec.selector.matchLabels.instance = name;
+        chart_deploymentMaster.spec.template.metadata.labels.instance = name;
 
         chart_deploymentMaster.spec.template.spec.containers[0].env[0].value = testHost || "https://www.google.com"; // LOCUST_HOST
         chart_deploymentMaster.spec.template.spec.containers[0].env[1].value = numUsers || "1"; // LOCUST_NUM_USERS
@@ -110,6 +117,9 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
     try {
         chart_deploymentWorker.metadata.name = name + "-worker";
         chart_deploymentWorker.metadata.labels.instance = name;
+        chart_deploymentWorker.spec.selector.matchLabels.instance = name;
+        chart_deploymentWorker.spec.template.metadata.labels.instance = name;
+
         chart_deploymentWorker.spec.template.spec.containers[0].env[0].value = testHost || "https://www.google.com"; // LOCUST_HOST
         chart_deploymentWorker.spec.template.spec.containers[0].env[1].value = numUsers || "1"; // LOCUST_NUM_USERS
         chart_deploymentWorker.spec.template.spec.containers[0].env[2].value = spawnRate || "1"; // LOCUST_SPAWN_RATE
@@ -128,6 +138,7 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
     try {
         chart_service.metadata.name = name;
         chart_service.metadata.labels.instance = name;
+        chart_service.spec.selector.instance = name;
         const service = await CoreV1Api.createNamespacedService(namespace=ns_name, body=chart_service);
         debug(service);
         returnvalues.service = service;

@@ -18,7 +18,8 @@ deploymentMaster = {
                 "app.kubernetes.io/name": "locustswarm",
                 "app.kubernetes.io/part-of": "swarm",
                 "app.kubernetes.io/managed-by": "swarmadmin",
-                "component": "master"
+                "component": "master",
+                "instance": "example"
             }
         },
         "strategy": {
@@ -34,7 +35,8 @@ deploymentMaster = {
                     "app.kubernetes.io/name": "locustswarm",
                     "app.kubernetes.io/part-of": "swarm",
                     "app.kubernetes.io/managed-by": "swarmadmin",
-                    "component": "master"
+                    "component": "master",
+                    "instance": "example"
                 }
             },
             "spec": {

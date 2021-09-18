@@ -1,11 +1,30 @@
 const debug = require('debug')('superlocust:locust');
 const kubectl = require('./kubectl');
 const socket = require('./socket');
+const axios = require('axios');
 
 let locust = {
     instances: {},
     locustfiles: {},
 };
+
+async function startLoadtest(instanceName) {
+
+    
+    //axios.get(`http://${locust.instances[instanceName].name}:8089/stats/requests`).then(function(response) {
+    axios.get(`http://${locust.instances[instanceName].name}:8089/stats/requests`).then(function(response) {
+        //console.log(response.data);
+    }).catch(function(error) {
+        //console.log(error);
+        console.log("load data error");
+    });
+    return
+}
+
+async function stopLoadtest(instanceName) {
+
+    return
+}
 
 // initial loading of all instances
 async function init() {
@@ -141,4 +160,4 @@ async function removeLocust(namespace, instance) {
 }
 
 
-module.exports = {locust, init, addLocust, removeLocust, addLocustfile, removeLocustfile};
+module.exports = {locust, startLoadtest, stopLoadtest, init, addLocust, removeLocust, addLocustfile, removeLocustfile};
