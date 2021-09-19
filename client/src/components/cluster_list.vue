@@ -20,7 +20,7 @@
                         <td>{{row.item.state}}</td>
                         <td>{{row.item.totalRps}}</td>
                         <td>{{row.item.userCount}}</td>
-                        <td>
+                        <td width="130px">
                             <v-btn
                                 color="red darken-4"
                                 class="mx-2"
@@ -30,26 +30,26 @@
                                 >
                                 <v-icon dark>mdi-delete</v-icon>
                             </v-btn>
-                            <!--
                             <v-btn
+                                v-if="row.item.state === 'running'"
                                 color="primary"
                                 class="mx-2"
                                 fab dark x-small
                                 elevation="2"
-                                 @click="onButtonClick(row.item)"
+                                @click="stopLoadtest(row.item)"
                                 >
-                                <v-icon dark>mdi-pencil</v-icon>
+                                <v-icon dark>mdi-stop</v-icon>
                             </v-btn>
                             <v-btn
+                                v-if="row.item.state === 'stopped'"
                                 color="success"
                                 class="mx-2"
                                 fab dark x-small
                                 elevation="2"
-                                 @click="runLoadtest(row.item)"
+                                 @click="startLoadtest(row.item)"
                                 >
                                 <v-icon dark>mdi-play</v-icon>
                             </v-btn>
-                            -->
                         </td>
                     </tr>
                 </template>
@@ -128,18 +128,22 @@ export default {
                 console.log(error);
             });
         },
-        /*
-        runLoadtest(item) {
-            axios.get("/api/loadtest", {
-                name: item.name,
-                namespace: item.namespace,
-            }).then(response => {
+        startLoadtest(item) {
+            axios.get(`/api/instance/${item.name}/start`).then(response => {
                 console.log(response);
+                item.state = 'running';
             }).catch(error => {
                 console.log(error);
             });
         },
-        */
+        stopLoadtest(item) {
+            axios.get(`/api/instance/${item.name}/stop`).then(response => {
+                console.log(response);
+                item.state = 'stopped';
+            }).catch(error => {
+                console.log(error);
+            });
+        },
         loadDataInterval() {
             if (this.reload) {
                 this.loadData();

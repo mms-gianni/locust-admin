@@ -10,6 +10,7 @@ function loadStats(status) {
 
         if (instance.status.master.readyReplicas > 0) {
             axios.get(`http://${instance.name}:8089/stats/requests`).then(function(response) {
+            //axios.get(`http://${instance.ingressHost}:7081/stats/requests`).then(function(response) {
                 //console.log(response.data);
                 status.instances[name].stats = response.data;
             }).catch(function(error) {

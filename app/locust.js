@@ -8,22 +8,39 @@ let locust = {
     locustfiles: {},
 };
 
-async function startLoadtest(instanceName) {
+async function startLoadtest(instanceName, userCount, spawnRate, host) {
 
+    let data = {
+        user_count: userCount,
+        spawn_rate: spawnRate,
+        host: host
+    }
+
+    const url = require('url');
+    const params = new url.URLSearchParams(data);
+    console.log(params);
     
-    //axios.get(`http://${locust.instances[instanceName].name}:8089/stats/requests`).then(function(response) {
-    axios.get(`http://${locust.instances[instanceName].name}:8089/stats/requests`).then(function(response) {
-        //console.log(response.data);
+    axios.get(`http://${locust.instances[instanceName].name}:8089/swarm`, data).then(function(response) {
+    //axios.post(`http://${locust.instances[instanceName].ingressHost}:7081/swarm`, params).then(function(response) {
+        console.log(response.data);
     }).catch(function(error) {
-        //console.log(error);
-        console.log("load data error");
+        console.log(error);
+        console.log("Start Swarm error");
     });
-    return
+    return "ERROR"
 }
 
 async function stopLoadtest(instanceName) {
+    axios.get(`http://${locust.instances[instanceName].name}:8089/stop`).then(function(response) {
+    //axios.get(`http://${locust.instances[instanceName].ingressHost}:7081/stop`).then(function(response) {
+        //console.log(response.data);
+        return response.data
+    }).catch(function(error) {
+        //console.log(error);
+        console.log("load data error");
+        return "ERROR"
+    });
 
-    return
 }
 
 // initial loading of all instances
