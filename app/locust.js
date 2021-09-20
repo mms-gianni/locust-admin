@@ -20,7 +20,7 @@ async function startLoadtest(instanceName, userCount, spawnRate, host) {
     const params = new url.URLSearchParams(data);
     console.log(params);
     
-    axios.get(`http://${locust.instances[instanceName].name}:8089/swarm`, data).then(function(response) {
+    axios.post(`http://${locust.instances[instanceName].name}:8089/swarm`, params).then(function(response) {
     //axios.post(`http://${locust.instances[instanceName].ingressHost}:7081/swarm`, params).then(function(response) {
         console.log(response.data);
     }).catch(function(error) {
