@@ -6,15 +6,13 @@ function loadStats(status) {
     for (let i in status.instances) {
         let instance = status.instances[i];
         let name = instance.name;
-        console.log(name);
 
         if (instance.status.master.readyReplicas > 0) {
             axios.get(`http://${instance.name}:8089/stats/requests`).then(function(response) {
             //axios.get(`http://${instance.ingressHost}:7081/stats/requests`).then(function(response) {
-                //console.log(response.data);
                 status.instances[name].stats = response.data;
             }).catch(function(error) {
-                //console.log(error);
+                console.log(error);
                 console.log("load data error");
             });
         }
@@ -25,7 +23,6 @@ async function watcher(status) {
     const namespace = process.env.NAMESPACE || 'default';
     await kubectl.list(namespace).then(function(data) {
         data.deployments.body.items.forEach(element => {
-            //console.log(element.status);
             // Load data status master
             if (element.metadata.name.endsWith('-master')) {
                 let MasterName = element.metadata.name.replace("-master", "")
@@ -46,8 +43,6 @@ async function watcher(status) {
         debug(err);
     });
     loadStats(status);
-    //console.log(status);
-    console.log("pull run");
     debug(status);
 }
 

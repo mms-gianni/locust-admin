@@ -86,21 +86,6 @@ paths:
         required: false
         schema:
           type: string
-  /namespace/{namespace}/init:
-    post:
-      tags:
-        - Namespace
-      summary: "Create and prepare a namespace"
-      responses:
-        '200':
-          description: OK
-    parameters:
-      - name: "namespace"
-        in: "path"
-        description: "The namespace to prepare"
-        required: true
-        schema:
-          type: string
   /instance:
     get:
       tags:
@@ -191,6 +176,49 @@ paths:
       - name: "instance"
         in: "path"
         description: "Name of the instance to create"
+        required: true
+        schema:
+          type: string
+  /loadtest/{instance}:
+    get:
+      tags:
+        - Loadtest
+      summary: "Start a loadtest"
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Loadtest
+      summary: "Stop/abort a loadtest"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace to create the instance"
+        required: false
+        schema:
+          type: string
+      - name: "instance"
+        in: "path"
+        description: "Name of the instance to create"
+        required: true
+        schema:
+          type: string
+  /namespace/{namespace}/init:
+    post:
+      tags:
+        - Namespace
+      summary: "Create and prepare a namespace"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "path"
+        description: "The namespace to prepare"
         required: true
         schema:
           type: string

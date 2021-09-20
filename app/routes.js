@@ -90,7 +90,7 @@ router.delete('/instance/:instance', async function (req, res, next) {
 });
 
 //start a load test
-router.get('/instance/:instance/start', async function (req, res, next) {
+router.get('/loadtest/:instance', async function (req, res, next) {
     const instance = req.params.instance;
     const userCount = req.query.userCount || locust.locust.instances[instance].numUsers;
     const spawnRate = req.query.spawnRate || 1;
@@ -100,7 +100,7 @@ router.get('/instance/:instance/start', async function (req, res, next) {
 });
 
 //stop a load test
-router.get('/instance/:instance/stop', async function (req, res, next) {
+router.delete('/loadtest/:instance', async function (req, res, next) {
     const instance = req.params.instance;
     locust.stopLoadtest(instance);
     res.send("OK");

@@ -129,7 +129,7 @@ export default {
             });
         },
         startLoadtest(item) {
-            axios.get(`/api/instance/${item.name}/start`).then(response => {
+            axios.get(`/api/loadtest/${item.name}/start`).then(response => {
                 console.log(response);
                 item.state = 'running';
             }).catch(error => {
@@ -137,7 +137,7 @@ export default {
             });
         },
         stopLoadtest(item) {
-            axios.get(`/api/instance/${item.name}/stop`).then(response => {
+            axios.delete(`/api/loadtest/${item.name}/stop`).then(response => {
                 console.log(response);
                 item.state = 'stopped';
             }).catch(error => {

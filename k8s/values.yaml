@@ -35,7 +35,7 @@ loadtest:
 swarm:
   strategy:
     type: RollingUpdate
-  #image: ghcr.io/mms-gianni/locustswarm/dockerswarm
+  #image: ghcr.io/mms-gianni/locustswarm/swarmadmin
   image: gicara/swarmadmin
   tag: latest
   namespace: "default"
