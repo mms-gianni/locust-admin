@@ -1,8 +1,8 @@
 version: "3.9"
 services:
-  locustswarm:
-    container_name: locustswarm
-    image: locustswarm:latest
+  swarmadmin:
+    container_name: swarmadmin
+    image: swarmadmin:latest
     build: .
     command: 
     #  - tail 

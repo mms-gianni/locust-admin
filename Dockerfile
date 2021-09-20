@@ -1,9 +1,9 @@
 
 FROM node:16-alpine as base
 ENV NODE_ENV=production
-WORKDIR /locustswarm
+WORKDIR /swarmadmin
 
-RUN mkdir -p /locustswarm/client /locustswarm/app
+RUN mkdir -p /swarmadmin/client /swarmadmin/app
 
 COPY ["package.json", "package-lock.json", "./"]
 COPY "app" "./app"
