@@ -6,6 +6,7 @@ This project solves this problem by adding a additional admin interface and API 
 
 All configurations are stored on your kubernetes cluster. 
 
+![Screenshot](docs/swarmadmin.png) 
 ## installation
 The Helm installation is based on Deliveryhero's helm charts. 
 

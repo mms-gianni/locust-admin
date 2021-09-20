@@ -153,10 +153,8 @@ export default {
             axios.get('/api/status')
                 .then(response => {
                     for (const instancename in this.instances) {
-                        console.log(this.instances[instancename].name);
                         let instanceName = this.instances[instancename].name;
                         let newInstance = response.data.instances[instanceName];
-                        console.log(response.data.instances);
                         if (newInstance !== undefined) {
                             this.instances[instancename].totalRps = newInstance.stats.total_rps;
                             this.instances[instancename].state = newInstance.stats.state;
