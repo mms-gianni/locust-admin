@@ -12,7 +12,7 @@ function loadStats(status) {
             //axios.get(`http://${instance.ingressHost}:7081/stats/requests`).then(function(response) {
                 status.instances[name].stats = response.data;
             }).catch(function(error) {
-                console.log(error);
+                //console.log(error);
                 console.log("load data error");
             });
         }

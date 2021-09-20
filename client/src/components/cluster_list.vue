@@ -41,7 +41,7 @@
                                 <v-icon dark>mdi-stop</v-icon>
                             </v-btn>
                             <v-btn
-                                v-if="row.item.state === 'stopped'"
+                                v-if="row.item.state === 'stopped' || row.item.state === 'ready'"
                                 color="success"
                                 class="mx-2"
                                 fab dark x-small
@@ -146,8 +146,30 @@ export default {
         },
         loadDataInterval() {
             if (this.reload) {
-                this.loadData();
+                this.refreshData();
             }
+        },
+        refreshData() {
+            axios.get('/api/status')
+                .then(response => {
+                    for (const instancename in this.instances) {
+                        console.log(this.instances[instancename].name);
+                        let instanceName = this.instances[instancename].name;
+                        let newInstance = response.data.instances[instanceName];
+                        console.log(response.data.instances);
+                        if (newInstance !== undefined) {
+                            this.instances[instancename].totalRps = newInstance.stats.total_rps;
+                            this.instances[instancename].state = newInstance.stats.state;
+                            this.instances[instancename].userCount = newInstance.stats.user_count;
+                        } else {
+                            console.log('Instance not found');
+                        }
+                    }
+                }
+            )
+            .catch((err) => {
+                console.error(err);
+            });
         },
         // get Config List from server
         loadData() {

@@ -44,7 +44,6 @@ router.delete('/locustfile/:locustfile', async function (req, res, next) {
 router.get('/locustfile', async function (req, res, next) {
 
     const namespace = req.query.namespace || process.env.NAMESPACE;
-    console.log("get configs : "+namespace);
     const result = await kubectl.locustfileList(namespace);
 
     res.send(result);
