@@ -1,5 +1,5 @@
 
-## Locust Swarm
+## Locust Swarmadmin
 [Locust](https://www.locust.io) is an easy to use, scriptable and scalable performance testing tool. But it is not very flexible. Specially when it comes to run multiple different configured loadtests in kubernetes cloud. 
 
 This project solves this problem by adding a additional admin interface and API to dynamically start Locust instances in your kubernetes cluster.
@@ -12,8 +12,8 @@ The Helm installation is based on [Deliveryhero's](https://github.com/deliveryhe
 
 ```
 export KUBECONFIG_BASE64=$(kind get kubeconfig --name superlocust --internal | base64)
-helm install -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64 test . -n locustswarm --create-namespace
-helm upgrade -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64 test .
+helm install -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64 locustswarm . -n locustswarm --create-namespace
+helm upgrade -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64 locustswarm .
 ```
 
 ## Docker container environment variables
