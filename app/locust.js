@@ -126,7 +126,7 @@ async function addLocustfile(namespace, name, locustfile) {
 
 async function removeLocustfile(namespace, locustfile) {
     const result = await kubectl.deleteLocustfile(namespace, locustfile);
-    if (result.locustfile.response.statusCode == 200) {
+    if (result.locustfiles.response.statusCode == 200) {
         delete locust.locustfiles[locustfile];
         socket.updatedLocustfiles(locust.locustfiles)
         console.log(locust);

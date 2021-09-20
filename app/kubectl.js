@@ -208,13 +208,11 @@ async function createLocustfile(ns_name, locustfile, content) {
         chart_configmapLocustfile.metadata.name = locustfile;
         chart_configmapLocustfile.data = {"main.py": content};
         console.log(chart_configmapLocustfile);
-        returnvalues.locustfile = await CoreV1Api.createNamespacedConfigMap(namespace=ns_name, body=chart_configmapLocustfile);
+        returnvalues.locustfiles = await CoreV1Api.createNamespacedConfigMap(namespace=ns_name, body=chart_configmapLocustfile);
     } catch (e) {
         console.log(e);
         debug(e);
     }
-    console.log('......');
-    console.log(returnvalues);
     return returnvalues;
 }
 
@@ -224,7 +222,7 @@ async function updateLocustfile(ns_name, locustfile, content) {
     try {
         chart_configmapLocustfile.metadata.name = locustfile;
         chart_configmapLocustfile.data.locustfile = content;
-        returnvalues.locustfile = await CoreV1Api.replaceNamespacedConfigMap(locustfile, ns_name, chart_configmapLocustfile);
+        returnvalues.locustfiles = await CoreV1Api.replaceNamespacedConfigMap(locustfile, ns_name, chart_configmapLocustfile);
     } catch (e) {
         console.log(e);
         debug(e);
@@ -246,7 +244,7 @@ async function deleteLocustfile(ns_name, locustfile) {
     
     returnvalues = {};
     try {
-        returnvalues.locustfile = await CoreV1Api.deleteNamespacedConfigMap(locustfile, ns_name);
+        returnvalues.locustfiles = await CoreV1Api.deleteNamespacedConfigMap(locustfile, ns_name);
     } catch (e) {
         console.log(e);
         debug(e);
