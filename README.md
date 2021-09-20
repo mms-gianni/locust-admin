@@ -7,16 +7,16 @@ This project solves this problem by adding a additional admin interface and API 
 All configurations are stored on your kubernetes cluster. 
 
 ![Screenshot](docs/swarmadmin.png) 
-## installation
-The Helm installation is based on Deliveryhero's helm charts. 
+## Installation on Kubernetes
+The Helm installation is based on [Deliveryhero's](https://github.com/deliveryhero/helm-charts/tree/master/stable/locust) helm charts. (Version 0.20.2)
 
 ```
-export KUBECONFIG_B64=$(kind get kubeconfig --name superlocust --internal | base64)
-helm install -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_B64 test . -n locustswarm --create-namespace
-helm upgrade -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_B64 test .
+export KUBECONFIG_BASE64=$(kind get kubeconfig --name superlocust --internal | base64)
+helm install -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64 test . -n locustswarm --create-namespace
+helm upgrade -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64 test .
 ```
 
-## Environment variables
+## Docker container environment variables
 For a full list of available environment variables, please visit [.env.example](.env.example)
 
 #### KUBECONFIG_BASE64 
@@ -34,6 +34,10 @@ kind create cluster --config kind.yaml
 kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/main/deploy/static/provider/kind/deploy.yaml
 kind export kubeconfig --name superlocust --kubeconfig ./kubeconfig
 ```
+Make sure you are using the internal kubeconfig for the ENV variable to configure the helm charts
+```
+export KUBECONFIG_BASE64=$(kind get kubeconfig --name superlocust --internal | base64)
+```
 
 ### start on local node
 ```
@@ -44,9 +48,10 @@ cd client && npm run build && cd .. && npm run serve
 ```
 docker-compose build
 ``` 
+(docker compose it is not usable with you KiND cluster)
 
 ## Possible future features
-- Store loadtest results in a database (MongoDB? or Prometheus? https://github.com/siimon/prom-client)
+- Store loadtest results in a database (MongoDB? or Prometheus? https://github.com/siimon/prom-client) or a Prometheus exporter
 - Add provision support for other clouds (AWS, Google, Azure, Digital Ocean ... )
 
 
