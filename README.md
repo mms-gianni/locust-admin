@@ -6,6 +6,8 @@ This project solves this problem by adding a additional admin interface and API 
 
 All configurations are stored on your kubernetes cluster. 
 
+API Swagger documentation : https://mms-gianni.github.io/swarmadmin/swagger.html 
+
 ![Screenshot](docs/swarmadmin.png) 
 ## Installation on Kubernetes
 The Helm installation is based on [Deliveryhero's](https://github.com/deliveryhero/helm-charts/tree/master/stable/locust) helm charts. (Version 0.20.2)
