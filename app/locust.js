@@ -176,5 +176,50 @@ async function removeLocust(namespace, instance) {
     debug('removed');
 }
 
+function getMetrics() {
+    let ret_str = "";
+    let running_instances = 0;
+    const fields = [
+        "avg_content_length",
+        "avg_response_time",
+        "current_fail_per_sec",
+        "current_rps",
+        "max_response_time",
+        "median_response_time",
+        "min_response_time",
+        "ninetieth_response_time",
+        "num_failures",
+        "num_requests"
+    ]
+    for (var i in locust.instances) {
+        let instance = locust.instances[i];
+        if (instance.status.master.readyReplicas > 0 && 
+            instance.status.worker.readyReplicas > 0 &&
+            instance.stats != undefined &&
+            instance.stats.state == 'running') {
+            running_instances++;
+            for (var s in instance.stats.stats) {
+                let stat = instance.stats.stats[s];
+                fields.forEach(field => {
+                    let method = stat.method != null ? `method="${stat.method}" ` : "";
+                    ret_str += `locust_${field} {instance="${i}" ${method}name="${stat.safe_name}"} ${stat[field]}` + "\n";
+                })
+            }
+        }
+    }
+    ret_str += "locust_instances_total " + Object.keys(locust.instances).length + "\n";
+    ret_str += "locust_instances_running " + running_instances + "\n";
+    return ret_str;
+}
 
-module.exports = {locust, startLoadtest, stopLoadtest, init, addLocust, removeLocust, addLocustfile, removeLocustfile};
+module.exports = {
+    locust, 
+    startLoadtest, 
+    stopLoadtest, 
+    init, 
+    addLocust, 
+    removeLocust, 
+    addLocustfile, 
+    removeLocustfile, 
+    getMetrics
+};

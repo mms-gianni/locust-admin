@@ -11,9 +11,10 @@ All configurations are stored on your kubernetes cluster.
 The Helm installation is based on [Deliveryhero's](https://github.com/deliveryhero/helm-charts/tree/master/stable/locust) helm charts. (Version 0.20.2)
 
 ```
-export KUBECONFIG_BASE64=$(kind get kubeconfig --name superlocust --internal | base64)
-helm install -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64 locustswarm . -n locustswarm --create-namespace
-helm upgrade -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64 locustswarm .
+export KUBECONFIG_BASE64_INTERNAL=$(kind get kubeconfig --name superlocust --internal | base64)
+cd k8s/
+helm install -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64_INTERNAL locustswarm . -n locustswarm --create-namespace
+helm upgrade -f values.yaml --set swarm.kubeconfig=$KUBECONFIG_BASE64_INTERNAL locustswarm .
 ```
 
 ## Docker container environment variables

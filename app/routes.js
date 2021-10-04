@@ -12,6 +12,13 @@ router.get('/config', async function (req, res, next) {
     res.send(swarm);
 });
 
+// Prometheus exporter path
+router.get('/metrics', async function (req, res, next) {
+    let metrics = locust.getMetrics();
+    res.contentType('text/plain; version=0.0.4');
+    res.send(metrics);
+});
+
 // check if API is available
 router.get('/ping', async function (req, res, next) {
     res.send("OK");
