@@ -1,0 +1,17 @@
+{{- if .Values.metrics.enabled -}}
+apiVersion: monitoring.coreos.com/v1
+kind: ServiceMonitor
+metadata:
+  name: "{{ template "locust.fullname" . }}-metrics"
+  labels:
+{{ include "locust.labels" . | indent 4 }}
+spec:
+  selector:
+    matchLabels:
+        component: swarm
+        {{- include "locust.selectorLabels" . | nindent 4 }}
+  endpoints:
+  - port: swarm-p1
+    path: /api/metrics
+    interval: {{ .Values.metrics.interval }}
+{{- end }}

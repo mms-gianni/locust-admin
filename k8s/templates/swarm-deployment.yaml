@@ -31,7 +31,7 @@ spec:
       {{- end }}
       securityContext:
         {{- toYaml .Values.podSecurityContext | nindent 8 }}
-      serviceAccountName: {{ template "locust.fullname" . }}-swarm
+      serviceAccountName: {{ .Values.swarm.serviceAccount.name }}
       containers:
       - name: {{ .Chart.Name }}
         securityContext:
@@ -44,8 +44,10 @@ spec:
         resources:
 {{ toYaml .Values.swarm.resources | indent 10 }}
         env:
+          {{ if .Values.swarm.kubeconfig  }}
           - name: KUBECONFIG_BASE64
             value: "{{ .Values.swarm.kubeconfig }}"
+          {{ end -}}
           - name: NAMESPACE
             value: "{{ .Values.swarm.namespace }}"
         ports:

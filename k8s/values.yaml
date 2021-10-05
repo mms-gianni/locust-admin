@@ -33,12 +33,16 @@ loadtest:
   excludeTags: ""
 
 swarm:
+  serviceAccount:
+    create: true
+    name: locustswarm-swarm
+    annotations: {}
   strategy:
     type: RollingUpdate
   #image: ghcr.io/mms-gianni/locustswarm/swarmadmin
   image: gicara/swarmadmin
   tag: latest
-  namespace: "default"
+  namespace: "locustswarm"
   resources: {}
     # limits:
     #   cpu: 2000m
@@ -49,10 +53,13 @@ swarm:
   annotations: {}
     # Something: here
   # swarm.kubeconfig -- kubeconfig file for the kubernetes cluster
-  kubeconfig: "" 
+  kubeconfig: false
 
 master:  
-  serviceAccountAnnotations: {}
+  serviceAccount:
+    create: true
+    name: locustswarm-master
+    annotations: {}
   pdb:
     enabled: false
 worker:  
@@ -61,13 +68,16 @@ worker:
     minReplicas: 1
     maxReplicas: 100
     targetCPUUtilizationPercentage: 40
-  serviceAccountAnnotations: {}
+  serviceAccount:
+    create: true
+    name: locustswarm-worker
+    annotations: {}
 
 
 image:
   repository: locustio/locust
   tag: 2.1.0
-  pullPolicy: IfNotPresent
+  pullPolicy: Always
 
 service:
   type: ClusterIP
@@ -95,7 +105,7 @@ ingress:
     # kubernetes.io/ingress.class: nginx
     # kubernetes.io/tls-acme: "true"
   hosts:
-    - host: swarmadmin.lacolhost.com
+    - host: clusterswarm.cargo.zrh.test.srf.mpc
       path: /
   tls: []
   #  - secretName: chart-example-tls
@@ -109,3 +119,7 @@ tolerations: []
 affinity: {}
 # extraLabels -- Any extra labels to apply to all resources
 extraLabels: {}
+
+metrics:
+  enabled: false
+  interval: "60s"
