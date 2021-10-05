@@ -1,11 +1,11 @@
 apiVersion: v1
 entries:
-  locust:
+  locustswarm:
   - apiVersion: v1
-    appVersion: 2.1.0
-    created: "2021-09-20T08:21:17.627244+02:00"
+    appVersion: 0.0.1
+    created: "2021-10-05T23:18:04.11633+02:00"
     description: |
-      A chart to install Locust, a scalable load testing tool written in Python.
+      A chart to install Locust Kubernetes Admin, a scalable and dynamic load testing tool written in Python.
 
       This chart will setup everything required to run a full distributed locust environment with any amount of workers.
 
@@ -14,7 +14,6 @@ entries:
       By default it will install using an example locustfile and lib from [stable/locust/locustfiles/example](https://github.com/deliveryhero/helm-charts/tree/master/stable/locust/locustfiles/example). When you want to provide your own locustfile, you will need to create 2 configmaps using the structure from that example:
 
       ```console
-      kubectl create configmap my-loadtest-locustfile --from-file path/to/your/main.py
       kubectl create configmap my-loadtest-lib --from-file path/to/your/lib/
       ```
 
@@ -26,14 +25,14 @@ entries:
         --set loadtest.locust_locustfile_configmap=my-loadtest-locustfile \
         --set loadtest.locust_lib_configmap=my-loadtest-lib
       ```
-    digest: 9445c57ce60d000ffb0705f824a3d6cedfd070b7717ecef3db2a012df37dc4af
+    digest: 3caea9a3e21328e98fcadaede634ba3a9b192a300f40ee9d1731822d1bef8b2e
     home: https://github.com/locustio/locust
     icon: https://locust.io/static/img/logo.png
     maintainers:
-    - email: no-reply@deliveryhero.com
-      name: max-rocket-internet
-    name: locust
+    - email: noMail@nomail.com
+      name: gianni carafa
+    name: locustswarm
     urls:
-    - https://mms-gianni.github.io/swarmadmin/locust-0.20.2.tgz
-    version: 0.20.2
-generated: "2021-09-20T08:21:17.62591+02:00"
+    - https://mms-gianni.github.io/swarmadmin/locustswarm-0.0.1.tgz
+    version: 0.0.1
+generated: "2021-10-05T23:18:04.096244+02:00"

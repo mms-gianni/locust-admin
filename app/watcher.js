@@ -8,8 +8,8 @@ function loadStats(status) {
         let name = instance.name;
 
         if (instance.status.master.readyReplicas > 0) {
-            axios.get(`http://${instance.name}:8089/stats/requests`).then(function(response) {
-            //axios.get(`http://${instance.ingressHost}:7081/stats/requests`).then(function(response) {
+            //axios.get(`http://${instance.name}:8089/stats/requests`).then(function(response) {
+            axios.get(`http://${instance.ingressHost}:7081/stats/requests`).then(function(response) {
                 status.instances[name].stats = response.data;
             }).catch(function(error) {
                 //console.log(error);
