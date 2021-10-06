@@ -3,7 +3,7 @@ entries:
   locustswarm:
   - apiVersion: v1
     appVersion: 0.0.1
-    created: "2021-10-05T23:18:04.11633+02:00"
+    created: "2021-10-06T08:11:37.662197+02:00"
     description: |
       A chart to install Locust Kubernetes Admin, a scalable and dynamic load testing tool written in Python.
 
@@ -25,7 +25,7 @@ entries:
         --set loadtest.locust_locustfile_configmap=my-loadtest-locustfile \
         --set loadtest.locust_lib_configmap=my-loadtest-lib
       ```
-    digest: 3caea9a3e21328e98fcadaede634ba3a9b192a300f40ee9d1731822d1bef8b2e
+    digest: a17bda8405d1b2137efa0ae3b09812338588ffa065674136061ab672b3810d65
     home: https://github.com/locustio/locust
     icon: https://locust.io/static/img/logo.png
     maintainers:
@@ -35,4 +35,4 @@ entries:
     urls:
     - https://mms-gianni.github.io/swarmadmin/locustswarm-0.0.1.tgz
     version: 0.0.1
-generated: "2021-10-05T23:18:04.096244+02:00"
+generated: "2021-10-06T08:11:37.66122+02:00"
