@@ -20,6 +20,7 @@ async function startLoadtest(instanceName, userCount, spawnRate, host) {
     const params = new url.URLSearchParams(data);
     console.log(params);
     
+    // TODO : Make this dynamic changeble
     axios.post(`http://${locust.instances[instanceName].name}:8089/swarm`, params).then(function(response) {
     //axios.post(`http://${locust.instances[instanceName].ingressHost}:7081/swarm`, params).then(function(response) {
         console.log(response.data);
@@ -31,6 +32,7 @@ async function startLoadtest(instanceName, userCount, spawnRate, host) {
 }
 
 async function stopLoadtest(instanceName) {
+    // TODO : Make this dynamic changeble
     axios.get(`http://${locust.instances[instanceName].name}:8089/stop`).then(function(response) {
     //axios.get(`http://${locust.instances[instanceName].ingressHost}:7081/stop`).then(function(response) {
         //console.log(response.data);
