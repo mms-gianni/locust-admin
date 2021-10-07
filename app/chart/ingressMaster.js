@@ -1,5 +1,6 @@
+// TODO: Create apiVersion by Kubernetes Version
 ingressMaster = {
-    "apiVersion": "networking.k8s.io/v1",
+    "apiVersion": "extensions/v1beta1",
     "kind": "Ingress",
     "metadata": {
         "labels": {
