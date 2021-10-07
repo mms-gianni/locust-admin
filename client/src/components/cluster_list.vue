@@ -13,6 +13,8 @@
                     <tr>
                         <td><a target=”_blank” :href=row.item.ingressHost>{{row.item.name}}</a></td>
                         <td>{{row.item.namespace}}</td>
+                        <td>{{row.item.testHost}}</td>
+                        <td>{{row.item.locustfile}}</td>
                         <td>{{row.item.creationTimestamp}}</td>
                         <td>{{row.item.numUsers}}</td>
                         <td>{{row.item.spawnRate}}</td>
@@ -97,6 +99,8 @@ export default {
             value: 'name',
         },
         { text: 'Namespace', value: 'namespace' },
+        { text: 'Hostname', value: 'testHost' },
+        { text: 'Locustfile', value: 'locustfile' },
         { text: 'Creation Timestamp', value: 'creationTimestamp' },
         { text: 'Parallel Users', value: 'numUsers' },
         { text: 'Spawn Rate', value: 'spawnRate' },
