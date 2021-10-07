@@ -190,6 +190,8 @@ export default {
                         instances.push({
                             name: instance.name,
                             namespace: instance.namespace,
+                            testHost: instance.testHost,
+                            locustfile: instance.locustfile,
                             ingressHost: "http://"+instance.ingressHost,
                             creationTimestamp: instance.creationTimestamp,
                             numUsers: instance.numUsers,
