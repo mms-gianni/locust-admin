@@ -9,7 +9,7 @@ spec:
   selector:
     matchLabels:
         component: swarm
-        {{- include "locust.selectorLabels" . | nindent 4 }}
+        {{- include "locust.selectorLabels" . | nindent 8 }}
   endpoints:
   - port: swarm-p1
     path: /api/metrics

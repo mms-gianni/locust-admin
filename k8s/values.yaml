@@ -121,5 +121,5 @@ affinity: {}
 extraLabels: {}
 
 metrics:
-  enabled: true
-  interval: "60s"
+  enabled: false
+  interval: "2s"
