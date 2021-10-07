@@ -157,8 +157,9 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
             chart_ingressMaster.metadata.labels.instance = name;
             chart_ingressMaster.spec.rules[0].host = hostname;
             chart_ingressMaster.spec.rules[0].http.paths[0].backend.service.name = name;
+            chart_ingressMaster.spec.rules[0].http.paths[0].backend.serviceName = name;
             //chart_ingressMaster.spec.rules[0].http.paths[0].path = "/";
-            //chart_ingressMaster.spec.rules[0].http.paths[0].backend.servicePort = 80;
+            //
             //chart_ingressMaster.spec.tls[0].hosts[0] = hostname;
             //chart_ingressMaster.spec.tls[0].secretName = name + "-tls";
 

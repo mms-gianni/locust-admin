@@ -25,7 +25,9 @@ ingressMaster = {
                                     "port": {
                                         "number": 8089
                                     }
-                                }
+                                },
+                                "serviceName": "my-locust",
+                                "servicePort": 8089,
                             },
                             "path": "/",
                             "pathType": "ImplementationSpecific"
