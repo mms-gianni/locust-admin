@@ -99,9 +99,9 @@ router.delete('/instance/:instance', async function (req, res, next) {
 router.get('/loadtest/:instance', async function (req, res, next) {
     const instance = req.params.instance;
     const userCount = req.query.userCount || locust.locust.instances[instance].numUsers;
-    const spawnRate = req.query.spawnRate || 1;
-    const host = req.query.host || "https://www.google.com";
-    locust.startLoadtest(instance, userCount, spawnRate, host) ;
+    const spawnRate = req.query.spawnRate || locust.locust.instances[instance].spawnRate;
+    const testHost = req.query.testHost || locust.locust.instances[instance].testHost;
+    locust.startLoadtest(instance, userCount, spawnRate, testHost) ;
     res.send("OK");
 });
 
