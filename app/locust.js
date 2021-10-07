@@ -202,9 +202,10 @@ function getMetrics() {
             running_instances++;
             for (var s in instance.stats.stats) {
                 let stat = instance.stats.stats[s];
+                if (stat.safe_name === "Aggregated") { continue; }
                 fields.forEach(field => {
                     let method = stat.method != null ? `method="${stat.method}" ` : "";
-                    ret_str += `locust_${field} {instance="${i}" ${method}name="${stat.safe_name}"} ${stat[field]}` + "\n";
+                    ret_str += `locust_${field} {locust_instance="${i}" ${method}name="${stat.safe_name}"} ${stat[field]}` + "\n";
                 })
             }
         }
