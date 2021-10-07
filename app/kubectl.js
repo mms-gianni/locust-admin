@@ -25,7 +25,10 @@ if (process.env.KUBECONFIG_BASE64) {
 
 const CoreV1Api = kc.makeApiClient(k8s.CoreV1Api);
 const AppsV1Api = kc.makeApiClient(k8s.AppsV1Api);
-const NetworkingV1Api = kc.makeApiClient(k8s.NetworkingV1Api);
+// TODO : Detect which Kubernetes Version is running and select the right one 
+const IngressAPI = kc.makeApiClient(k8s.ExtensionsV1beta1Api);
+//const IngressAPI = kc.makeApiClient(k8s.NetworkingV1beta1Api);
+//const IngressAPI = kc.makeApiClient(k8s.NetworkingV1Api);
 
 let chart_namespace = require('./chart/namespace');
 let chart_deploymentMaster = require('./chart/deploymentMaster');
@@ -70,7 +73,7 @@ async function list(ns_name) {
             _continue=undefined,
             fieldselector=undefined,
             labelSelector="component=master");
-        returnvalues.ingresses = await NetworkingV1Api.listNamespacedIngress(namespace=ns_name,
+        returnvalues.ingresses = await IngressAPI.listNamespacedIngress(namespace=ns_name,
             pretty=undefined,
             allowWatchBookmarks=undefined,
             _continue=undefined,
@@ -159,7 +162,7 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
             //chart_ingressMaster.spec.tls[0].hosts[0] = hostname;
             //chart_ingressMaster.spec.tls[0].secretName = name + "-tls";
 
-            const ingress = await NetworkingV1Api.createNamespacedIngress(namespace=ns_name, body=chart_ingressMaster);
+            const ingress = await IngressAPI.createNamespacedIngress(namespace=ns_name, body=chart_ingressMaster);
             debug(ingress);
             returnvalues.ingress = ingress;
         } catch (e) {
@@ -177,7 +180,7 @@ async function stop(ns_name, name) {
         returnvalues.deploymentWorker = await AppsV1Api.deleteNamespacedDeployment(name+"-worker", ns_name);
         returnvalues.deploymentMaster = await AppsV1Api.deleteNamespacedDeployment(name+"-master", ns_name);
         returnvalues.service = await CoreV1Api.deleteNamespacedService(name, ns_name);
-        returnvalues.ingress = await NetworkingV1Api.deleteNamespacedIngress(name+"-ingress", ns_name);
+        returnvalues.ingress = await IngressAPI.deleteNamespacedIngress(name+"-ingress", ns_name);
     } catch (e) {
         console.log(e);
         debug(e);
