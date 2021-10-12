@@ -49,6 +49,10 @@ async function stopLoadtest(instanceName) {
 async function init() {
     try {
         debug('loading');
+
+        //load initial kubernetes version
+        locust.kubeVersion = await kubectl.getKubeVersion();
+
         const namespace = process.env.NAMESPACE || 'default';
         const result = await kubectl.list(namespace);
         result.services.response.body.items.forEach(element => {

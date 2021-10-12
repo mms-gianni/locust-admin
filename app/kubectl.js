@@ -23,12 +23,10 @@ if (process.env.KUBECONFIG_BASE64) {
     kc.loadFromCluster();
 }
 
+const VersionApi = kc.makeApiClient(k8s.VersionApi);
 const CoreV1Api = kc.makeApiClient(k8s.CoreV1Api);
 const AppsV1Api = kc.makeApiClient(k8s.AppsV1Api);
-// TODO : Detect which Kubernetes Version is running and select the right one 
-const IngressAPI = kc.makeApiClient(k8s.ExtensionsV1beta1Api);
-//const IngressAPI = kc.makeApiClient(k8s.NetworkingV1beta1Api);
-//const IngressAPI = kc.makeApiClient(k8s.NetworkingV1Api);
+let kubeVersion = {};
 
 let chart_namespace = require('./chart/namespace');
 let chart_deploymentMaster = require('./chart/deploymentMaster');
@@ -38,6 +36,24 @@ let chart_configmapLocustfile = require('./chart/configmapLocustfile');
 let chart_configmapConfig = require('./chart/configmapConfig');
 let chart_configmapLib = require('./chart/configmapLib');
 let chart_ingressMaster = require('./chart/ingressMaster');
+
+async function getKubeVersion() {
+    let versionInfo = await VersionApi.getCode()
+    kubeVersion = versionInfo.body;
+    return kubeVersion;
+}
+
+
+function getIngressAPI() {
+    let IngressAPI
+    if (kubeVersion.minor >= 20) {
+        IngressAPI = kc.makeApiClient(k8s.ExtensionsV1beta1Api);
+    } else {
+        IngressAPI = kc.makeApiClient(k8s.NetworkingV1beta1Api);
+        //let IngressAPI = kc.makeApiClient(k8s.NetworkingV1Api);
+    }
+    return IngressAPI;
+}
 
 // create a namespace
 async function init(ns_name) {
@@ -73,6 +89,8 @@ async function list(ns_name) {
             _continue=undefined,
             fieldselector=undefined,
             labelSelector="component=master");
+
+        let IngressAPI = getIngressAPI();
         returnvalues.ingresses = await IngressAPI.listNamespacedIngress(namespace=ns_name,
             pretty=undefined,
             allowWatchBookmarks=undefined,
@@ -163,6 +181,7 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
             //chart_ingressMaster.spec.tls[0].hosts[0] = hostname;
             //chart_ingressMaster.spec.tls[0].secretName = name + "-tls";
 
+            let IngressAPI = getIngressAPI();
             const ingress = await IngressAPI.createNamespacedIngress(namespace=ns_name, body=chart_ingressMaster);
             debug(ingress);
             returnvalues.ingress = ingress;
@@ -181,6 +200,7 @@ async function stop(ns_name, name) {
         returnvalues.deploymentWorker = await AppsV1Api.deleteNamespacedDeployment(name+"-worker", ns_name);
         returnvalues.deploymentMaster = await AppsV1Api.deleteNamespacedDeployment(name+"-master", ns_name);
         returnvalues.service = await CoreV1Api.deleteNamespacedService(name, ns_name);
+        let IngressAPI = getIngressAPI();
         returnvalues.ingress = await IngressAPI.deleteNamespacedIngress(name+"-ingress", ns_name);
     } catch (e) {
         console.log(e);
@@ -257,4 +277,14 @@ async function deleteLocustfile(ns_name, locustfile) {
 }
 
 
-module.exports = {start, stop, init, list, createLocustfile, updateLocustfile, deleteLocustfile, locustfileList};
+module.exports = {
+    getKubeVersion,
+    start,
+    stop,
+    init,
+    list,
+    createLocustfile,
+    updateLocustfile,
+    deleteLocustfile,
+    locustfileList
+};
