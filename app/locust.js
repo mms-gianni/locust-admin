@@ -9,6 +9,7 @@ let locust = {
 };
 
 async function startLoadtest(instanceName, userCount, spawnRate, host) {
+    let instance = locust.instances[instanceName];
 
     let data = {
         user_count: userCount,
@@ -24,7 +25,7 @@ async function startLoadtest(instanceName, userCount, spawnRate, host) {
     if (process.env.EXTERNAL_PORT) {
         instanceURL = `http://${instance.ingressHost}:${process.env.EXTERNAL_PORT}`;
     }
-    axios.get(`${instanceURL}/swarm`, params).then(function(response) {
+    axios.post(`${instanceURL}/swarm`, params).then(function(response) {
         console.log(response.data);
     }).catch(function(error) {
         console.log(error);
@@ -34,6 +35,7 @@ async function startLoadtest(instanceName, userCount, spawnRate, host) {
 }
 
 async function stopLoadtest(instanceName) {
+    let instance = locust.instances[instanceName];
     let instanceURL = `http://${instance.name}:8089`;
     if (process.env.EXTERNAL_PORT) {
         instanceURL = `http://${instance.ingressHost}:${process.env.EXTERNAL_PORT}`;
