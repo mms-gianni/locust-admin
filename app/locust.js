@@ -216,7 +216,22 @@ function getMetrics() {
                     ret_str += `locust_${field} {locust_instance="${i}" ${method}name="${stat.safe_name}"} ${stat[field]}` + "\n";
                 })
             }
+            ret_str += `locust_user_count {locust_instance="${i}"} ${instance.stats.user_count}` + "\n";
+            ret_str += `locust_fail_ratio {locust_instance="${i}"} ${instance.stats.fail_ratio}` + "\n";
+            ret_str += `locust_current_response_time_percentile_50 {locust_instance="${i}"} ${instance.stats.current_response_time_percentile_50}` + "\n";
+            ret_str += `locust_current_response_time_percentile_95 {locust_instance="${i}"} ${instance.stats.current_response_time_percentile_95}` + "\n";
+
+            for (var w in instance.stats.workers) {
+                let worker = instance.stats.workers[w];
+
+                ret_str += `locust_cpu_usage {locust_instance="${i}", worker_id="${worker.id}"} ${worker.cpu_usage}` + "\n";
+                ret_str += `locust_user_count {locust_instance="${i}", worker_id="${worker.id}"} ${worker.user_count}` + "\n";
+            }
         }
+        ret_str += `locust_workers {locust_instance="${i}"} ${instance.status.worker.readyReplicas}` + "\n";
+        ret_str += `locust_requested_spawnRate {locust_instance="${i}"} ${instance.spawnRate}` + "\n";
+        ret_str += `locust_requested_numUsers {locust_instance="${i}"} ${instance.numUsers}` + "\n";
+        ret_str += `locust_requested_workers {locust_instance="${i}"} ${instance.worker}` + "\n";
     }
     ret_str += "locust_instances_total " + Object.keys(locust.instances).length + "\n";
     ret_str += "locust_instances_running " + running_instances + "\n";
