@@ -20,9 +20,11 @@ async function startLoadtest(instanceName, userCount, spawnRate, host) {
     const params = new url.URLSearchParams(data);
     console.log(params);
     
-    // TODO : Make this dynamic changeble
-    axios.post(`http://${locust.instances[instanceName].name}:8089/swarm`, params).then(function(response) {
-    //axios.post(`http://${locust.instances[instanceName].ingressHost}:7081/swarm`, params).then(function(response) {
+    let instanceURL = `http://${instance.name}:8089`;
+    if (process.env.EXTERNAL_PORT) {
+        instanceURL = `http://${instance.ingressHost}:${process.env.EXTERNAL_PORT}`;
+    }
+    axios.get(`${instanceURL}/swarm`, params).then(function(response) {
         console.log(response.data);
     }).catch(function(error) {
         console.log(error);
@@ -32,9 +34,11 @@ async function startLoadtest(instanceName, userCount, spawnRate, host) {
 }
 
 async function stopLoadtest(instanceName) {
-    // TODO : Make this dynamic changeble
-    axios.get(`http://${locust.instances[instanceName].name}:8089/stop`).then(function(response) {
-    //axios.get(`http://${locust.instances[instanceName].ingressHost}:7081/stop`).then(function(response) {
+    let instanceURL = `http://${instance.name}:8089`;
+    if (process.env.EXTERNAL_PORT) {
+        instanceURL = `http://${instance.ingressHost}:${process.env.EXTERNAL_PORT}`;
+    }
+    axios.get(`${instanceURL}/stop`).then(function(response) {
         //console.log(response.data);
         return response.data
     }).catch(function(error) {
