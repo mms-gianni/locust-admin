@@ -5,7 +5,8 @@
   "main": "app/index.js",
   "scripts": {
     "serve": "./node_modules/nodemon/bin/nodemon.js app/index.js --ignore 'client/*.js'  --exec 'npm run lint && node'",
-    "lint": "./node_modules/.bin/eslint '**/*.js' --ignore-pattern 'client/dist/' "
+    "lint": "./node_modules/.bin/eslint '**/*.js' --ignore-pattern 'client/dist/' ",
+    "build": "npm ci && npm ci --prefix client && npm run build --prefix client"
   },
   "keywords": [
     "locust",
