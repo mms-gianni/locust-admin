@@ -49,12 +49,15 @@ function getIngressAPI() {
     if (kubeVersion.minor >= 21) {
         // since version 1.21
         IngressAPI = kc.makeApiClient(k8s.ExtensionsV1beta1Api);
+        IngressAPI.apiVersion = "extensions/v1beta1";
     } else if (kubeVersion.minor >= 19 && kubeVersion.minor < 21) {
-        // since version 1.19
+        // in version 1.19 and 1.20
         IngressAPI = kc.makeApiClient(k8s.NetworkingV1Api);
+        IngressAPI.apiVersion = "networking.k8s.io/v1";
     } else {
-        // since version 1.1 
+        // since version 1.1 to 1.18
         IngressAPI = kc.makeApiClient(k8s.NetworkingV1beta1Api);
+        IngressAPI.apiVersion = "networking.k8s.io/v1beta1";
     }
     return IngressAPI;
 }
@@ -175,6 +178,8 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
     if (hostname != undefined) {
         // create a new ingress
         try {
+            let IngressAPI = getIngressAPI();
+            chart_ingressMaster.apiVersion = IngressAPI.apiVersion;
             chart_ingressMaster.metadata.name = name + "-ingress";
             chart_ingressMaster.metadata.labels.instance = name;
             chart_ingressMaster.spec.rules[0].host = hostname;
@@ -185,7 +190,6 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
             //chart_ingressMaster.spec.tls[0].hosts[0] = hostname;
             //chart_ingressMaster.spec.tls[0].secretName = name + "-tls";
 
-            let IngressAPI = getIngressAPI();
             const ingress = await IngressAPI.createNamespacedIngress(namespace=ns_name, body=chart_ingressMaster);
             debug(ingress);
             returnvalues.ingress = ingress;
