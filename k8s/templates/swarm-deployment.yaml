@@ -50,6 +50,8 @@ spec:
           {{ end -}}
           - name: NAMESPACE
             value: "{{ .Values.swarm.namespace }}"
+          - name: LOCUST_IMAGE
+            value: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
         ports:
           - containerPort: 8080
             name: loc-master-web

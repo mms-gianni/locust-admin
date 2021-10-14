@@ -129,6 +129,7 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
         chart_deploymentMaster.spec.selector.matchLabels.instance = name;
         chart_deploymentMaster.spec.template.metadata.labels.instance = name;
 
+        chart_deploymentMaster.spec.template.spec.containers[0].image = process.env.LOCUST_IMAGE || "locustio/locust:2.1.0";
         chart_deploymentMaster.spec.template.spec.containers[0].env[0].value = testHost || "https://www.google.com"; // LOCUST_HOST
         chart_deploymentMaster.spec.template.spec.containers[0].env[1].value = numUsers || "1"; // LOCUST_NUM_USERS
         chart_deploymentMaster.spec.template.spec.containers[0].env[2].value = spawnRate || "1"; // LOCUST_SPAWN_RATE
@@ -148,6 +149,7 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
         chart_deploymentWorker.spec.selector.matchLabels.instance = name;
         chart_deploymentWorker.spec.template.metadata.labels.instance = name;
 
+        chart_deploymentWorker.spec.template.spec.containers[0].image = process.env.LOCUST_IMAGE || "locustio/locust:2.1.0";
         chart_deploymentWorker.spec.template.spec.containers[0].env[0].value = testHost || "https://www.google.com"; // LOCUST_HOST
         chart_deploymentWorker.spec.template.spec.containers[0].env[1].value = numUsers || "1"; // LOCUST_NUM_USERS
         chart_deploymentWorker.spec.template.spec.containers[0].env[2].value = spawnRate || "1"; // LOCUST_SPAWN_RATE

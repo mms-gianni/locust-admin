@@ -1,37 +1,3 @@
-loadtest:
-  # loadtest.name -- a name used for resources and settings in this load test
-  name: example
-  # loadtest.locust_locustfile -- the name of the locustfile
-  locust_locustfile: main.py
-  # loadtest.locust_locustfile_configmap -- name of a configmap containing your locustfile
-  locust_locustfile_configmap: ""
-  # loadtest.locust_lib_configmap -- name of a configmap containing your lib
-  locust_lib_configmap: ""
-  # loadtest.locust_host -- the host you will load test
-  locust_host: https://www.google.com
-  # loadtest.pip_packages -- a list of extra python pip packages to install
-  pip_packages: []
-  # loadtest.environment -- environment variables used in the load test for both master and workers
-  environment: {}
-    # VAR: VALUE
-  # loadtest.environment_secret -- environment variables used in the load test for both master and workers, stored as secrets
-  environment_secret: {}
-    # VAR: VALUE
-  # loadtest.environment_external_secret -- environment variables used in the load test for both master and workers, stored in secrets created outside this chart. Each secret contains a list of values in it. Usage: `secret_name: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]`
-  environment_external_secret: {}
-    # SECRET_NAME: VAR
-  # loadtest.mount_external_secret -- additional mount used in the load test for both master and workers, stored in secrets created outside this chart. Each secret contains a list of values in it. Usage: `mountPath: yourMountLocation, files: { secret_name: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY] }`
-  mount_external_secret: {}
-    # mountPath: yourMountLocation
-    # files:
-      # secret_name: var
-  # loadtest.headless -- whether to run locust with headless settings
-  headless: false
-  # loadtest.tags -- whether to run locust with `--tags [TAG [TAG ...]]` options, so only tasks with any matching tags will be executed
-  tags: ""
-  # loadtest.excludeTags -- whether to run locust with `--exclude-tags [TAG [TAG ...]]` options, so only tasks with no matching tags will be executed
-  excludeTags: ""
-
 swarm:
   serviceAccount:
     create: true
