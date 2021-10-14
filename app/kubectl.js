@@ -46,7 +46,7 @@ async function getKubeVersion() {
 
 function getIngressAPI() {
     let IngressAPI
-    if (kubeVersion.minor >= 20) {
+    if (kubeVersion.minor >= 21) {
         IngressAPI = kc.makeApiClient(k8s.ExtensionsV1beta1Api);
     } else {
         IngressAPI = kc.makeApiClient(k8s.NetworkingV1beta1Api);
