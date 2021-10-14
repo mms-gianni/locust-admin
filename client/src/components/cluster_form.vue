@@ -27,6 +27,7 @@
                 <v-text-field
                   label="Name*"
                   v-model="name"
+                  :rules="nameRules"
                   required
                 ></v-text-field>
               </v-col>
@@ -47,6 +48,7 @@
                 <v-text-field
                   v-model="hostname"
                   hint="Hostname to access the Locust instance"
+                  :rules="hostRules"
                   label="Hostname"
                 ></v-text-field>
               </v-col>
@@ -56,6 +58,7 @@
                 <v-text-field
                   v-model="workers"
                   hint="Number of worker nodes to start"
+                  :rules="numberRules"
                   label="Workers"
                 ></v-text-field>
               </v-col>
@@ -65,6 +68,7 @@
                 <v-text-field
                   v-model="testHost"
                   hint="The Host you want run the test on"
+                  :rules="urlRules"
                   label="Test Host"
                 ></v-text-field>
               </v-col>
@@ -74,6 +78,7 @@
                 <v-text-field
                   v-model="numUsers"
                   hint="Number of users"
+                  :rules="numberRules"
                   label="Users"
                 ></v-text-field>
               </v-col>
@@ -83,8 +88,35 @@
                 <v-text-field
                   v-model="spawnRate"
                   hint="Spawn rate"
+                  :rules="numberRules"
                   label="Spawn Rate"
                 ></v-text-field>
+              </v-col>
+              <v-col
+                cols="6"
+              >
+                <v-text-field
+                  v-model="duration"
+                  hint="Seconds"
+                  label="Default Duration"
+                ></v-text-field>
+              </v-col>
+
+              <v-col
+                cols="6"
+              >
+                <v-checkbox
+                  v-model="autostart"
+                  label="Auto start"
+                ></v-checkbox>
+              </v-col>
+              <v-col
+                cols="6"
+              >
+                <v-checkbox
+                  v-model="autodelete"
+                  label="Auto delete"
+                ></v-checkbox>
               </v-col>
             </v-row>
           </v-container>
@@ -117,6 +149,21 @@
 import axios from "axios";
 export default {
     data: () => ({
+      nameRules: [
+        v => !!v || 'Name is required',
+        v => (v && v.length > 4) || 'Name must be more than 4 characters',
+        v => /^[a-zA-Z0-9]+$/.test(v) || 'Name must be alphanumeric',
+      ],
+      hostRules: [
+        v => (v && v.length > 4) || 'Name must be more than 4 characters',
+        v => /^(([a-zA-Z0-9]|[a-zA-Z0-9][a-zA-Z0-9-]*[a-zA-Z0-9])\.)*([A-Za-z0-9]|[A-Za-z0-9][A-Za-z0-9-]*[A-Za-z0-9])$/.test(v) || 'Must be valid hostname',
+      ],
+      numberRules: [
+        v => (v && v > 0) || 'Number must be more than 0',
+      ],
+      urlRules: [
+        v => /^(?:(?:(?:https?|ftp):)?\/\/)(?:\S+(?::\S*)?@)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:[/?#]\S*)?$/i.test(v) || 'Must be valid URL'
+      ],
       dialog: false,
       locustfiles: [],
       name: '',
