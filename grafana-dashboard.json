@@ -16,7 +16,7 @@
     "gnetId": null,
     "graphTooltip": 0,
     "id": 133,
-    "iteration": 1634163806842,
+    "iteration": 1634211598394,
     "links": [],
     "panels": [
       {
@@ -213,7 +213,8 @@
         },
         "id": 19,
         "panels": [],
-        "title": "Main",
+        "repeat": "locust_instance",
+        "title": "Instance $locust_instance",
         "type": "row"
       },
       {
@@ -297,7 +298,8 @@
                   "value": 80
                 }
               ]
-            }
+            },
+            "unit": "percent"
           },
           "overrides": []
         },
@@ -322,7 +324,7 @@
         "pluginVersion": "7.1.0",
         "targets": [
           {
-            "expr": "avg(locust_fail_ratio)",
+            "expr": "avg(locust_fail_ratio{locust_instance=\"$locust_instance\"})*100",
             "interval": "",
             "legendFormat": "",
             "refId": "A"
@@ -373,7 +375,7 @@
         "strokeWidth": 1,
         "targets": [
           {
-            "expr": "sum by (method) (rate(locust_num_requests[10s]))",
+            "expr": "sum by (method) (rate(locust_num_requests{locust_instance=\"$locust_instance\"}[10s]))",
             "interval": "",
             "legendFormat": "{{method}}",
             "refId": "A"
@@ -406,7 +408,7 @@
           "y": 5
         },
         "hiddenSeries": false,
-        "id": 15,
+        "id": 2,
         "legend": {
           "avg": false,
           "current": false,
@@ -424,23 +426,37 @@
         "pointradius": 2,
         "points": false,
         "renderer": "flot",
-        "seriesOverrides": [],
+        "seriesOverrides": [
+          {
+            "alias": "Fails per Second",
+            "color": "#C4162A"
+          }
+        ],
         "spaceLength": 10,
         "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "locust_avg_response_time",
+            "expr": "sum(locust_current_rps{locust_instance=\"$locust_instance\"})",
+            "format": "time_series",
             "interval": "",
-            "legendFormat": "{{locust_instance}} {{name}}",
+            "legendFormat": "Requests per Second",
             "refId": "A"
+          },
+          {
+            "expr": "0.0 - sum(locust_current_fail_per_sec{locust_instance=\"$locust_instance\"})",
+            "format": "time_series",
+            "instant": false,
+            "interval": "",
+            "legendFormat": "Fails per Second",
+            "refId": "B"
           }
         ],
         "thresholds": [],
         "timeFrom": null,
         "timeRegions": [],
         "timeShift": null,
-        "title": "Response Time",
+        "title": "Requests",
         "tooltip": {
           "shared": true,
           "sort": 0,
@@ -557,7 +573,7 @@
           "y": 13
         },
         "hiddenSeries": false,
-        "id": 2,
+        "id": 15,
         "legend": {
           "avg": false,
           "current": false,
@@ -577,28 +593,21 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": true,
+        "stack": false,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "locust_current_rps",
-            "format": "time_series",
+            "expr": "locust_avg_response_time{locust_instance=\"$locust_instance\"}",
             "interval": "",
-            "legendFormat": "RPS {{locust_instance}} {{name}}",
+            "legendFormat": "{{name}}",
             "refId": "A"
-          },
-          {
-            "expr": "(locust_current_fail_per_sec)",
-            "interval": "",
-            "legendFormat": "FPS {{locust_instance}} {{name}}",
-            "refId": "B"
           }
         ],
         "thresholds": [],
         "timeFrom": null,
         "timeRegions": [],
         "timeShift": null,
-        "title": "Requests",
+        "title": "Response Time",
         "tooltip": {
           "shared": true,
           "sort": 0,
@@ -676,11 +685,11 @@
         "renderer": "flot",
         "seriesOverrides": [],
         "spaceLength": 10,
-        "stack": false,
+        "stack": true,
         "steppedLine": false,
         "targets": [
           {
-            "expr": "sum by (name) (rate(locust_num_requests[10s]))",
+            "expr": "sum by (name) (rate(locust_num_requests{locust_instance=\"$locust_instance\"}[10s]))",
             "interval": "",
             "legendFormat": "{{name}}",
             "refId": "A"
@@ -710,7 +719,7 @@
             "label": null,
             "logBase": 1,
             "max": null,
-            "min": null,
+            "min": "0",
             "show": true
           },
           {
@@ -773,7 +782,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "locust_cpu_usage",
+            "expr": "locust_cpu_usage{locust_instance=\"$locust_instance\"}",
             "interval": "",
             "legendFormat": "{{worker_id}}",
             "refId": "A"
@@ -865,7 +874,7 @@
         "steppedLine": false,
         "targets": [
           {
-            "expr": "locust_user_count",
+            "expr": "locust_user_count{locust_instance=\"$locust_instance\"}",
             "interval": "",
             "legendFormat": "{{worker_id}}",
             "refId": "A"
@@ -999,12 +1008,10 @@
         {
           "allValue": null,
           "current": {
-            "selected": false,
-            "text": "hardtest + test",
-            "value": [
-              "hardtest",
-              "test"
-            ]
+            "selected": true,
+            "tags": [],
+            "text": "",
+            "value": []
           },
           "datasource": "prometheus",
           "definition": "locust_avg_content_length",
@@ -1028,8 +1035,8 @@
       ]
     },
     "time": {
-      "from": "now-3h",
-      "to": "now"
+      "from": "2021-10-14T11:35:55.737Z",
+      "to": "2021-10-14T11:46:43.737Z"
     },
     "timepicker": {
       "refresh_intervals": [
@@ -1047,5 +1054,5 @@
     "timezone": "",
     "title": "Locust Swarmadmin",
     "uid": "bAXZzjv7k",
-    "version": 41
+    "version": 56
   }
