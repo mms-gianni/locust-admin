@@ -47,10 +47,14 @@ async function getKubeVersion() {
 function getIngressAPI() {
     let IngressAPI
     if (kubeVersion.minor >= 21) {
+        // since version 1.21
         IngressAPI = kc.makeApiClient(k8s.ExtensionsV1beta1Api);
+    } else if (kubeVersion.minor >= 19 && kubeVersion.minor < 21) {
+        // since version 1.19
+        IngressAPI = kc.makeApiClient(k8s.NetworkingV1Api);
     } else {
+        // since version 1.1 
         IngressAPI = kc.makeApiClient(k8s.NetworkingV1beta1Api);
-        //IngressAPI = kc.makeApiClient(k8s.NetworkingV1Api);
     }
     return IngressAPI;
 }
