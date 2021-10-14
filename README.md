@@ -18,6 +18,11 @@ helm install -f values.yaml locustswarm . -n locustswarm --create-namespace
 helm upgrade -f values.yaml locustswarm .
 ```
 
+The results are exported and stored in Prometheus. They can easily be displayed on a grafana board
+
+
+![Screenshot](docs/grafana.png) 
+
 ## Docker container environment variables
 For a full list of available environment variables, please visit [.env.example](.env.example)
 
@@ -53,7 +58,7 @@ docker-compose build
 (docker compose it is not usable with you KiND cluster)
 
 ## Possible future features
-- Store loadtest results in a database (MongoDB? or Prometheus? https://github.com/siimon/prom-client) or a Prometheus exporter
-- Add provision support for other clouds (AWS, Google, Azure, Digital Ocean ... )
+- [x] ~~Store loadtest results in a database (MongoDB? or Prometheus? https://github.com/siimon/prom-client) or a Prometheus exporter~~
+- [ ] Add provision support for other clouds (AWS, Google, Azure, Digital Ocean ... )
 
 
