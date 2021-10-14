@@ -173,6 +173,9 @@ export default {
       testHost: 'https://',
       numUsers: '1',
       spawnRate: '1',
+      duration: '',
+      autostart: false,
+      autodelete: false,
     }),
     mounted() {
         this.getConfigList();
@@ -188,6 +191,9 @@ export default {
             testHost: this.testHost,
             numUsers: this.numUsers,
             spawnRate: this.spawnRate,
+            duration: this.duration,
+            autostart: this.autostart,
+            autodelete: this.autodelete,
           }).then(response => {
             this.dialog = false;
             this.name = '';
@@ -197,6 +203,9 @@ export default {
             this.testHost = 'https://';
             this.numUsers = '1';
             this.spawnRate = '1';
+            this.duration = '';
+            this.autostart = false;
+            this.autodelete = false;
             console.log(response);
 
             this.$parent.loadData();
