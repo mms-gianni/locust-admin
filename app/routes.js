@@ -73,17 +73,23 @@ router.get('/instance', async function (req, res, next) {
 });
 
 // Start a new instance of a locust in a namespace
-router.post('/instance/:instance/:locustfile', async function (req, res, next) {
-    const namespace = req.query.namespace || process.env.NAMESPACE;
-    const instance = req.params.instance;
-    const locustfile = req.params.locustfile;
-    const hostname = req.body.hostname;
-    const workers = req.body.workers || 1;
-    const testHost = req.body.testHost || "https://www.google.com"
-    const numUsers = req.body.numUsers || "1";
-    const spawnRate = req.body.spawnRate || "1";
+router.post('/instance/:name/:locustfile', async function (req, res, next) {
 
-    locust.addLocust(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
+    const instance = {
+        namespace: req.query.namespace || process.env.NAMESPACE,
+        name: req.params.name,
+        locustfile: req.params.locustfile,
+        hostname: req.body.hostname || false,
+        workers: req.body.workers || 1,
+        testHost: req.body.testHost || "https://www.google.com",
+        numUsers: req.body.numUsers || "1",
+        spawnRate: req.body.spawnRate || "1",
+        duration: req.body.duration || "",
+        autostart: req.body.autostart || false,
+        autodelete: req.body.autodelete || false,
+    }
+
+    locust.addLocust(instance);
     res.send(locust.locust.instances);
 });
 

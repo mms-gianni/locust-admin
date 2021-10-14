@@ -146,12 +146,12 @@ async function removeLocustfile(namespace, locustfile) {
     debug('removed');
 }
 
-async function addLocust(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate) {
-    result = await kubectl.start(namespace, instance, locustfile, hostname, workers, testHost, numUsers, spawnRate);
+async function addLocust(instance) {
+    result = await kubectl.start(instance);
     if (result.service.response.statusCode == 201) {
-        locust.instances[instance] = {
-            name: instance,
-            namespace: namespace,
+        locust.instances[instance.name] = {
+            name: instance.name,
+            namespace: instance.namespace,
             creationTimestamp: result.service.response.body.metadata.creationTimestamp,
             status: {
                 'master': {
@@ -165,12 +165,15 @@ async function addLocust(namespace, instance, locustfile, hostname, workers, tes
                     'readyReplicas': 0,
                 },
             },
-            locustfile: locustfile,
-            testHost: testHost,
-            numUsers: numUsers,
-            spawnRate: spawnRate,
-            worker: workers,
-            ingressHost: hostname
+            locustfile: instance.locustfile,
+            testHost: instance.testHost,
+            numUsers: instance.numUsers,
+            spawnRate: instance.spawnRate,
+            worker: instance.workers,
+            ingressHost: instance.hostname,
+            duration: instance.duration,
+            autostart: instance.autostart,
+            autodelete: instance.autodelete,
         };
         socket.updatedStatus(locust.instances)
         console.log(locust);

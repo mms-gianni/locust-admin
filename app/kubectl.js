@@ -119,22 +119,24 @@ async function list(ns_name) {
 }
 
 //async function start(ns_name, name, locustfile, hostname=undefined, workers=undefined, hatch_rate=undefined, master_port=undefined, worker_port=undefined, master_url=undefined, worker_url=undefined) {
-async function start(ns_name, name, locustfile, hostname=undefined, workers=1, testHost=undefined, numUsers="1", spawnRate="1"){
+//async function start(ns_name, name, locustfile, hostname=undefined, workers=1, testHost=undefined, numUsers="1", spawnRate="1"){
+async function start(instance){
+    console.log(instance);
     returnvalues = {};
 
     // create a new master deployment
     try {
-        chart_deploymentMaster.metadata.name = name + "-master";
-        chart_deploymentMaster.metadata.labels.instance = name;
-        chart_deploymentMaster.spec.selector.matchLabels.instance = name;
-        chart_deploymentMaster.spec.template.metadata.labels.instance = name;
+        chart_deploymentMaster.metadata.name = instance.name + "-master";
+        chart_deploymentMaster.metadata.labels.instance = instance.name;
+        chart_deploymentMaster.spec.selector.matchLabels.instance = instance.name;
+        chart_deploymentMaster.spec.template.metadata.labels.instance = instance.name;
 
         chart_deploymentMaster.spec.template.spec.containers[0].image = process.env.LOCUST_IMAGE || "locustio/locust:2.1.0";
-        chart_deploymentMaster.spec.template.spec.containers[0].env[0].value = testHost || "https://www.google.com"; // LOCUST_HOST
-        chart_deploymentMaster.spec.template.spec.containers[0].env[1].value = numUsers || "1"; // LOCUST_NUM_USERS
-        chart_deploymentMaster.spec.template.spec.containers[0].env[2].value = spawnRate || "1"; // LOCUST_SPAWN_RATE
-        chart_deploymentMaster.spec.template.spec.volumes[0].configMap.name = locustfile;
-        const deploymentMaster = await AppsV1Api.createNamespacedDeployment(namespace=ns_name, body=chart_deploymentMaster);
+        chart_deploymentMaster.spec.template.spec.containers[0].env[0].value = instance.testHost || "https://www.google.com"; // LOCUST_HOST
+        chart_deploymentMaster.spec.template.spec.containers[0].env[1].value = instance.numUsers || "1"; // LOCUST_NUM_USERS
+        chart_deploymentMaster.spec.template.spec.containers[0].env[2].value = instance.spawnRate || "1"; // LOCUST_SPAWN_RATE
+        chart_deploymentMaster.spec.template.spec.volumes[0].configMap.name = instance.locustfile;
+        const deploymentMaster = await AppsV1Api.createNamespacedDeployment(namespace=instance.namespace, body=chart_deploymentMaster);
         debug(deploymentMaster);
         returnvalues.deploymentMaster = deploymentMaster;
     } catch (e) {
@@ -144,19 +146,19 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
 
     // create a new worker deployment
     try {
-        chart_deploymentWorker.metadata.name = name + "-worker";
-        chart_deploymentWorker.metadata.labels.instance = name;
-        chart_deploymentWorker.spec.selector.matchLabels.instance = name;
-        chart_deploymentWorker.spec.template.metadata.labels.instance = name;
+        chart_deploymentWorker.metadata.name = instance.name + "-worker";
+        chart_deploymentWorker.metadata.labels.instance = instance.name;
+        chart_deploymentWorker.spec.selector.matchLabels.instance = instance.name;
+        chart_deploymentWorker.spec.template.metadata.labels.instance = instance.name;
 
         chart_deploymentWorker.spec.template.spec.containers[0].image = process.env.LOCUST_IMAGE || "locustio/locust:2.1.0";
-        chart_deploymentWorker.spec.template.spec.containers[0].env[0].value = testHost || "https://www.google.com"; // LOCUST_HOST
-        chart_deploymentWorker.spec.template.spec.containers[0].env[1].value = numUsers || "1"; // LOCUST_NUM_USERS
-        chart_deploymentWorker.spec.template.spec.containers[0].env[2].value = spawnRate || "1"; // LOCUST_SPAWN_RATE
-        chart_deploymentWorker.spec.template.spec.containers[0].env[3].value = name; // LOCUST_MASTER_NODE_HOST
-        chart_deploymentWorker.spec.replicas = parseInt(workers);
-        chart_deploymentWorker.spec.template.spec.volumes[0].configMap.name = locustfile;
-        const deploymentWorker = await AppsV1Api.createNamespacedDeployment(namespace=ns_name, body=chart_deploymentWorker);
+        chart_deploymentWorker.spec.template.spec.containers[0].env[0].value = instance.testHost || "https://www.google.com"; // LOCUST_HOST
+        chart_deploymentWorker.spec.template.spec.containers[0].env[1].value = instance.numUsers || "1"; // LOCUST_NUM_USERS
+        chart_deploymentWorker.spec.template.spec.containers[0].env[2].value = instance.spawnRate || "1"; // LOCUST_SPAWN_RATE
+        chart_deploymentWorker.spec.template.spec.containers[0].env[3].value = instance.name; // LOCUST_MASTER_NODE_HOST
+        chart_deploymentWorker.spec.replicas = parseInt(instance.workers);
+        chart_deploymentWorker.spec.template.spec.volumes[0].configMap.name = instance.locustfile;
+        const deploymentWorker = await AppsV1Api.createNamespacedDeployment(namespace=instance.namespace, body=chart_deploymentWorker);
         debug(deploymentWorker);
         returnvalues.deploymentWorker = deploymentWorker;
     } catch (e) {
@@ -166,10 +168,10 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
 
     // create a new service
     try {
-        chart_service.metadata.name = name;
-        chart_service.metadata.labels.instance = name;
-        chart_service.spec.selector.instance = name;
-        const service = await CoreV1Api.createNamespacedService(namespace=ns_name, body=chart_service);
+        chart_service.metadata.name = instance.name;
+        chart_service.metadata.labels.instance = instance.name;
+        chart_service.spec.selector.instance = instance.name;
+        const service = await CoreV1Api.createNamespacedService(namespace=instance.namespace, body=chart_service);
         debug(service);
         returnvalues.service = service;
     } catch (e) {
@@ -177,22 +179,22 @@ async function start(ns_name, name, locustfile, hostname=undefined, workers=1, t
         debug(e);
     }
 
-    if (hostname != undefined) {
+    if (instance.hostname) {
         // create a new ingress
         try {
             let IngressAPI = getIngressAPI();
             chart_ingressMaster.apiVersion = IngressAPI.apiVersion;
-            chart_ingressMaster.metadata.name = name + "-ingress";
-            chart_ingressMaster.metadata.labels.instance = name;
-            chart_ingressMaster.spec.rules[0].host = hostname;
-            chart_ingressMaster.spec.rules[0].http.paths[0].backend.service.name = name;
-            chart_ingressMaster.spec.rules[0].http.paths[0].backend.serviceName = name;
+            chart_ingressMaster.metadata.name = instance.name + "-ingress";
+            chart_ingressMaster.metadata.labels.instance = instance.name;
+            chart_ingressMaster.spec.rules[0].host = instance.hostname;
+            chart_ingressMaster.spec.rules[0].http.paths[0].backend.service.name = instance.name;
+            chart_ingressMaster.spec.rules[0].http.paths[0].backend.serviceName = instance.name;
             //chart_ingressMaster.spec.rules[0].http.paths[0].path = "/";
             //
             //chart_ingressMaster.spec.tls[0].hosts[0] = hostname;
             //chart_ingressMaster.spec.tls[0].secretName = name + "-tls";
 
-            const ingress = await IngressAPI.createNamespacedIngress(namespace=ns_name, body=chart_ingressMaster);
+            const ingress = await IngressAPI.createNamespacedIngress(namespace=instance.namespace, body=chart_ingressMaster);
             debug(ingress);
             returnvalues.ingress = ingress;
         } catch (e) {
