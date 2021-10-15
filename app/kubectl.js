@@ -135,6 +135,12 @@ async function start(instance){
         chart_deploymentMaster.spec.template.spec.containers[0].env[0].value = instance.testHost || "https://www.google.com"; // LOCUST_HOST
         chart_deploymentMaster.spec.template.spec.containers[0].env[1].value = instance.numUsers || "1"; // LOCUST_NUM_USERS
         chart_deploymentMaster.spec.template.spec.containers[0].env[2].value = instance.spawnRate || "1"; // LOCUST_SPAWN_RATE
+        if (instance.run_time != undefined && instance.run_time != "") { 
+            chart_deploymentMaster.spec.template.spec.containers[0].env.push({name: "LOCUST_RUN_TIME", value: instance.run_time });
+        }
+        if (instance.autostart) {
+            chart_deploymentMaster.spec.template.spec.containers[0].env.push({name: "LOCUST_AUTOSTART", value: "true"});
+        }
         chart_deploymentMaster.spec.template.spec.volumes[0].configMap.name = instance.locustfile;
         const deploymentMaster = await AppsV1Api.createNamespacedDeployment(namespace=instance.namespace, body=chart_deploymentMaster);
         debug(deploymentMaster);

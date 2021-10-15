@@ -96,9 +96,9 @@
                 cols="6"
               >
                 <v-text-field
-                  v-model="duration"
+                  v-model="run_time"
                   hint="Seconds"
-                  label="Default Duration"
+                  label="Run Time"
                 ></v-text-field>
               </v-col>
 
@@ -173,7 +173,7 @@ export default {
       testHost: 'https://',
       numUsers: '1',
       spawnRate: '1',
-      duration: '',
+      run_time: '',
       autostart: false,
       autodelete: false,
     }),
@@ -191,7 +191,7 @@ export default {
             testHost: this.testHost,
             numUsers: this.numUsers,
             spawnRate: this.spawnRate,
-            duration: this.duration,
+            run_time: this.run_time,
             autostart: this.autostart,
             autodelete: this.autodelete,
           }).then(response => {
@@ -203,7 +203,7 @@ export default {
             this.testHost = 'https://';
             this.numUsers = '1';
             this.spawnRate = '1';
-            this.duration = '';
+            this.run_time = '';
             this.autostart = false;
             this.autodelete = false;
             console.log(response);

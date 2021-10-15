@@ -171,7 +171,7 @@ async function addLocust(instance) {
             spawnRate: instance.spawnRate,
             worker: instance.workers,
             ingressHost: instance.hostname,
-            duration: instance.duration,
+            run_time: instance.run_time,
             autostart: instance.autostart,
             autodelete: instance.autodelete,
         };
