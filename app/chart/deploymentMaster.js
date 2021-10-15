@@ -9,6 +9,7 @@ deploymentMaster = {
             "component": "master",
             "instance": "example"
         },
+        "annotations": {},
         "name": "my-locust-master",
     },
     "spec": {

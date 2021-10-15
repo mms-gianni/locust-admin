@@ -1,6 +1,7 @@
 const debug = require('debug')('superlocust:watcher');
 const kubectl = require('./kubectl');
 const axios = require('axios');
+const { locust, removeLocust } = require('./locust');
 
 function loadStats(status) {
     for (let i in status.instances) {
@@ -46,7 +47,23 @@ async function watcher(status) {
         debug(err);
     });
     loadStats(status);
+    autodelete(status);
     debug(status);
+}
+
+function autodelete(status) {
+    for (let i in status.instances) {
+        let instance = status.instances[i];
+        if (instance.autodelete && 
+            instance.status.master && 
+            instance.status.master.readyReplicas > 0 &&
+            instance.stats && 
+            (instance.stats.state == 'stopping' || instance.stats.state == 'stopped')
+            ) {
+            removeLocust(instance.namespace, instance.name);
+            console.log("autodelete");
+        }
+    }
 }
 
 module.exports = watcher;

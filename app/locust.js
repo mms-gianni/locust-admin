@@ -92,11 +92,33 @@ async function init() {
                 locust.instances[workerName].status.worker.unavailableReplicas = element.status.unavailableReplicas || 0;
                 locust.instances[workerName].status.worker.readyReplicas = element.status.readyReplicas || 0;
             }
+
             if (element.metadata.name.endsWith("-master")) {
                 let masterinstance = element.metadata.name.replace("-master", "")
-                locust.instances[masterinstance]['testHost'] = element.spec.template.spec.containers[0].env[0].value;
-                locust.instances[masterinstance]['numUsers'] = element.spec.template.spec.containers[0].env[1].value;
-                locust.instances[masterinstance]['spawnRate'] = element.spec.template.spec.containers[0].env[2].value;
+
+                if (element.metadata.annotations.autodelete) {
+                    locust.instances[masterinstance]['autodelete'] = true;
+                } else {
+                    locust.instances[masterinstance]['autodelete'] = false;
+                }
+
+                // iterate over container environment variables
+                element.spec.template.spec.containers[0].env.forEach(env => {
+                    if (env.name === 'LOCUST_HOST') {
+                        locust.instances[masterinstance]['testHost'] = env.value;
+                    }
+                    if (env.name === 'LOCUST_USERS') {
+                        locust.instances[masterinstance]['numUsers'] = env.value;
+                    }
+                    if (env.name === 'LOCUST_SPAWN_RATE') {
+                        locust.instances[masterinstance]['spawnRate'] = env.value;
+                    }
+                    if (env.name === 'LOCUST_AUTOSTART') {
+                        locust.instances[masterinstance]['autostart'] = true;
+                    } else {
+                        locust.instances[masterinstance]['autostart'] = false;
+                    }
+                });
                 locust.instances[masterinstance]['locustfile'] = element.spec.template.spec.volumes[0].configMap.name;
                 locust.instances[masterinstance].status.master.replicas = element.status.replicas;
                 locust.instances[masterinstance].status.master.unavailableReplicas = element.status.unavailableReplicas || 0;

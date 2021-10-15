@@ -118,8 +118,6 @@ async function list(ns_name) {
     return returnvalues;
 }
 
-//async function start(ns_name, name, locustfile, hostname=undefined, workers=undefined, hatch_rate=undefined, master_port=undefined, worker_port=undefined, master_url=undefined, worker_url=undefined) {
-//async function start(ns_name, name, locustfile, hostname=undefined, workers=1, testHost=undefined, numUsers="1", spawnRate="1"){
 async function start(instance){
     console.log(instance);
     returnvalues = {};
@@ -127,6 +125,7 @@ async function start(instance){
     // create a new master deployment
     try {
         chart_deploymentMaster.metadata.name = instance.name + "-master";
+        chart_deploymentMaster.metadata.annotations.autodelete = instance.autodelete.toString();
         chart_deploymentMaster.metadata.labels.instance = instance.name;
         chart_deploymentMaster.spec.selector.matchLabels.instance = instance.name;
         chart_deploymentMaster.spec.template.metadata.labels.instance = instance.name;
