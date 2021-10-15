@@ -84,7 +84,7 @@ router.post('/instance/:name/:locustfile', async function (req, res, next) {
         testHost: req.body.testHost || "https://www.google.com",
         numUsers: req.body.numUsers || "1",
         spawnRate: req.body.spawnRate || "1",
-        run_time: req.body.run_time,
+        run_time: req.body.run_time || "",
         autostart: req.body.autostart || false,
         autodelete: req.body.autodelete || false,
     }
