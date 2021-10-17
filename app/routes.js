@@ -29,7 +29,7 @@ router.get('/status', async function (req, res, next) {
     res.send(locust.locust);
 });
 
-// create a new locustfile in a namespace
+// create a new locustfile
 router.post('/locustfile/:locustfile', async function (req, res, next) {
     const namespace = req.query.namespace || process.env.NAMESPACE;
     const locustfile = req.params.locustfile;
@@ -39,7 +39,7 @@ router.post('/locustfile/:locustfile', async function (req, res, next) {
     res.send(locust.locust.locustfiles);
 });
 
-// create a new locustfile in a namespace
+// create a new locustfile
 router.delete('/locustfile/:locustfile', async function (req, res, next) {
     const namespace = req.query.namespace || process.env.NAMESPACE;
     const locustfile = req.params.locustfile;
@@ -47,7 +47,7 @@ router.delete('/locustfile/:locustfile', async function (req, res, next) {
     res.send(locust.locust.locustfiles);
 });
 
-// get the locustfile in a namespace
+// get a list of locustfiles
 router.get('/locustfile', async function (req, res, next) {
 
     const namespace = req.query.namespace || process.env.NAMESPACE;
