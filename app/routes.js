@@ -63,8 +63,8 @@ router.get('/namespace/:namespace/init', async function (req, res, next) {
 
     res.send(result);
 });
+
 // get list of locust instances in a namespace
-// DEPRECATED
 router.get('/instance', async function (req, res, next) {
     const namespace = req.query.namespace || process.env.NAMESPACE;
     const result = await kubectl.list(namespace);
@@ -73,11 +73,11 @@ router.get('/instance', async function (req, res, next) {
 });
 
 // Start a new instance of a locust in a namespace
-router.post('/instance/:name/:locustfile', async function (req, res, next) {
+router.post('/instance/:instance/:locustfile', async function (req, res, next) {
 
     const instance = {
         namespace: req.query.namespace || process.env.NAMESPACE,
-        name: req.params.name,
+        name: req.params.instance,
         locustfile: req.params.locustfile,
         hostname: req.body.hostname || false,
         workers: req.body.workers || 1,

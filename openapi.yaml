@@ -116,7 +116,7 @@ paths:
         required: false
         schema:
           type: string
-      - name: "name"
+      - name: "instance"
         in: "path"
         description: "Name of the instance to create"
         required: true
