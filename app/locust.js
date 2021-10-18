@@ -245,7 +245,7 @@ function getMetrics() {
             }
             for (var e in instance.stats.errors) {
                 let error = instance.stats.errors[e];
-                ret_str += `locust_num_errors {locust_instance="${i}" method="${error.method}" name="${error.name}"} error="${error.error.replace(/&quot;|&#x27;/g, '')}"} ${error.occurrences}` + "\n";
+                ret_str += `locust_num_errors {locust_instance="${i}" method="${error.method}" name="${error.name}" error="${error.error.replace(/&quot;|&#x27;/g, '')}"} ${error.occurrences}` + "\n";
             }
             ret_str += `locust_user_count {locust_instance="${i}"} ${instance.stats.user_count}` + "\n";
             ret_str += `locust_fail_ratio {locust_instance="${i}"} ${instance.stats.fail_ratio}` + "\n";
