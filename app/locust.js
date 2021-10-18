@@ -96,7 +96,7 @@ async function init() {
             if (element.metadata.name.endsWith("-master")) {
                 let masterinstance = element.metadata.name.replace("-master", "")
 
-                if (element.metadata.annotations.autodelete) {
+                if (element.metadata.annotations.autodelete && element.metadata.annotations.autodelete == "true") {
                     locust.instances[masterinstance]['autodelete'] = true;
                 } else {
                     locust.instances[masterinstance]['autodelete'] = false;
@@ -242,6 +242,10 @@ function getMetrics() {
                     let method = stat.method != null ? `method="${stat.method}" ` : "";
                     ret_str += `locust_${field} {locust_instance="${i}" ${method}name="${stat.safe_name}"} ${stat[field]}` + "\n";
                 })
+            }
+            for (var e in instance.stats.errors) {
+                let error = instance.stats.errors[e];
+                ret_str += `locust_num_errors {locust_instance="${i}" method="${error.method}" name="${error.name}"} error="${error.error.replace(/&quot;|&#x27;/g, '')}"} ${error.occurrences}` + "\n";
             }
             ret_str += `locust_user_count {locust_instance="${i}"} ${instance.stats.user_count}` + "\n";
             ret_str += `locust_fail_ratio {locust_instance="${i}"} ${instance.stats.fail_ratio}` + "\n";
