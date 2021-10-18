@@ -99,7 +99,7 @@ deploymentMaster = {
                                 "scheme": "HTTP"
                             },
                             "initialDelaySeconds": 5,
-                            "periodSeconds": 30,
+                            "periodSeconds": 3,
                             "successThreshold": 1,
                             "timeoutSeconds": 30
                         },

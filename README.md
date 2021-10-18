@@ -20,7 +20,7 @@ helm upgrade -f values.yaml locustswarm .
 
 The results are exported and stored in Prometheus. They can easily be displayed on a grafana board
 
-
+https://grafana.com/grafana/dashboards/15109
 ![Screenshot](docs/grafana.png) 
 
 ## Docker container environment variables
