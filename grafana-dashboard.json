@@ -70,7 +70,7 @@
   "gnetId": null,
   "graphTooltip": 0,
   "id": null,
-  "iteration": 1634211598395,
+  "iteration": 1634568214152,
   "links": [],
   "panels": [
     {
@@ -1012,19 +1012,37 @@
         "overrides": [
           {
             "matcher": {
-              "id": "byName"
+              "id": "byName",
+              "options": "name"
             },
-            "properties": []
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Path"
+              }
+            ]
           },
           {
             "matcher": {
               "id": "byName",
-              "options": "Value"
+              "options": "Value #B"
             },
             "properties": [
               {
                 "id": "displayName",
                 "value": "Requests"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value #A"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Failures"
               }
             ]
           }
@@ -1038,7 +1056,7 @@
       },
       "id": 30,
       "options": {
-        "frameIndex": 4,
+        "frameIndex": 1,
         "showHeader": true,
         "sortBy": [
           {
@@ -1050,8 +1068,19 @@
       "pluginVersion": "7.1.0",
       "targets": [
         {
-          "expr": "sum by (method, name, locust_instance) (rate(locust_num_requests[10s]))",
+          "expr": "sum(locust_num_requests) by (method, name)",
           "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        },
+        {
+          "expr": "sum(locust_num_failures) by (method, name)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
           "interval": "",
           "legendFormat": "",
           "refId": "A"
@@ -1059,8 +1088,124 @@
       ],
       "timeFrom": null,
       "timeShift": null,
-      "title": "Logs",
-      "transformations": [],
+      "title": "Requests",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "method",
+                "name",
+                "Value #B",
+                "Value #A"
+              ]
+            }
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
+      "type": "table"
+    },
+    {
+      "datasource": "${DS_PROMETHEUS}",
+      "fieldConfig": {
+        "defaults": {
+          "custom": {
+            "align": null
+          },
+          "mappings": [],
+          "noValue": "0",
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "red",
+                "value": 80
+              }
+            ]
+          }
+        },
+        "overrides": [
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "name"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Path"
+              }
+            ]
+          },
+          {
+            "matcher": {
+              "id": "byName",
+              "options": "Value"
+            },
+            "properties": [
+              {
+                "id": "displayName",
+                "value": "Errors"
+              }
+            ]
+          }
+        ]
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 34
+      },
+      "id": 31,
+      "options": {
+        "frameIndex": 1,
+        "showHeader": true,
+        "sortBy": []
+      },
+      "pluginVersion": "7.1.0",
+      "targets": [
+        {
+          "expr": "sum(locust_num_errors) by (error)",
+          "format": "table",
+          "hide": false,
+          "instant": true,
+          "interval": "",
+          "legendFormat": "",
+          "refId": "B"
+        }
+      ],
+      "timeFrom": null,
+      "timeShift": null,
+      "title": "Errors",
+      "transformations": [
+        {
+          "id": "filterFieldsByName",
+          "options": {
+            "include": {
+              "names": [
+                "method",
+                "name",
+                "error",
+                "Value"
+              ]
+            }
+          }
+        },
+        {
+          "id": "merge",
+          "options": {}
+        }
+      ],
       "type": "table"
     }
   ],
@@ -1094,10 +1239,6 @@
       }
     ]
   },
-  "time": {
-    "from": "2021-10-14T11:35:55.737Z",
-    "to": "2021-10-14T11:46:43.737Z"
-  },
   "timepicker": {
     "refresh_intervals": [
       "10s",
@@ -1114,5 +1255,5 @@
   "timezone": "",
   "title": "Locust Swarmadmin",
   "uid": "bAXZzjv7k",
-  "version": 56
+  "version": 67
 }

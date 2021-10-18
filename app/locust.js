@@ -255,8 +255,8 @@ function getMetrics() {
             for (var w in instance.stats.workers) {
                 let worker = instance.stats.workers[w];
 
-                ret_str += `locust_cpu_usage {locust_instance="${i}", worker_id="${worker.id}"} ${worker.cpu_usage}` + "\n";
-                ret_str += `locust_user_count {locust_instance="${i}", worker_id="${worker.id}"} ${worker.user_count}` + "\n";
+                ret_str += `locust_cpu_usage {locust_instance="${i}", state="${worker.state}" worker_id="${worker.id}"} ${worker.cpu_usage}` + "\n";
+                ret_str += `locust_user_count {locust_instance="${i}", state="${worker.state}" worker_id="${worker.id}"} ${worker.user_count}` + "\n";
             }
         }
         ret_str += `locust_workers {locust_instance="${i}"} ${instance.status.worker.readyReplicas}` + "\n";
