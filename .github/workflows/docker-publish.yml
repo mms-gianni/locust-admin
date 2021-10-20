@@ -28,7 +28,7 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set Version
-        if: ${{ github.event.release.tag_name }} != ''
+        if: ${{ github.event.release.tag_name != '' }}
         run: |
           echo "Setting version to ${{ github.event.release.tag_name }}"
           sed -i 's/HEAD/${{ github.event.release.tag_name }}/g' app/locust.js
