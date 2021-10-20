@@ -40,14 +40,20 @@
         <v-main>
             <router-view></router-view>
         </v-main>
+        
+        <Appfooter swarmversion="v0.0.6" :kubeversion="status.kubeVersion.gitVersion" />
     </v-app>
 </template>
 
 <script>
 import axios from "axios";
+import Appfooter from "./components/appfooter.vue";
 
 export default {
     name: "App",
+    components: {
+        Appfooter
+    },
     mounted() {
         axios
             .get("/api/status")
