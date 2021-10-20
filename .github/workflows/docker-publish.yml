@@ -27,14 +27,15 @@ jobs:
     steps:
       - uses: actions/checkout@v2
 
-      - name: Build images
-        run: | 
-          docker build . --file Dockerfile --tag ${IMAGE_NAME}
-
       - name: Set Version
         if: ${{ github.event.release.tag_name }} != ''
         run: |
+          echo "Setting version to ${{ github.event.release.tag_name }}"
           sed -i 's/HEAD/${{ github.event.release.tag_name }}/g' app/locust.js
+
+      - name: Build images
+        run: | 
+          docker build . --file Dockerfile --tag ${IMAGE_NAME}
 
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
