@@ -51,14 +51,10 @@ export KUBECONFIG_BASE64=$(kind get kubeconfig --name superlocust --internal | b
 cd client && npm run build && cd .. && npm run serve
 ```
 
-### build a local docker image
-```
-docker-compose build
-``` 
-(docker compose it is not usable with you KiND cluster)
+
 
 ## Possible future features
 - [x] ~~Store loadtest results in a database (MongoDB? or Prometheus? https://github.com/siimon/prom-client) or a Prometheus exporter~~
-- [ ] Add provision support for other clouds (AWS, Google, Azure, Digital Ocean ... )
+- [ ] ~~Add provision support for other clouds (AWS, Google, Azure, Digital Ocean ... )~~ won't be implemented since it would be to complicated to maintain
 
 
