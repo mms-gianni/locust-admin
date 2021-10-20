@@ -56,6 +56,8 @@ async function init() {
     try {
         debug('loading');
 
+        locust.swarmversion = "HEAD";
+
         //load initial kubernetes version
         locust.kubeVersion = await kubectl.getKubeVersion();
 

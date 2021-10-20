@@ -31,6 +31,11 @@ jobs:
         run: | 
           docker build . --file Dockerfile --tag ${IMAGE_NAME}
 
+      - name: Set Version
+        if: ${{ github.event.release.tag_name }} != ''
+        run: |
+          sed -i 's/HEAD/${{ github.event.release.tag_name }}/g' app/locust.js
+
       - name: Log into registry
         run: echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 

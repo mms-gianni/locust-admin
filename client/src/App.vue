@@ -41,7 +41,7 @@
             <router-view></router-view>
         </v-main>
         
-        <Appfooter swarmversion="v0.0.6" :kubeversion="status.kubeVersion.gitVersion" />
+        <Appfooter :swarmversion="status.swarmversion" :kubeversion="status.kubeVersion.gitVersion" />
     </v-app>
 </template>
 
