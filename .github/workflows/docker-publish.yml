@@ -58,7 +58,7 @@ jobs:
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
 
-          VERSION=${{ steps.set-version.outputs.VERSION }}"
+          VERSION=${{ steps.set-version.outputs.VERSION }}
 
           echo "docker image : $IMAGE_ID:${VERSION}"
 
@@ -79,7 +79,7 @@ jobs:
 
           echo IMAGE_ID=$IMAGE_ID
           
-          VERSION=${{ steps.set-version.outputs.VERSION }}"
+          VERSION=${{ steps.set-version.outputs.VERSION }}
 
           echo "docker image : $IMAGE_ID:${VERSION}"
 
