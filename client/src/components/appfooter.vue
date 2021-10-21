@@ -2,7 +2,7 @@
   <v-footer padless>
     <v-col
       cols="12"
-      class="gray lighten-2 text-center"
+      class="grey lighten-2 text-center"
     >
       <strong>Swarmadmin</strong> {{ swarmversion }} | 
       <strong>Kubernetes API</strong> {{ kubeversion }}
