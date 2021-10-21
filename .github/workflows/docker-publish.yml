@@ -42,7 +42,7 @@ jobs:
           echo "Setting version to $VERSION"
           echo "::set-output name=VERSION::$VERSION"
 
-          sed -i 's/HEAD/$VERSION/g' app/locust.js
+          sed -i "s/HEAD/$VERSION/g" app/locust.js
 
       - name: Build images
         run: | 
