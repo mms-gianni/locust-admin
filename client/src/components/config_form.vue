@@ -31,15 +31,47 @@
                 ></v-text-field>
               </v-col>
 
-              <v-col
-                cols="12"
-              >
-                <v-textarea
-                  filled
-                  name="input-7-4"
-                  v-model="locustfile"
-                  label="Locustfile.py*"
-                ></v-textarea>
+              <v-col cols="12">
+                <v-tabs v-model="tab">
+                  <v-tab
+                    v-for="item in items"
+                    :key="item"
+                  >
+                    {{ item }}
+                  </v-tab>
+                </v-tabs>
+                <v-tabs-items v-model="tab">
+                  <v-tab-item>
+                    <v-card flat>
+                      <v-textarea
+                        filled
+                        name="input-7-4"
+                        v-model="locustfile"
+                        label="Locustfile.py*"
+                        rows="20"
+                      ></v-textarea>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card flat>
+                      <v-text-field
+                        label="URL"
+                        v-model="locustfile_url"
+                      ></v-text-field>
+                    </v-card>
+                  </v-tab-item>
+                  <v-tab-item>
+                    <v-card flat>
+                      <v-file-input
+                        truncate-length="15"
+                        accept=".py,.txt"
+                        show-size
+                        v-model="locustfile_file"
+                      ></v-file-input>
+                    </v-card>
+                  </v-tab-item>
+                </v-tabs-items>
+
               </v-col>
             </v-row>
           </v-container>
@@ -76,24 +108,49 @@ export default {
       dialog: false,
       name: '',
       locustfile: '',
+      locustfile_url: '',
+      locustfile_file: {},
+      tab: null,
+      items: [
+        'Editor', 'URL', 'File Upload'
+      ],
     }),
     methods: {
-      saveForm () {
-        console.log(this.name);
-        console.log(this.locustfile);
-        axios.post(`/api/locustfile/${this.name}`, {
-          name: this.name,
-          content: this.locustfile,
-        }).then(response => {
+      submitData(name, content) {
+        axios.post(`/api/locustfile/${name}`, {
+          name: name,
+          content: content
+        })
+        .then(response => {
           this.dialog = false;
           this.name = '';
           this.locustfile = '';
+          this.locustfile_url = '';
+          this.locustfile_file = {};
+          this.tab = null;
           console.log(response);
-
           this.$parent.getConfigList();
-        }).catch(error => {
+        })
+        .catch(error => {
           console.log(error);
         });
+      },
+      saveForm () {
+        switch (this.tab) {
+          case 0:
+            this.submitData(this.name, this.locustfile);
+            break;
+          case 1:
+            axios.get(this.locustfile_url).then(response => {
+              this.submitData(this.name, response.data);
+            });
+            break;
+          case 2:
+            this.locustfile_file.text().then(content => {
+              this.submitData(this.name, content);
+            });
+            break;
+        }
       },
     },
 }

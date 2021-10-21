@@ -65,7 +65,12 @@ export default {
             });
     },
     data: () => ({
-        status: {},
+      status: {
+        swarmversion: "",
+        kubeVersion: {
+          gitVersion: ""
+        }
+      }
     }),
 };
 </script>

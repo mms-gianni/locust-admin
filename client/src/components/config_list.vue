@@ -89,7 +89,7 @@ export default {
         removeConfig(item) {
             axios.delete(`/api/locustfile/${item.name}`)
             .then(response => {
-                console.log(response);
+                console.log(response.statusText);
                 const index = this.locustfiles.indexOf(item);
                 this.locustfiles.splice(index, 1);
             }).catch(error => {
@@ -104,7 +104,7 @@ export default {
                 .then(response => {
                     let configslist = response.data.locustfiles.response.body.items;
                     configslist.forEach(element => {
-                        console.log(element.metadata.name);
+                        //console.log(element.metadata.name);
                         this.locustfiles.push({
                             name: element.metadata.name,
                             namespace: element.metadata.namespace,
