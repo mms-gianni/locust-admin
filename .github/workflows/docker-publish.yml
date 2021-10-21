@@ -28,10 +28,22 @@ jobs:
       - uses: actions/checkout@v2
 
       - name: Set Version
-        if: ${{ github.event.release.tag_name != '' }}
+        id: set-version
         run: |
+          # Strip git ref prefix from version
+          VERSION=$(echo "${{ github.ref }}" | sed -e 's,.*/\(.*\),\1,')
+
+          # Strip "v" prefix from tag name
+          # [[ "${{ github.ref }}" == "refs/tags/"* ]] && VERSION=$(echo $VERSION | sed -e 's/^v//')
+
+          # Use Docker `latest` tag convention
+          [ "$VERSION" == "master" ] && VERSION=latest
+
+          echo VERSION=$VERSION
+          echo "::set-output name=VERSION::$VERSION"
+
           echo "Setting version to ${{ github.event.release.tag_name }}"
-          sed -i 's/HEAD/${{ github.event.release.tag_name }}/g' app/locust.js
+          sed -i 's/HEAD/$VERSION/g' app/locust.js
 
       - name: Build images
         run: | 
