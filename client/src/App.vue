@@ -17,22 +17,31 @@
                     <v-list-item-icon>
                     <v-icon>mdi-server</v-icon>
                     </v-list-item-icon>
-                    <v-list-item-title>Clusters</v-list-item-title>
+                    <v-list-item-title>Instances</v-list-item-title>
                 </v-list-item>
-                <!--
-                <v-list-item link to="/test">
-                    <v-list-item-icon>
-                    <v-icon>mdi-arm-flex-outline</v-icon>
-                    </v-list-item-icon>
-                    <v-list-item-title>Loadtest Results</v-list-item-title>
-                </v-list-item>
-                -->
+                
                 <v-list-item link to="/configlist">
                     <v-list-item-icon>
-                    <v-icon>mdi-cog-outline</v-icon>
+                    <v-icon>mdi-file-cog-outline</v-icon>
                     </v-list-item-icon>
                     <v-list-item-title>Locustfiles</v-list-item-title>
                 </v-list-item>
+                
+                <!--
+                <v-list-item link to="/library">
+                    <v-list-item-icon>
+                    <v-icon>mdi-bookshelf</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>Library</v-list-item-title>
+                </v-list-item>
+                
+                <v-list-item link to="/ingress">
+                    <v-list-item-icon>
+                    <v-icon>mdi-web</v-icon>
+                    </v-list-item-icon>
+                    <v-list-item-title>URL's</v-list-item-title>
+                </v-list-item>
+                -->
             </v-list>
 
         </v-navigation-drawer>
