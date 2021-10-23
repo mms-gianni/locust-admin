@@ -27,7 +27,6 @@
                     <v-list-item-title>Locustfiles</v-list-item-title>
                 </v-list-item>
                 
-                <!--
                 <v-list-item link to="/library">
                     <v-list-item-icon>
                     <v-icon>mdi-bookshelf</v-icon>
@@ -35,6 +34,7 @@
                     <v-list-item-title>Library</v-list-item-title>
                 </v-list-item>
                 
+                <!--
                 <v-list-item link to="/ingress">
                     <v-list-item-icon>
                     <v-icon>mdi-web</v-icon>

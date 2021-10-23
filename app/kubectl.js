@@ -293,6 +293,39 @@ async function deleteLocustfile(ns_name, locustfile) {
     return returnvalues;
 }
 
+// get a list of library files
+async function libraryList(ns_name) {
+    returnvalues = {};
+    try {
+        const ret = await CoreV1Api.readNamespacedConfigMap(
+                name="default-lib", 
+                namespace=ns_name, 
+                pretty=undefined, 
+                exact=undefined,
+            );
+        returnvalues  = ret.response.body.data;
+        console.log(returnvalues);
+    } catch (e) {
+        console.log(e);
+        debug(e);
+    }
+    return returnvalues;
+}
+
+async function libraryUpdate(ns_name, library, content) {
+    returnvalues = {};
+    try {
+        chart_configmapLibrary.metadata.name = library;
+        chart_configmapLibrary.data = {"main.py": content};
+        returnvalues.locustfiles = await CoreV1Api.replaceNamespacedConfigMap(library, ns_name, chart_configmapLibrary);
+    } catch (e) {
+        console.log(e);
+        debug(e);
+    }
+    return returnvalues;
+}
+
+
 
 module.exports = {
     getKubeVersion,
@@ -303,5 +336,7 @@ module.exports = {
     createLocustfile,
     updateLocustfile,
     deleteLocustfile,
-    locustfileList
+    locustfileList,
+    libraryList,
+    libraryUpdate,
 };

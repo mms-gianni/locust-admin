@@ -118,4 +118,19 @@ router.delete('/loadtest/:instance', async function (req, res, next) {
     res.send("OK");
 });
 
+//get the list of library files
+router.get('/lib', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
+    const result = await kubectl.libraryList(namespace);
+    res.send(result);
+});
+
+//update the Lubrary files
+router.patch('/lib', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
+    const configdata =  req.body.configdata;
+    const result = await kubectl.libraryUpdate(namespace, configdata);
+    res.send(result);
+});
+
 module.exports = router;
