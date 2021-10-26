@@ -61,7 +61,7 @@ function autodelete(status) {
             (instance.stats.state == 'stopping' || instance.stats.state == 'stopped')
             ) {
             removeLocust(instance.namespace, instance.name);
-            console.log("autodelete");
+            console.log("autodelete "+instance.name);
         }
     }
 }

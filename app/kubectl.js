@@ -26,6 +26,7 @@ if (process.env.KUBECONFIG_BASE64) {
 const VersionApi = kc.makeApiClient(k8s.VersionApi);
 const CoreV1Api = kc.makeApiClient(k8s.CoreV1Api);
 const AppsV1Api = kc.makeApiClient(k8s.AppsV1Api);
+
 let kubeVersion = {};
 
 let chart_namespace = require('./chart/namespace');
@@ -248,7 +249,7 @@ async function createLocustfile(ns_name, locustfile, content) {
     try {
         chart_configmapLocustfile.metadata.name = locustfile;
         chart_configmapLocustfile.data = {"main.py": content};
-        console.log(chart_configmapLocustfile);
+        //console.log(chart_configmapLocustfile);
         returnvalues.locustfiles = await CoreV1Api.createNamespacedConfigMap(namespace=ns_name, body=chart_configmapLocustfile);
     } catch (e) {
         console.log(e);
@@ -304,25 +305,67 @@ async function libraryList(ns_name) {
                 exact=undefined,
             );
         returnvalues  = ret.response.body.data;
-        console.log(returnvalues);
+        //console.log(returnvalues);
     } catch (e) {
         console.log(e);
         debug(e);
     }
     return returnvalues;
 }
-
-async function libraryUpdate(ns_name, library, content) {
-    returnvalues = {};
+async function libraryDelete(ns_name, library) {
+    updatedLibrary = {};
     try {
-        chart_configmapLibrary.metadata.name = library;
-        chart_configmapLibrary.data = {"main.py": content};
-        returnvalues.locustfiles = await CoreV1Api.replaceNamespacedConfigMap(library, ns_name, chart_configmapLibrary);
+
+        const ret = await CoreV1Api.readNamespacedConfigMap(
+            name="default-lib", 
+            namespace=ns_name, 
+            pretty=undefined, 
+            exact=undefined,
+        );
+        let librarydata  = ret.response.body;
+        delete librarydata.data[library.toString()];
+        delete librarydata.metadata.creationTimestamp;
+        delete librarydata.metadata.resourceVersion;
+        delete librarydata.metadata.managedFields;
+
+        updatedLibrary = await CoreV1Api.replaceNamespacedConfigMap(
+            name="default-lib", 
+            namespace=ns_name, 
+            body=librarydata,
+        );
     } catch (e) {
         console.log(e);
         debug(e);
     }
-    return returnvalues;
+    return updatedLibrary;
+}
+
+async function libraryUpdate(ns_name, library, content) {
+    updatedLibrary = {};
+    try {
+
+        const ret = await CoreV1Api.readNamespacedConfigMap(
+            name="default-lib", 
+            namespace=ns_name, 
+            pretty=undefined, 
+            exact=undefined,
+        );
+        let librarydata  = ret.response.body;
+        librarydata.data[library.toString()] = content;
+        delete librarydata.metadata.creationTimestamp;
+        delete librarydata.metadata.resourceVersion;
+        delete librarydata.metadata.managedFields;
+
+        updatedLibrary = await CoreV1Api.replaceNamespacedConfigMap(
+            name="default-lib", 
+            namespace=ns_name, 
+            body=librarydata,
+        );
+    } catch (e) {
+        console.log(e);
+        debug(e);
+    }
+    return updatedLibrary;
 }
 
 
@@ -339,4 +382,5 @@ module.exports = {
     locustfileList,
     libraryList,
     libraryUpdate,
+    libraryDelete,
 };

@@ -182,8 +182,8 @@ export default {
     },
     methods: {
         saveForm () {
-          console.log(this.name);
-          console.log(this.locustfile);
+          //console.log(this.name);
+          //console.log(this.locustfile);
           axios.post(`/api/instance/${this.name}/${this.locustfile}/`, {
             locustfile: this.locustfile,
             hostname: this.hostname,
@@ -221,7 +221,7 @@ export default {
                 .then(response => {
                     let configslist = response.data.locustfiles.response.body.items;
                     configslist.forEach(element => {
-                        console.log(element.metadata.name);
+                        //console.log(element.metadata.name);
                         this.locustfiles.push({
                             text: element.metadata.name,
                             value: element.metadata.name,

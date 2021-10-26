@@ -125,11 +125,34 @@ router.get('/lib', async function (req, res, next) {
     res.send(result);
 });
 
-//update the Lubrary files
-router.patch('/lib', async function (req, res, next) {
+//create a library file
+router.post('/lib/:library', async function (req, res, next) {
     const namespace = req.query.namespace || process.env.NAMESPACE;
-    const configdata =  req.body.configdata;
-    const result = await kubectl.libraryUpdate(namespace, configdata);
+    const library = req.params.library;
+    const content = req.body.content;
+    const result = await kubectl.libraryUpdate(namespace, library, content);
+
+    res.send(result);
+});
+
+//delete a library file
+router.delete('/lib/:library', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
+    const library = req.params.library;
+    const result = await kubectl.libraryDelete(namespace, library,);
+
+    res.send(result);
+});
+
+
+
+//update a Lubrary file
+router.patch('/lib/:library', async function (req, res, next) {
+    const namespace = req.query.namespace || process.env.NAMESPACE;
+    const library = req.params.library;
+    const content = req.body.content;
+    const result = await kubectl.libraryUpdate(namespace, library, content);
+
     res.send(result);
 });
 

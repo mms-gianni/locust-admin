@@ -1,7 +1,8 @@
 import VueRouter from "vue-router"
 import Clusterlist from "@/components/cluster_list"
 import Configlist from "@/components/config_list"
-import Library from "@/components/library"
+import Librarylist from "@/components/library_list"
+import Libraryeditor from "@/components/library_editor"
 
 export default new VueRouter({
   routes: [
@@ -18,7 +19,12 @@ export default new VueRouter({
     {
       path: "/library",
       name: "Library",
-      component: Library
+      component: Librarylist
+    },
+    {
+      path: "/libraryeditor",
+      name: "Libraryeditor",
+      component: Libraryeditor
     }
   ]
 })

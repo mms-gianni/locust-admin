@@ -19,7 +19,7 @@
                                 class="mx-2"
                                 fab dark x-small
                                 elevation="2"
-                                 @click="removeConfig(row.item)"
+                                 @click="removeLibfile(row.item)"
                                 >
                                 <v-icon dark>mdi-delete</v-icon>
                             </v-btn>
@@ -28,7 +28,7 @@
                                 class="mx-2"
                                 fab dark x-small
                                 elevation="2"
-                                 @click="removeConfig(row.item)"
+                                 @click="editLibfile(row.item)"
                                 >
                                 <v-icon dark>mdi-pen</v-icon>
                             </v-btn>
@@ -60,7 +60,7 @@ export default {
         },
     },
     mounted() {
-        this.getConfigList();
+        this.getLibfileList();
     },
     data: () => ({
       headers: [
@@ -83,8 +83,11 @@ export default {
       Form,
     },
     methods: {
-        removeConfig(item) {
-            axios.delete(`/api/locustfile/${item.name}`)
+        editLibfile(item) {
+            console.log(item);
+        },
+        removeLibfile(item) {
+            axios.delete(`/api/lib/${item.name}`)
             .then(response => {
                 console.log(response.statusText);
                 const index = this.locustfiles.indexOf(item);
@@ -95,7 +98,7 @@ export default {
         },
 
         // get Config List from server
-        getConfigList() {
+        getLibfileList() {
             this.locustfiles = [];
             axios.get('/api/lib')
                 .then(response => {
@@ -105,6 +108,7 @@ export default {
                         this.locustfiles.push({
                             name: lib,
                             length: liblist[lib].length,
+                            content: liblist[lib],
                         });
                     }
                 }

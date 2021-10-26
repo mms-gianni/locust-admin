@@ -27,7 +27,7 @@
                     <v-list-item-title>Locustfiles</v-list-item-title>
                 </v-list-item>
                 
-                <v-list-item link to="/library">
+                <v-list-item link to="/libraryeditor">
                     <v-list-item-icon>
                     <v-icon>mdi-bookshelf</v-icon>
                     </v-list-item-icon>

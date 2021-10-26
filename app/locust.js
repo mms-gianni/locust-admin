@@ -19,7 +19,7 @@ async function startLoadtest(instanceName, userCount, spawnRate, host) {
 
     const url = require('url');
     const params = new url.URLSearchParams(data);
-    console.log(params);
+    //console.log(params);
     
     let instanceURL = `http://${instance.name}:8089`;
     if (process.env.EXTERNAL_PORT) {
@@ -29,7 +29,6 @@ async function startLoadtest(instanceName, userCount, spawnRate, host) {
         console.log(response.data);
     }).catch(function(error) {
         console.log(error);
-        console.log("Start Swarm error");
     });
     return "ERROR"
 }
@@ -145,7 +144,7 @@ async function init() {
 
 async function addLocustfile(namespace, name, locustfile) {
     const result = await kubectl.createLocustfile(namespace, name, locustfile);
-    console.log(result.locustfiles.response.statusCode);
+    //console.log(result.locustfiles.response.statusCode);
     setTimeout(() => {
         if (result.locustfiles.response.statusCode == 200) {
             locust.locustfiles[name] = {
@@ -154,7 +153,7 @@ async function addLocustfile(namespace, name, locustfile) {
                 creationTimestamp: result.locustfiles.response.body.metadata.creationTimestamp
             };
             socket.updatedLocustfiles(locust.locustfiles)
-            console.log(locust);
+            //console.log(locust);
         }
     }, 1000);
     debug('added');
@@ -165,7 +164,7 @@ async function removeLocustfile(namespace, locustfile) {
     if (result.locustfiles.response.statusCode == 200) {
         delete locust.locustfiles[locustfile];
         socket.updatedLocustfiles(locust.locustfiles)
-        console.log(locust);
+        //console.log(locust);
     }
     debug('removed');
 }
@@ -200,7 +199,7 @@ async function addLocust(instance) {
             autodelete: instance.autodelete,
         };
         socket.updatedStatus(locust.instances)
-        console.log(locust);
+        //console.log(locust);
     }
     debug('added');
 }
@@ -210,7 +209,7 @@ async function removeLocust(namespace, instance) {
     if (result.deploymentMaster.response.statusCode == 200) {
         delete locust.instances[instance];
         socket.updatedStatus(locust.instances)
-        console.log(locust);
+        //console.log(locust);
     }
     debug('removed');
 }
