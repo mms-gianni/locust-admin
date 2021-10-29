@@ -3,7 +3,7 @@ entries:
   locustswarm:
   - apiVersion: v1
     appVersion: 2.4.0
-    created: "2021-10-29T14:15:06.827413+02:00"
+    created: "2021-10-29T14:19:02.232847+02:00"
     description: |
       A chart to install Locust swarmdmin, a scalable and dynamic load testing tool written in Python.
 
@@ -19,7 +19,7 @@ entries:
       helm repo add swarmadmin https://mms-gianni.github.io/swarmadmin
       helm install swarmadmin mms-gianni/swarmadmin
       ```
-    digest: 5cc2746fdf3644455f54d6fb6d4e253b3381c8e0fa2fcbc968ab2362eff2e5c3
+    digest: ce60b3a92f90a50cfc9513377ec0442bef28967a8cefc6b7267eadc7f02e2b43
     home: https://github.com/mms-gianni/swarmadmin
     icon: https://raw.githubusercontent.com/hansehe/locust/master/helm/locust.png
     maintainers:
@@ -31,7 +31,7 @@ entries:
     version: 0.1.0
   - apiVersion: v1
     appVersion: 0.0.1
-    created: "2021-10-29T14:15:06.826663+02:00"
+    created: "2021-10-29T14:19:02.232205+02:00"
     description: |
       A chart to install Locust Kubernetes Admin, a scalable and dynamic load testing tool written in Python.
 
@@ -63,4 +63,4 @@ entries:
     urls:
     - https://mms-gianni.github.io/swarmadmin/locustswarm-0.0.1.tgz
     version: 0.0.1
-generated: "2021-10-29T14:15:06.825716+02:00"
+generated: "2021-10-29T14:19:02.231429+02:00"

@@ -89,3 +89,12 @@ extraLabels: {}
 metrics:
   enabled: false
   interval: "2s"
+
+loadtest:
+  # loadtest.locust_lib_configmap -- name of a configmap containing your lib
+  locust_lib_configmap: ""
+  # loadtest.environment_secret -- environment variables used in the load test for both master and workers, stored as secrets
+  environment_secret: {}
+    # VAR: VALUE
+  # loadtest.environment_external_secret -- environment variables used in the load test for both master and workers, stored in secrets created outside this chart. Each secret contains a list of values in it. Usage: `secret_name: [AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY]`
+  environment_external_secret: {}
