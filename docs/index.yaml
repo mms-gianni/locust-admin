@@ -2,8 +2,38 @@ apiVersion: v1
 entries:
   locustswarm:
   - apiVersion: v1
+    appVersion: 2.4.0
+    created: "2021-10-29T13:41:30.040859+02:00"
+    description: |
+      A chart to install Locust swarmdmin, a scalable and dynamic load testing tool written in Python.
+
+      This chart will setup everything required to run a full distributed locust environment with any amount of workers.
+
+      By default it will install using an example lib from [stable/locust/locustfiles/example](https://github.com/deliveryhero/helm-charts/tree/master/stable/locust/locustfiles/example). When you want to provide your own locustfile, you will need to create 2 configmaps using the structure from that example:
+
+      ```console
+      kubectl create configmap my-loadtest-lib --from-file path/to/your/lib/
+      ```
+
+      And then install the chart passing the names of those configmaps as values:
+
+      ```console
+      helm repo add swarmadmin https://mms-gianni.github.io/swarmadmin
+      helm install swarmadmin mms-gianni/swarmadmin
+      ```
+    digest: 10ee3c352c400bac8e73a40fbc4546f4a89299e86818eea41b62ecc081df3b26
+    home: https://github.com/mms-gianni/swarmadmin
+    icon: https://raw.githubusercontent.com/hansehe/locust/master/helm/locust.png
+    maintainers:
+    - email: noMail@nomail.com
+      name: Gianni Carafa
+    name: locustswarm
+    urls:
+    - https://mms-gianni.github.io/swarmadmin/locustswarm-0.1.0.tgz
+    version: 0.1.0
+  - apiVersion: v1
     appVersion: 0.0.1
-    created: "2021-10-17T13:15:10.219422+02:00"
+    created: "2021-10-29T13:41:30.040092+02:00"
     description: |
       A chart to install Locust Kubernetes Admin, a scalable and dynamic load testing tool written in Python.
 
@@ -35,4 +65,4 @@ entries:
     urls:
     - https://mms-gianni.github.io/swarmadmin/locustswarm-0.0.1.tgz
     version: 0.0.1
-generated: "2021-10-17T13:15:10.218489+02:00"
+generated: "2021-10-29T13:41:30.037439+02:00"
