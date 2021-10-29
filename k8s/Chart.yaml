@@ -13,8 +13,6 @@ description: |
 
   This chart will setup everything required to run a full distributed locust environment with any amount of workers.
 
-  By default it will install using an example lib from [stable/locust/locustfiles/example](https://github.com/deliveryhero/helm-charts/tree/master/stable/locust/locustfiles/example). When you want to provide your own locustfile, you will need to create 2 configmaps using the structure from that example:
-
   ```console
   kubectl create configmap my-loadtest-lib --from-file path/to/your/lib/
   ```
