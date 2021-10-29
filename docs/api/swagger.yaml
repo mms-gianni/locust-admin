@@ -1,0 +1,260 @@
+openapi: '3.0.1'
+info:
+  title: Locust swarm API
+  version: '0.1.0'
+servers:
+  - url: http://localhost:8081/api
+paths:
+  /config:
+    get:
+      summary: Get the basic configuration of the swarm
+      responses:
+        '200':
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: object
+  /ping:
+    get:
+      summary: "Very basic check if Server is running"
+      responses:
+        '200':
+          description: OK
+          content:
+            'text/plain':
+              schema:
+                type: string
+  /status:
+    get:
+      summary: "Get a list of all managed instances"
+      responses:
+        '200':
+          description: OK
+  /locustfile/{locustfile}:
+    post: 
+      tags:
+        - Locustfile
+      summary: "Create a new locustfile"
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Locustfile
+      summary: "Delete a locustfile"
+      responses:
+        '200':
+          description: OK
+    get:
+      tags:
+        - Locustfile
+      summary: "Get a list of locustfiles in a namespace"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace where the config is located"
+        required: false
+        schema:
+          type: string
+      - name: "locustfile"
+        in: "path"
+        description: "The Name of the configile"
+        required: true
+        schema:
+          type: string
+  /locustfile:
+    get:
+      tags:
+        - Locustfile
+      summary: "Get a list of all configured locustfiles"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace where the config is located"
+        required: false
+        schema:
+          type: string
+  /instance:
+    get:
+      tags:
+        - Instance
+      summary: "Get list of locust instances in a namespace"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace to query"
+        required: false
+        schema:
+          type: string
+  /instance/{instance}/{locustfile}:
+    post:
+      tags:
+        - Instance
+      summary: "Create a new Locust instance"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace where to create the instance"
+        required: false
+        schema:
+          type: string
+      - name: "instance"
+        in: "path"
+        description: "Name of the instance to create"
+        required: true
+        schema:
+          type: string
+      - name: "locustfile"
+        in: "path"
+        description: "The locustfile to use in the instance"
+        required: true
+        schema:
+          type: string
+      - name: "hostname"
+        in: "query"
+        description: "The hostname where the instance will be available"
+        required: false
+        schema:
+          type: string
+      - name: "workers"
+        in: "query"
+        description: "The number of workers to provision"
+        required: false
+        schema:
+          type: string
+      - name: "testHost"
+        in: "query"
+        description: "The Host where test should be applied"
+        required: false
+        schema:
+          type: string
+      - name: "numUsers"
+        in: "query"
+        description: "Peak number of concurrent Locust users. Primarily used together with –headless or –autostart. Can be changed during a test by keyboard inputs w, W (spawn 1, 10 users) and s, S (stop 1, 10 users)"
+        required: false
+        schema:
+          type: string
+      - name: "spawnRate"
+        in: "query"
+        description: "Rate to spawn users at (users per second)"
+        required: false
+        schema:
+          type: string
+      - name: "run_time"
+        in: "query"
+        description: "Stop after the specified amount of time, e.g. (300s, 20m, 3h, 1h30m, etc.). Only used together with –headless or –autostart. Defaults to run forever."
+        required: false
+        schema:
+          type: string
+      - name: "autostart"
+        in: "query"
+        description: "Starts the test immediately."
+        required: false
+        schema:
+          type: string
+      - name: "autodelete"
+        in: "query"
+        description: "Delete the locust kubernetes instance when it has stopped"
+        required: false
+        schema:
+          type: string
+  /instance/{instance}:
+    delete:
+      tags:
+        - Instance
+      summary: "Delete a Locust instance"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace to create the instance"
+        required: false
+        schema:
+          type: string
+      - name: "instance"
+        in: "path"
+        description: "Name of the instance to create"
+        required: true
+        schema:
+          type: string
+  /loadtest/{instance}:
+    get:
+      tags:
+        - Loadtest
+      summary: "Start a loadtest"
+      responses:
+        '200':
+          description: OK
+    delete:
+      tags:
+        - Loadtest
+      summary: "Stop/abort a loadtest"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace to create the instance"
+        required: false
+        schema:
+          type: string
+      - name: "instance"
+        in: "path"
+        description: "Name of the instance to create"
+        required: true
+        schema:
+          type: string
+      - name: "userCount"
+        in: "query"
+        description: "Peak number of concurrent Locust users. Primarily used together with –headless or –autostart. Can be changed during a test by keyboard inputs w, W (spawn 1, 10 users) and s, S (stop 1, 10 users)"
+        required: false
+        schema:
+          type: string
+      - name: "spawnRate"
+        in: "query"
+        description: "Rate to spawn users at (users per second)."
+        required: false
+        schema:
+          type: string
+      - name: "testHost"
+        in: "query"
+        description: "Host to load test in the following format: http://10.21.32.33"
+        required: false
+        schema:
+          type: string
+  /namespace/{namespace}/init:
+    post:
+      tags:
+        - Namespace
+      summary: "Create and prepare a namespace"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "path"
+        description: "The namespace to prepare"
+        required: true
+        schema:
+          type: string
