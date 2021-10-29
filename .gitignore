@@ -26,6 +26,6 @@ pnpm-debug.log*
 kubeconfig*
 values.*.yaml
 
-notes.txt
+/notes.txt
 
 thunder-tests

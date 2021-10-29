@@ -7,7 +7,7 @@ swarm:
     type: RollingUpdate
   #image: ghcr.io/mms-gianni/locustswarm/swarmadmin
   image: gicara/swarmadmin
-  tag: latest
+  tag: v0.1.0
   namespace: "locustswarm"
   resources: {}
     # limits:
@@ -18,7 +18,7 @@ swarm:
     #   memory: 1024Mi
   annotations: {}
     # Something: here
-  # swarm.kubeconfig -- kubeconfig file for the kubernetes cluster
+  # swarm.kubeconfig -- base64 encoded kubeconfig file for a external kubernetes cluster
   kubeconfig: false
 
 master:  
