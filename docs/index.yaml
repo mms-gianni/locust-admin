@@ -6,6 +6,12 @@ entries:
         - npm upgrade and security fixes
         - added reload path
       artifacthub.io/screenshots: |
+        - title: Add a new Locust instance
+          url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/instance.png
+        - title: Add a new Locustfile
+          url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/locustfile.png
+        - title: Modify Locust library
+          url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/library.png
         - title: Locust Swarmadmin instances list
           url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/swarmadmin.png
         - title: Grafana Locust metrics
@@ -13,7 +19,7 @@ entries:
       category: Integration and Delivery
     apiVersion: v1
     appVersion: 2.4.0
-    created: "2021-11-01T13:11:41.453832+01:00"
+    created: "2021-11-01T15:54:35.766686+01:00"
     description: |
       A chart to install Locust swarmdmin. Locust is a scalable and dynamic load testing tool written in Python. Swarmadmin is a web interface to manage the swarm on a Kubernetes cluster.
 
@@ -29,7 +35,7 @@ entries:
       helm repo add swarmadmin https://mms-gianni.github.io/swarmadmin
       helm install swarmadmin mms-gianni/swarmadmin
       ```
-    digest: 97ac44e84500c12044b6f645e2996874cacf3b6bf27a6675172a98a409e018f3
+    digest: 41c10277b6635e6e37963c80b9cf4166be2e8a233f43940da9728106f68e3f70
     home: https://github.com/locustio/locust
     icon: https://raw.githubusercontent.com/hansehe/locust/master/helm/locust.png
     keywords:
@@ -49,7 +55,7 @@ entries:
     version: 0.1.1
   - apiVersion: v1
     appVersion: 2.4.0
-    created: "2021-11-01T13:11:41.451631+01:00"
+    created: "2021-11-01T15:54:35.765837+01:00"
     description: |
       A chart to install Locust swarmdmin, a scalable and dynamic load testing tool written in Python.
 
@@ -75,4 +81,4 @@ entries:
     urls:
     - https://mms-gianni.github.io/swarmadmin/locustswarm-0.1.0.tgz
     version: 0.1.0
-generated: "2021-11-01T13:11:41.448342+01:00"
+generated: "2021-11-01T15:54:35.763805+01:00"

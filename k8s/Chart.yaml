@@ -34,6 +34,12 @@ description: |
 annotations:
   category: Integration and Delivery
   artifacthub.io/screenshots: |
+    - title: Add a new Locust instance
+      url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/instance.png
+    - title: Add a new Locustfile
+      url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/locustfile.png
+    - title: Modify Locust library
+      url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/library.png
     - title: Locust Swarmadmin instances list
       url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/swarmadmin.png
     - title: Grafana Locust metrics
