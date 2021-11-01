@@ -16,14 +16,17 @@
     "socket.io-client": "^3.1.1",
     "vue": "^2.6.11",
     "vue-socket.io-extended": "^4.0.6",
-    "vuetify": "^2.5.10"
+    "vuetify": "^2.5.10",
+
+    "ansi-regex": ">=5.0.1",
+    "set-value": ">=4.0.1",
+    "nth-check": ">=2.0.1"
   },
   "devDependencies": {
     "@vue/cli-plugin-babel": "^4.5.14",
     "@vue/cli-plugin-eslint": "^4.5.14",
     "@vue/cli-service": "^4.5.14",
     "babel-eslint": "^10.1.0",
-    "eslint": "^6.7.2",
     "eslint-plugin-vue": "^6.2.2",
     "sass": "1.32.13",
     "sass-loader": "^10.0.0",

@@ -144,7 +144,7 @@ async function init() {
         debug('loaded');
     } catch (error) {
         console.log(error);
-        console.log("ERROR: Cant connect to Kubernetes Cluster");
+        console.log("ERROR: Cant connect to Kubernetes Cluster to load resources");
     }
 }
 
