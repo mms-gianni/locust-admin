@@ -1,7 +1,7 @@
 # locust swarmadmin
 
-![Chart Version: 0.1.0](https://img.shields.io/badge/Chart_Version-0.1.0-informational?style=flat-square) 
-![AppVersion: 0.1.0](https://img.shields.io/badge/App_Version-0.1.0-informational?style=flat-square)
+![Chart Version: 0.1.1](https://img.shields.io/badge/Chart_Version-0.1.0-informational?style=flat-square) 
+![AppVersion: 0.1.1](https://img.shields.io/badge/App_Version-0.1.0-informational?style=flat-square)
 ![Locust Version: 0.1.0](https://img.shields.io/badge/Locust_Version-2.4.0-informational?style=flat-square)
 
 [Locust](https://www.locust.io) is an easy to use, scriptable and scalable performance testing tool. But it is not very flexible. Specially when it comes to run multiple different configured loadtests on a kubernetes cloud. 

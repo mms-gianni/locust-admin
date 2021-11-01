@@ -1,15 +1,23 @@
 apiVersion: v1
 name: locustswarm
-version: "0.1.0"
+version: "0.1.1"
 appVersion: 2.4.0
-home: https://github.com/mms-gianni/swarmadmin
+home: https://github.com/locustio/locust
+sources:
+  - https://github.com/mms-gianni/swarmadmin
+  - https://mms-gianni.github.io/swarmadmin/
+  - https://grafana.com/grafana/dashboards/15109
 icon: https://raw.githubusercontent.com/hansehe/locust/master/helm/locust.png
+keywords:
+  - locust
+  - loadtest
+  - testing
 maintainers:
 - name: Gianni Carafa
   email: noMail@nomail.com
   web: https://github.com/mms-gianni
 description: |
-  A chart to install Locust swarmdmin, a scalable and dynamic load testing tool written in Python.
+  A chart to install Locust swarmdmin. Locust is a scalable and dynamic load testing tool written in Python. Swarmadmin is a web interface to manage the swarm on a Kubernetes cluster.
 
   This chart will setup everything required to run a full distributed locust environment with any amount of workers.
 
@@ -23,3 +31,13 @@ description: |
   helm repo add swarmadmin https://mms-gianni.github.io/swarmadmin
   helm install swarmadmin mms-gianni/swarmadmin
   ```
+annotations:
+  category: Integration and Delivery
+  artifacthub.io/screenshots: |
+    - title: Locust Swarmadmin instances list
+      url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/swarmadmin.png
+    - title: Grafana Locust metrics
+      url: https://raw.githubusercontent.com/mms-gianni/swarmadmin/master/docs/grafana.png
+  artifacthub.io/changes: |
+    - npm upgrade and security fixes
+    - added reload path
