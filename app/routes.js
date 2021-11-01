@@ -56,6 +56,13 @@ router.get('/locustfile', async function (req, res, next) {
     res.send(result);
 });
 
+router.get('/reload', async function (req, res, next) {
+    await locust.init(namespace);
+    // TODO: return something useful
+    const result = {'status': 'ok'};
+    res.send(result);
+});
+
 // initial configuration of a namespace
 router.get('/namespace/:namespace/init', async function (req, res, next) {
     const namespace = req.params.namespace || process.env.NAMESPACE;
