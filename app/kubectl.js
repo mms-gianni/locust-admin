@@ -91,13 +91,22 @@ async function list(ns_name) {
     returnvalues = {};
     try {
         returnvalues.deployments = await AppsV1Api.listNamespacedDeployment(namespace=ns_name)
+    } catch (e) {
+        console.log(e);
+        console.log("ERROR: Fetching deployments");
+    }
+    try {
         returnvalues.services = await CoreV1Api.listNamespacedService(namespace=ns_name,
             pretty=undefined,
             allowWatchBookmarks=undefined,
             _continue=undefined,
             fieldselector=undefined,
             labelSelector="component=master");
-
+    } catch (e) {
+        console.log(e);
+        console.log("ERROR: Fetching services");
+    }
+    try {
         let IngressAPI = getIngressAPI();
         returnvalues.ingresses = await IngressAPI.listNamespacedIngress(namespace=ns_name,
             pretty=undefined,
@@ -105,7 +114,11 @@ async function list(ns_name) {
             _continue=undefined,
             fieldselector=undefined,
             labelSelector="component=master");
-
+    } catch (e) {
+        console.log(e);
+        console.log("ERROR: Fetching ingress");
+    }
+    try {
         returnvalues.locustfiles = await CoreV1Api.listNamespacedConfigMap(namespace=ns_name, 
             pretty=undefined,
             allowWatchBookmarks=undefined,
@@ -114,7 +127,7 @@ async function list(ns_name) {
             labelSelector="config=locustfile");
     } catch (e) {
         console.log(e);
-        debug(e);
+        console.log("ERROR: Fetching locustfiles");
     }
     return returnvalues;
 }
