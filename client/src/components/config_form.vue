@@ -18,7 +18,7 @@
       </template>
       <v-card>
         <v-card-title>
-          <span class="text-h5">Locustfile configuration</span>
+          <span class="text-h5">Locustfile</span>
         </v-card-title>
         <v-card-text>
           <v-container>
