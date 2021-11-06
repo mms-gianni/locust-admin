@@ -1,5 +1,9 @@
 
 ## Locust Swarmadmin
+
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/locust-swarmadmin)](https://artifacthub.io/packages/search?repo=locust-swarmadmin)
+![Docker Image Version (latest semver)](https://img.shields.io/docker/v/gicara/swarmadmin?color=blue&sort=semver)
+
 [Locust](https://www.locust.io) is an easy to use, scriptable and scalable performance testing tool. But it is not very flexible. Specially when it comes to run multiple different configured loadtests in kubernetes cloud. 
 
 This project solves this problem by adding a additional admin interface and API to dynamically start Locust instances in your kubernetes cluster.

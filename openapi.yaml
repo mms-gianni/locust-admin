@@ -31,46 +31,18 @@ paths:
       responses:
         '200':
           description: OK
-  /locustfile/{locustfile}:
-    post: 
-      tags:
-        - Locustfile
-      summary: "Create a new locustfile"
-      requestBody:
-        content:
-          text/plain:
-            schema:
-              type: string
-      responses:
-        '200':
-          description: OK
-    delete:
-      tags:
-        - Locustfile
-      summary: "Delete a locustfile"
-      responses:
-        '200':
-          description: OK
+  /reload:
     get:
-      tags:
-        - Locustfile
-      summary: "Get a list of locustfiles in a namespace"
+      summary: "Reload the current Kubernetes resources to app state"
       responses:
         '200':
           description: OK
-    parameters:
-      - name: "namespace"
-        in: "query"
-        description: "The namespace where the config is located"
-        required: false
-        schema:
-          type: string
-      - name: "locustfile"
-        in: "path"
-        description: "The Name of the configile"
-        required: true
-        schema:
-          type: string
+  /metrics:
+    get:
+      summary: "Prometheus Loadtest result metrics"
+      responses:
+        '200':
+          description: OK
   /locustfile:
     get:
       tags:
@@ -86,6 +58,96 @@ paths:
         required: false
         schema:
           type: string
+  /locustfile/{locustfile}:
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace where the config is located"
+        required: false
+        schema:
+          type: string
+      - name: "locustfile"
+        in: "path"
+        description: "The Name of the configile"
+        required: true
+        schema:
+          type: string
+    post: 
+      tags:
+        - Locustfile
+      summary: "Create a new locustfile"
+      requestBody:
+        content:
+          text/plain:
+            schema:
+              type: string
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - name: "content"
+          in: "query"
+          description: "Locustfile content"
+          required: true
+          schema:
+            type: string
+    delete:
+      tags:
+        - Locustfile
+      summary: "Delete a locustfile"
+      responses:
+        '200':
+          description: OK
+  /lib:
+    get:
+      tags:
+        - Library
+      summary: "Get a list of all configured libs"
+      responses:
+        '200':
+          description: OK
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace where the library is located"
+        required: false
+        schema:
+          type: string
+  /lib/{library}:
+    parameters:
+      - name: "namespace"
+        in: "query"
+        description: "The namespace where the library is located"
+        required: false
+        schema:
+          type: string
+      - name: "library"
+        in: "path"
+        description: "Name of the library to create"
+        required: true
+        schema:
+          type: string
+    post:
+      tags:
+        - Library
+      summary: "Create a new library file"
+      responses:
+        '200':
+          description: OK
+      parameters:
+        - name: "content"
+          in: "query"
+          description: "Library content"
+          required: true
+          schema:
+            type: string
+    delete:
+      tags:
+        - Library
+      summary: "Delete a library file"
+      responses:
+        '200':
+          description: OK
   /instance:
     get:
       tags:

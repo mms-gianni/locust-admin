@@ -21,16 +21,6 @@ description: |
 
   This chart will setup everything required to run a full distributed locust environment with any amount of workers.
 
-  ```console
-  kubectl create configmap my-loadtest-lib --from-file path/to/your/lib/
-  ```
-
-  And then install the chart passing the names of those configmaps as values:
-
-  ```console
-  helm repo add swarmadmin https://mms-gianni.github.io/swarmadmin
-  helm install swarmadmin mms-gianni/swarmadmin
-  ```
 annotations:
   category: Integration and Delivery
   artifacthub.io/screenshots: |
