@@ -14,7 +14,7 @@ on:
   #pull_request:
 
 env:
-  IMAGE_NAME: swarmadmin
+  IMAGE_NAME: locust-admin
 
 jobs:
   # Push image to GitHub Packages.
@@ -53,7 +53,7 @@ jobs:
 
       - name: Push image ghcr.io
         run: |
-          IMAGE_ID=ghcr.io/${{ github.repository }}/$IMAGE_NAME
+          IMAGE_ID=ghcr.io/${{ github.repository }}
 
           # Change all uppercase to lowercase
           IMAGE_ID=$(echo $IMAGE_ID | tr '[A-Z]' '[a-z]')
